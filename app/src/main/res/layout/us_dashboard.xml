@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/horizonal_padding"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/horizonal_padding">
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTop="@android:drawable/ic_menu_recent_history"
+            android:background="@drawable/circle"
+            android:text="@string/leave_history"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/magin_spacing"
+            android:drawableTop="@android:drawable/ic_menu_info_details"
+            android:background="@drawable/circle"
+            android:text="@string/incoming_leave"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/magin_spacing"
+            android:drawableTop="@android:drawable/ic_menu_report_image"
+            android:background="@drawable/circle"
+            android:text="@string/apply_for_leave"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

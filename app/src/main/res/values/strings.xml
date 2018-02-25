@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Leave APP</string>
+    <string name="us_platform">US Platform</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="report">Report</string>
+    <string name="leave_history">Leave History</string>
+    <string name="available_leave">Available Leave</string>
+    <string name="apply_for_leave">Apply For Leave</string>
+    <string name="pdf">PDF</string>
+    <string name="excel">Excel</string>
+    <string name="generate_report">Generate Reports</string>
+    <string name="incoming_leave">Incoming Leave</string>
+</resources>
