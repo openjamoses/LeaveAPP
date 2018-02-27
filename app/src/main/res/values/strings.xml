@@ -10,4 +10,16 @@
     <string name="excel">Excel</string>
     <string name="generate_report">Generate Reports</string>
     <string name="incoming_leave">Incoming Leave</string>
+    <string name="section_format">Page %1$d</string>
+    <string name="select_leave_type">Select Leave Type</string>
+    <string name="anual_leave">Anual Leave</string>
+    <string name="clinical_leave">Clinical Leave</string>
+    <string name="fill_in_the_details_below">Fill In the Details Below:</string>
+    <string name="full_name">Full Name</string>
+    <string name="return_date">Return Date</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="reason">Reason</string>
+    <string name="leave_address">Leave Address</string>
+    <string name="leave_duration">Leave Durations</string>
 </resources>

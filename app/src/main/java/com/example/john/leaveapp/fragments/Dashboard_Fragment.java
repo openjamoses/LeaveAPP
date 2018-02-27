@@ -5,6 +5,7 @@ package com.example.john.leaveapp.fragments;
  */
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.activities.PagerActivity;
+
 public class Dashboard_Fragment extends Fragment {
 
     Activity activity ;
@@ -27,6 +32,14 @@ public class Dashboard_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.us_dashboard, container, false);
+        Button btn_apply = (Button) view.findViewById(R.id.btn_apply);
+        btn_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(activity, PagerActivity.class));
+            }
+        });
+
         return view;
     }
 }

@@ -31,6 +31,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/btn_apply"
             android:layout_marginTop="@dimen/magin_spacing"
             android:drawableTop="@android:drawable/ic_menu_report_image"
             android:background="@drawable/circle"

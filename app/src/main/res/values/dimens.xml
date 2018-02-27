@@ -2,4 +2,8 @@
 <resources>
     <dimen name="horizonal_padding">20sp</dimen>
     <dimen name="magin_spacing">20sp</dimen>
+    <dimen name="activity_horizontal_margin">20sp</dimen>
+    <dimen name="activity_margin_half">20sp</dimen>
+    <dimen name="statusbar_size">24dp</dimen>
+    <dimen name="textarea_height">100sp</dimen>
 </resources>
