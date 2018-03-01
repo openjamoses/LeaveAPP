@@ -46,16 +46,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioClinical"
-                android:text="clinical_leave"/>
+                android:text="@string/maternity_leave"/>
 
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/radioOthers"
-                android:text="Other Leave"/>
+                android:id="@+id/radioSick"
+                android:text="@string/sick_leave"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioStudy"
+                android:text="@string/study_leave"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioSabatical"
+                android:text="@string/sabbatical_leave"/>
         </RadioGroup>
 
     </LinearLayout>
-
-
 </RelativeLayout>

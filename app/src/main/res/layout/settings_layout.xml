@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:padding="@dimen/horizonal_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/horizonal_padding"
+            android:orientation="vertical">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/magin_spacing"
+                android:layout_marginRight="@dimen/magin_spacing"
+                android:text="@string/university_details"
+                android:background="@drawable/button"
+                android:id="@+id/uv_btn"
+                android:layout_marginTop="20sp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/magin_spacing"
+                android:layout_marginRight="@dimen/magin_spacing"
+                android:text="@string/personal_details"
+                android:background="@drawable/button"
+                android:id="@+id/profile_btn"
+                android:layout_marginTop="20sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

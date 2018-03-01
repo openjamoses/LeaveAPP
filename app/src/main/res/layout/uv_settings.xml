@@ -48,7 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
-            android:text="Back"
+            android:text="Prev"
+            android:textAllCaps="false"
             android:textColor="@android:color/white" />
 
         <LinearLayout
@@ -67,6 +68,22 @@
 
             <ImageView
                 android:id="@+id/intro_indicator_2"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="@dimen/activity_margin_half"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:background="@drawable/indicator_unselected" />
+
+            <ImageView
+                android:id="@+id/intro_indicator_3"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginEnd="@dimen/activity_margin_half"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:background="@drawable/indicator_unselected" />
+
+            <ImageView
+                android:id="@+id/intro_indicator_4"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="8dp"
                 android:layout_height="8dp"
@@ -81,7 +98,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center"
-            android:text="Submit"
+            android:text="Done"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:visibility="gone" />
 
@@ -97,6 +115,4 @@
 
 
     </FrameLayout>
-
-
 </android.support.design.widget.CoordinatorLayout>

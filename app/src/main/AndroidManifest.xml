@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.john.leaveapp">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -9,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity android:name=".activities.US_MainActivity"
             android:label="@string/us_platform"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"
@@ -21,8 +22,16 @@
         </activity>
 
         <activity
-            android:name=".activities.PagerActivity"
+            android:name=".activities.us_activities.PagerActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/action_settings"/>
+        <activity
+            android:name=".activities.UniversitySettings"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>

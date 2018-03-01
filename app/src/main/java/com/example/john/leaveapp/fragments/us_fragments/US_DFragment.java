@@ -1,4 +1,4 @@
-package com.example.john.leaveapp.fragments;
+package com.example.john.leaveapp.fragments.us_fragments;
 
 /**
  * Created by john on 7/28/17.
@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.john.leaveapp.R;
-import com.example.john.leaveapp.activities.PagerActivity;
+import com.example.john.leaveapp.activities.us_activities.PagerActivity;
 
-public class Dashboard_Fragment extends Fragment {
+public class US_DFragment extends Fragment {
 
     Activity activity ;
     @Override
@@ -36,10 +36,10 @@ public class Dashboard_Fragment extends Fragment {
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(activity, PagerActivity.class));
             }
         });
-
         return view;
     }
 }

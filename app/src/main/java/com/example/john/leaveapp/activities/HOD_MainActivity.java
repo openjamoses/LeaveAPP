@@ -1,22 +1,27 @@
-package com.example.john.leaveapp;
+package com.example.john.leaveapp.activities;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import com.example.john.leaveapp.fragments.Dashboard_Fragment;
-import com.example.john.leaveapp.fragments.Report_Fragment;
+import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.fragments.us_fragments.Report_Fragment;
+import com.example.john.leaveapp.fragments.us_fragments.US_DFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by john on 2/28/18.
+ */
+
+public class HOD_MainActivity extends AppCompatActivity {
     private Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.insertNewFragment(new Dashboard_Fragment());
+        adapter.insertNewFragment(new US_DFragment());
         adapter.insertNewFragment(new Report_Fragment());
         //adapter.insertNewFragment(new Menu_Fragment());
         // adapter.insertNewFragment(new SearchFragment());

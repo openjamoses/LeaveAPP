@@ -22,4 +22,27 @@
     <string name="reason">Reason</string>
     <string name="leave_address">Leave Address</string>
     <string name="leave_duration">Leave Durations</string>
+    <string name="save">Save</string>
+    <string name="maternity_leave">Maternity Leave</string>
+    <string name="sick_leave">Sick Leave</string>
+    <string name="study_leave">Study Leave</string>
+    <string name="sabbatical_leave">Sabbatical Leave</string>
+    <string name="designation">Designation</string>
+    <string name="present_salary">Present Salary(@Month)</string>
+    <string name="date_of_asumption_of_duties_on_first_appointment">Date Of assumption of duties appointment</string>
+    <string name="submit_application">Submit Application</string>
+    <string name="action_settings">Settings</string>
+    <string name="university_details">University Details</string>
+    <string name="personal_details">Personel Details</string>
+    <string name="enter_university_name">Enter University Name</string>
+    <string name="submit_details">Submit Details</string>
+    <string name="logo">University Logo</string>
+    <string name="university_secretary_details">University Secretary Details</string>
+    <string name="secretary_name">Secretary Name</string>
+    <string name="faculties_details">Faculties Details</string>
+    <string name="faculty_name">Faculty Name</string>
+    <string name="hod_details">H.O.D Details</string>
+    <string name="department_name">Department Name</string>
+    <string name="action_profile">Profile</string>
+    <string name="university">University</string>
 </resources>

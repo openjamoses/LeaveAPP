@@ -1,6 +1,5 @@
 package com.example.john.leaveapp.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.animation.ArgbEvaluator;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,24 +10,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.activities.us_activities.PagerActivity;
+import com.example.john.leaveapp.fragments.Faculty_Entry;
+import com.example.john.leaveapp.fragments.HOD_Entry;
+import com.example.john.leaveapp.fragments.US_Entry;
+import com.example.john.leaveapp.fragments.UV_Entry;
+import com.example.john.leaveapp.fragments.us_fragments.PlaceholderFragment2;
+import com.example.john.leaveapp.fragments.us_fragments.SelectFragment;
 import com.example.john.leaveapp.utils.Utils;
 
 /**
- * Created by john on 2/25/18.
+ * Created by john on 2/28/18.
  */
 
-public class PagerActivity extends AppCompatActivity {
+public class UniversitySettings extends AppCompatActivity  {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -47,9 +49,8 @@ public class PagerActivity extends AppCompatActivity {
     ImageButton mNextBtn;
     Button mSkipBtn, mFinishBtn;
 
-    ImageView zero, one, two;
+    ImageView zero, one, two,three;
     ImageView[] indicators;
-
     int lastLeftValue = 0;
 
     CoordinatorLayout mCoordinator;
@@ -65,15 +66,15 @@ public class PagerActivity extends AppCompatActivity {
 
 
         /** TODO::: To be removed...!!!!!!
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        }
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+         getWindow().getDecorView().setSystemUiVisibility(
+         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+         }
 
          **/
-        setContentView(R.layout.activity_pager);
+        setContentView(R.layout.uv_settings);
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -90,17 +91,21 @@ public class PagerActivity extends AppCompatActivity {
         mFinishBtn = (Button) findViewById(R.id.intro_btn_finish);
 
         //zero = (ImageView) findViewById(R.id.intro_indicator_0);
-        one = (ImageView) findViewById(R.id.intro_indicator_1);
-        two = (ImageView) findViewById(R.id.intro_indicator_2);
+        zero = (ImageView) findViewById(R.id.intro_indicator_1);
+        one = (ImageView) findViewById(R.id.intro_indicator_2);
+        two = (ImageView) findViewById(R.id.intro_indicator_3);
+        three = (ImageView) findViewById(R.id.intro_indicator_4);
+
 
         mCoordinator = (CoordinatorLayout) findViewById(R.id.main_content);
 
 
-        indicators = new ImageView[]{one, two};
+        indicators = new ImageView[]{zero, one, two,three};
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
         mViewPager.setCurrentItem(page);
         updateIndicators(page);
@@ -108,8 +113,10 @@ public class PagerActivity extends AppCompatActivity {
         //final int color1 = ContextCompat.getColor(this, R.color.cyan);
         final int color1 = ContextCompat.getColor(this, R.color.white_70);
         final int color2 = ContextCompat.getColor(this, R.color.white_70);
+        final int color3 = ContextCompat.getColor(this, R.color.white_70);
+        final int color4 = ContextCompat.getColor(this, R.color.white_70);
 
-        final int[] colorList = new int[]{color1, color2};
+        final int[] colorList = new int[]{color1, color2,color3,color4};
 
         final ArgbEvaluator evaluator = new ArgbEvaluator();
 
@@ -120,8 +127,13 @@ public class PagerActivity extends AppCompatActivity {
                 /*
                 color update
                  */
-                int colorUpdate = (Integer) evaluator.evaluate(positionOffset, colorList[position], colorList[position == 1 ? position : position + 1]);
-                mViewPager.setBackgroundColor(colorUpdate);
+                try {
+                    int colorUpdate = (Integer) evaluator.evaluate(positionOffset, colorList[position], colorList[position == 3 ? position : position + 1]);
+                    mViewPager.setBackgroundColor(colorUpdate);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
 
             }
 
@@ -139,17 +151,23 @@ public class PagerActivity extends AppCompatActivity {
                     case 1:
                         mViewPager.setBackgroundColor(color2);
                         break;
-                   /// case 2:
-                        //mViewPager.setBackgroundColor(color3);
-                     //   break;
+                    case 2:
+                        mViewPager.setBackgroundColor(color2);
+                        break;
+                    case 3:
+                        mViewPager.setBackgroundColor(color2);
+                        break;
+                    /// case 2:
+                    //mViewPager.setBackgroundColor(color3);
+                    //   break;
                 }
 
 
                 //mNextBtn.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
                 //mFinishBtn.setVisibility(position == 2 ? View.VISIBLE : View.GONE);
 
-                mNextBtn.setVisibility(position == 1 ? View.GONE : View.VISIBLE);
-                mFinishBtn.setVisibility(position == 1 ? View.VISIBLE : View.GONE);
+                mNextBtn.setVisibility(position == 3 ? View.GONE : View.VISIBLE);
+                mFinishBtn.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
 
 
             }
@@ -181,7 +199,7 @@ public class PagerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
                 //  update 1st time pref
-               // Utils.saveSharedSetting(PagerActivity.this, MainActivity.PREF_USER_FIRST_TIME, "false");
+                // Utils.saveSharedSetting(PagerActivity.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
 
             }
         });
@@ -200,94 +218,6 @@ public class PagerActivity extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        ImageView img;
-
-        int[] bgs = new int[]{R.drawable.ic_flight_24dp, R.drawable.ic_mail_24dp, R.drawable.ic_explore_24dp};
-
-        public PlaceholderFragment() {
-
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.select_typefragment, container, false);
-            RadioGroup radioGroup  = (RadioGroup) rootView.findViewById(R.id.radioGroup);
-
-            if(radioGroup.getCheckedRadioButtonId() != -1 ) {
-                int driesId = radioGroup.getCheckedRadioButtonId();
-                // find the radiobutton by returned id
-                String radioValue = ((RadioButton) rootView.findViewById(driesId)).getText().toString();
-                PlaceholderFragment2 fragmentB = new PlaceholderFragment2();
-                Bundle args = new Bundle();
-                fragmentB.updateText(radioValue);
-            }
-
-            return rootView;
-        }
-
-
-    }
-
-
-    public static class PlaceholderFragment2 extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        ImageView img;
-        private TextView textView;
-        int[] bgs = new int[]{R.drawable.ic_flight_24dp, R.drawable.ic_mail_24dp, R.drawable.ic_explore_24dp};
-        public PlaceholderFragment2() {
-
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment2 newInstance(int sectionNumber) {
-            PlaceholderFragment2 fragment = new PlaceholderFragment2();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.leave_formfragment, container, false);
-            textView =  (TextView) rootView.findViewById(R.id.leaveType);
-            return rootView;
-        }
-        public void updateText(String radioValue) {
-            textView.setText(radioValue);
-        }
-    }
-
-
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -303,11 +233,15 @@ public class PagerActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
+            // Return a SelectFragment (defined as a static inner class below).
             if (position == 0){
-                return PlaceholderFragment.newInstance(position + 1);
+                return UV_Entry.newInstance(position + 1);
+            }else if (position == 1){
+                return US_Entry.newInstance(position + 1);
+            }else if (position == 2){
+                return Faculty_Entry.newInstance(position + 1);
             }else {
-                return PlaceholderFragment2.newInstance(position + 1);
+                return HOD_Entry.newInstance(position + 1);
             }
 
 
@@ -316,7 +250,7 @@ public class PagerActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
 
         @Override
@@ -328,6 +262,9 @@ public class PagerActivity extends AppCompatActivity {
                     return "SECTION 2";
                 case 2:
                     return "SECTION 3";
+                case 3:
+                    return "SECTION 4";
+
             }
             return null;
         }

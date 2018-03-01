@@ -1,4 +1,4 @@
-package com.example.john.leaveapp.fragments;
+package com.example.john.leaveapp.fragments.us_fragments;
 
 import android.app.Activity;
 import android.os.Build;
