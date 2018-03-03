@@ -10,7 +10,6 @@ import com.example.john.leaveapp.utils.Constants;
 import com.example.john.leaveapp.utils.Phone;
 import static com.example.john.leaveapp.utils.Constants.config.SECRETARY_ID;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ID;
-import static com.example.john.leaveapp.utils.Constants.config.TABLE_STAFF;
 import static com.example.john.leaveapp.utils.Constants.config.UNIVERSITY_ID;
 
 /**
@@ -22,7 +21,6 @@ public class Secretary {
     public Secretary(Context context){
         this.context = context;
     }
-
     public String save(int university_id, int staff_id) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/horizonal_padding"
+    android:gravity="center"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:layout_width="150sp"
+        android:layout_height="150sp"
+        android:src="@drawable/ic_must"
+        android:id="@+id/logo"
+        android:layout_centerInParent="true"
+        android:padding="@dimen/horizonal_padding"
+        android:background="@drawable/circle_w"/>
+
+</RelativeLayout>

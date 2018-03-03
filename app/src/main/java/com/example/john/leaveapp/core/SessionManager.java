@@ -9,15 +9,18 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.example.john.leaveapp.utils.Constants;
+import com.example.john.leaveapp.utils.DateTime;
 
 import java.util.HashMap;
 
+import static com.example.john.leaveapp.utils.Constants.config.LOGIN_TIME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_LNAME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_DOB;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_GENDER;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ID;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_PASSWORD;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_PHONE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_USERNAME;
 
 
@@ -47,20 +50,7 @@ public class SessionManager {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
-    /**
-     * Create login session
-     * */
-    public void createLoginSession(int userID, String fname, String lname, String contact, String district,
-                                   String gender, String dob, String phone_id, String reg_date, String status){
 
-        String session = "user";
-        // Storing login value as TRUE
-        editor.putBoolean(IS_LOGIN, true);
-        // Storing users Details  in pref
-
-        // commit changes
-        editor.commit();
-    }
     /**
      * Check login method wil check user login status
      * If false it will redirect user to login page
@@ -134,7 +124,7 @@ public class SessionManager {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public void loginSession(int useID, String fname, String lname, String username, String password,String dob, String gender) {
+    public void loginSession(int useID, String fname, String lname, String username, String password,String phone, String gender) {
         // Storing login value as TRUE
         if(isLoggedIn()){
             logoutUser();
@@ -144,8 +134,9 @@ public class SessionManager {
         editor.putString(STAFF_USERNAME, username);
         editor.putString(STAFF_PASSWORD, password);
         editor.putString(STAFF_ID, String.valueOf(useID));
-        editor.putString(STAFF_DOB, dob);
+        editor.putString(STAFF_PHONE, phone);
         editor.putString(STAFF_GENDER, gender);
+        editor.putString(LOGIN_TIME, DateTime.getCurrentDate()+" "+DateTime.getCurrentTime());
         editor.putBoolean(IS_LOGIN, true);
          // commit changes
         editor.commit();

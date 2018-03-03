@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/horizonal_padding"
+            android:orientation="vertical">
+            <include layout="@layout/header"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/userEdit"
+                android:hint="@string/username"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_marginTop="20sp"
+                android:id="@+id/passEdit"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button"
+                android:id="@+id/btn_login"
+                android:layout_marginTop="20sp"
+                android:text="@string/login"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:id="@+id/create_text"
+                android:layout_marginTop="20sp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/do_not_have_an_account"/>
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

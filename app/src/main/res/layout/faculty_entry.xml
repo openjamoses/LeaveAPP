@@ -41,6 +41,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/input_name"
                     android:hint="@string/faculty_name" />
             </android.support.design.widget.TextInputLayout>
             <Button
@@ -50,6 +51,7 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold"
+                android:id="@+id/btn_submit"
                 android:background="@drawable/button"
                 android:text="@string/submit_details"/>
         </LinearLayout>
@@ -60,7 +62,7 @@
             android:layout_marginRight="@dimen/magin_spacing"
             android:layout_marginTop="20sp"
             android:gravity="center"
-            android:id="@+id/faculty_listView"
+            android:id="@+id/listView"
             android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

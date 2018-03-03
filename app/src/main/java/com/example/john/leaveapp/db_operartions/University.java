@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.example.john.leaveapp.core.DBHelper;
 import com.example.john.leaveapp.utils.Constants;
+
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_ID;
 import static com.example.john.leaveapp.utils.Constants.config.UNIVERSITY_ID;
 import static com.example.john.leaveapp.utils.Constants.config.UNIVERSITY_LOGO;
 import static com.example.john.leaveapp.utils.Constants.config.UNIVERSITY_NAME;
@@ -45,7 +47,7 @@ public class University {
     }
 
     public String edit(String name,String logo, int id) {
-        SQLiteDatabase database = new DBHelper(context).getWritableDatabase();
+        SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
 
         try{
@@ -70,8 +72,8 @@ public class University {
     }
 
     ///// TODO: 10/13/17  select here!
-    public Cursor selectAll(){
-        SQLiteDatabase db = new DBHelper(context).getReadableDB();
+    public  Cursor selectAll(){
+        SQLiteDatabase db = DBHelper.getHelper(context).getReadableDB();
         Cursor cursor = null;
         try{
             db.beginTransaction();
@@ -88,7 +90,7 @@ public class University {
     }
 
     public int selectLastID(){
-        SQLiteDatabase db = new DBHelper(context).getReadableDB();
+        SQLiteDatabase db = DBHelper.getHelper(context).getReadableDB();
         Cursor cursor = null;
         int id = 0;
         try{

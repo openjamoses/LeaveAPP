@@ -30,6 +30,8 @@ public class Constants {
         public static final String FETCH_STATUS = "fetch_status";
         public static final String STAFF_GENDER = "gender";
         public static final String STAFF_PHONE = "phone_number";
+
+        public static final String LOGIN_TIME = "login_time";
         //// TODO: 10/12/17   APPLY
         public static final String APPLY_ID = "apply_id";
         public static final String TABLE_APPLY = "apply_tb";

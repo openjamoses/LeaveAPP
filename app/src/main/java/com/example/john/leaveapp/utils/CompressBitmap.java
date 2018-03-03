@@ -22,7 +22,6 @@ public class CompressBitmap {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return bitmap2;
 
     }

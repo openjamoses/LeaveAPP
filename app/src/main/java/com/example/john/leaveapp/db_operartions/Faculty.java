@@ -35,9 +35,18 @@ public class Faculty {
 
             contentValues.put(FACULTY_NAME,name);
             contentValues.put(UNIVERSITY_ID,university_id);
-            database.insert(Constants.config.TABLE_FACULTY, null, contentValues);
-            //database.setTransactionSuccessful();
-            message = "Faculty Details saved!";
+            String query = "SELECT *  FROM "+Constants.config.TABLE_FACULTY+" f" +
+                    " WHERE "+FACULTY_NAME+" = '"+name+"' ORDER BY "+Constants.config.FACULTY_NAME+" ASC ";
+            database = DBHelper.getHelper(context).getReadableDatabase();
+            Cursor cursor = database.rawQuery(query,null);
+            if (cursor.moveToFirst()){
+                message = "Faculty Details already exist!";
+            }else {
+                database = DBHelper.getHelper(context).getWritableDatabase();
+                database.insert(Constants.config.TABLE_FACULTY, null, contentValues);
+                //database.setTransactionSuccessful();
+                message = "Faculty Details saved!";
+            }
 
         }catch (Exception e){
             e.printStackTrace();
@@ -60,10 +69,18 @@ public class Faculty {
             ContentValues contentValues = new ContentValues();
             contentValues.put(FACULTY_NAME,name);
             contentValues.put(UNIVERSITY_ID,university_id);
-            database.update(Constants.config.TABLE_FACULTY,contentValues, FACULTY_ID+"="+id, null);
-            //database.setTransactionSuccessful();
-            message = "Faculty details updated!";
-
+            String query = "SELECT *  FROM "+Constants.config.TABLE_FACULTY+" f" +
+                    " WHERE "+FACULTY_NAME+" = '"+name+"' ORDER BY "+Constants.config.FACULTY_NAME+" ASC ";
+            database = DBHelper.getHelper(context).getReadableDatabase();
+            Cursor cursor = database.rawQuery(query,null);
+            if (cursor.moveToFirst()){
+                message = "Faculty details Already exist!";
+            }else {
+                database = DBHelper.getHelper(context).getWritableDatabase();
+                database.update(Constants.config.TABLE_FACULTY,contentValues, FACULTY_ID+"="+id, null);
+                //database.setTransactionSuccessful();
+                message = "Faculty details updated!";
+            }
         }catch (Exception e){
             e.printStackTrace();
             message = "Sorry, error: "+e;
@@ -79,10 +96,8 @@ public class Faculty {
         Cursor cursor = null;
         try{
             db.beginTransaction();
-            String query = "SELECT *  FROM" +
-                    " "+ Constants.config.TABLE_DEPARTMENT+" d, "+Constants.config.TABLE_FACULTY+" f" +
-                    " WHERE d."+Constants.config.STAFF_ID+" = f."+Constants.config.FACULTY_ID+" " +
-                    "ORDER BY "+Constants.config.FACULTY_NAME+" ASC ";
+            String query = "SELECT *  FROM "+Constants.config.TABLE_FACULTY+" f" +
+                    " ORDER BY "+Constants.config.FACULTY_NAME+" ASC ";
             cursor = db.rawQuery(query,null);
             db.setTransactionSuccessful();
         }catch (Exception e){
@@ -98,10 +113,8 @@ public class Faculty {
         Cursor cursor = null;
         try{
             db.beginTransaction();
-            String query = "SELECT *  FROM" +
-                    " "+ Constants.config.TABLE_DEPARTMENT+" d, "+Constants.config.TABLE_FACULTY+" f" +
-                    " WHERE d."+Constants.config.STAFF_ID+" = f."+Constants.config.FACULTY_ID+" " +
-                    "AND f."+Constants.config.FACULTY_ID+" = '"+id+"' " +
+            String query = "SELECT *  FROM "+Constants.config.TABLE_FACULTY+" f" +
+                    " WHERE  f."+Constants.config.FACULTY_ID+" = '"+id+"' " +
                     "ORDER BY "+Constants.config.FACULTY_NAME+" ASC ";
             cursor = db.rawQuery(query,null);
             db.setTransactionSuccessful();

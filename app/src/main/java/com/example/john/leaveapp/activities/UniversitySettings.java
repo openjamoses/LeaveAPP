@@ -1,6 +1,7 @@
 package com.example.john.leaveapp.activities;
 
 import android.animation.ArgbEvaluator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;

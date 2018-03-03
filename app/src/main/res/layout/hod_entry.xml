@@ -41,15 +41,16 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/input_name"
                     android:hint="@string/department_name" />
             </android.support.design.widget.TextInputLayout>
-
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/magin_spacing"
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
+                android:id="@+id/faculty_spinner"
                 android:gravity="center"/>
             <Button
                 android:layout_width="match_parent"
@@ -58,17 +59,18 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold"
+                android:id="@+id/submit_details"
                 android:background="@drawable/button"
                 android:text="@string/submit_details"/>
         </LinearLayout>
-        <TableLayout
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/magin_spacing"
             android:layout_marginRight="@dimen/magin_spacing"
             android:layout_marginTop="20sp"
-            android:id="@+id/hod_table"
+            android:id="@+id/listViewD"
             >
-        </TableLayout>
+        </ListView>
     </LinearLayout>
 </RelativeLayout>

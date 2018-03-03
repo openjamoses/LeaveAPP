@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -15,6 +18,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:id="@+id/text1"
+        android:textColor="@color/colorAccent"
+        android:gravity="center"
         android:layout_alignParentTop="true"
         android:text="@string/university_details"/>
 
@@ -43,8 +48,17 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/editText"
                     android:hint="@string/enter_university_name" />
             </android.support.design.widget.TextInputLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/magin_spacing"
+                android:layout_marginRight="@dimen/magin_spacing"
+                android:layout_marginTop="20sp"
+                android:id="@+id/imageView"
+                android:gravity="center"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -53,6 +67,7 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:background="@drawable/square"
+                android:id="@+id/button"
                 android:drawableLeft="@android:drawable/ic_menu_report_image"
                 android:text="@string/logo"/>
 
@@ -63,6 +78,7 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:textStyle="bold"
+                android:id="@+id/submitBtn"
                 android:background="@drawable/button"
                 android:text="@string/submit_details"/>
         </LinearLayout>
@@ -75,7 +91,9 @@
             android:layout_marginRight="@dimen/magin_spacing"
             android:layout_marginTop="20sp"
             android:gravity="center"
+            android:id="@+id/uvText"
             android:textStyle="bold"
             android:text="University Name"/>
     </LinearLayout>
 </RelativeLayout>
+</ScrollView>
