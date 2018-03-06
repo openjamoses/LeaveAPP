@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.example.john.leaveapp.adapter.Other_Adapters;
 import com.example.john.leaveapp.db_operartions.Departments;
 import com.example.john.leaveapp.db_operartions.Faculty;
 import com.example.john.leaveapp.utils.Constants;
+import com.example.john.leaveapp.utils.ListView_Util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +41,7 @@ public class HOD_Entry extends Fragment {
     Activity activity;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private Spinner faculty_spinner;
+    private static final String TAG = "HOD_Entry";
 
     int[] bgs = new int[]{R.drawable.ic_flight_24dp, R.drawable.ic_mail_24dp, R.drawable.ic_explore_24dp};
     private ListView listView;
@@ -75,7 +78,7 @@ public class HOD_Entry extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.hod_entry, container, false);
         faculty_spinner = (Spinner) rootView.findViewById(R.id.faculty_spinner);
-        EditText input_name = (EditText) rootView.findViewById(R.id.input_name);
+        final EditText input_name = (EditText) rootView.findViewById(R.id.input_name);
         listView = (ListView) rootView.findViewById(R.id.listViewD);
         Button submit_details = (Button) rootView.findViewById(R.id.submit_details);
         setSpinner();
@@ -84,24 +87,35 @@ public class HOD_Entry extends Fragment {
             @Override
             public void onClick(View view) {
                 String name = faculty_spinner.getSelectedItem().toString().trim();
+                String name_2 = input_name.getText().toString().trim();
                 try {
-                    int id = 0;
-                    for (int i = 0; i < lList.size(); i++) {
-                        if (lList.get(i).equals(name)) {
-                            id = lID.get(i);
+                    if (!name.equals("") && !name_2.equals("")){
+                        int id = 0;
+                        for (int i = 0; i < lList.size(); i++) {
+                            if (lList.get(i).equals(name)) {
+                                id = lID.get(i);
+                            }
                         }
+                        String message = new Departments(activity).save(name_2, id);
+                        Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
+                        if (message.equals("Department Details saved!")){
+                            setVal();
+                            input_name.setText("");
+                        }
+                    }else {
+                        Toast.makeText(activity,"Enter a valid Name..!",Toast.LENGTH_SHORT).show();
                     }
-                    String message = new Departments(activity).save(name, id,id);
-                    Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
-                    if (message.equals("Department Details saved!")){
-                        setVal();
-                    }
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
         });
+        try{
+            ListView_Util.setListViewHeightBasedOnChildren(listView);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return rootView;
     }
     private void setSpinner(){
@@ -136,10 +150,11 @@ public class HOD_Entry extends Fragment {
                     facID.add(cursor.getInt(cursor.getColumnIndex(Constants.config.FACULTY_ID)));
                     facList.add(cursor.getString(cursor.getColumnIndex(Constants.config.FACULTY_NAME)));
                     depID.add(cursor.getInt(cursor.getColumnIndex(Constants.config.DEPARTMENT_ID)));
-                    depList.add(cursor.getString(cursor.getColumnIndex(Constants.config.DEPARTMENT_ID)));
+                    depList.add(cursor.getString(cursor.getColumnIndex(Constants.config.DEPARTMENT_NAME)));
                 }while (cursor.moveToNext());
             }
 
+            Log.e(TAG,"List: "+facList+","+depList);
             //TODO::: ..!
             Iterator iterator = facSet.iterator();
             List<String> fac = new ArrayList<>();
@@ -163,6 +178,7 @@ public class HOD_Entry extends Fragment {
                 depID1.add(dID);
                 depLis1.add(dList);
             }
+            Log.e(TAG,fac.size()+" Size: "+depLis1.size());
             //TODO ... >>>>> ...!
             Other_Adapters adapters = new Other_Adapters(activity,fac,id,depLis1,depID1);
             listView.setAdapter(adapters);

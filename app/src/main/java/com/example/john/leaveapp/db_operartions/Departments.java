@@ -27,7 +27,7 @@ public class Departments {
         this.context = context;
     }
 
-    public String save(String name, int faculty_id, int staff_id) {
+    public String save(String name, int faculty_id) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
 
@@ -39,7 +39,7 @@ public class Departments {
 
             contentValues.put(DEPARTMENT_NAME,name);
             contentValues.put(FACULTY_ID,faculty_id);
-            contentValues.put(STAFF_ID,staff_id);
+            //contentValues.put(STAFF_ID,staff_id);
 
             String query = "SELECT *  FROM "+Constants.config.TABLE_DEPARTMENT+" f" +
                     " WHERE "+DEPARTMENT_NAME+" = '"+name+"' ORDER BY "+Constants.config.DEPARTMENT_ID+" ASC ";
@@ -108,7 +108,7 @@ public class Departments {
             db.beginTransaction();
             String query = "SELECT *  FROM" +
                     " "+ Constants.config.TABLE_DEPARTMENT+" d, "+Constants.config.TABLE_FACULTY+" f " +
-                    " WHERE d."+Constants.config.FACULTY_ID+" = d."+Constants.config.FACULTY_ID+" " +
+                    " WHERE d."+Constants.config.FACULTY_ID+" = f."+Constants.config.FACULTY_ID+" " +
                     " ORDER BY "+Constants.config.DEPARTMENT_NAME+" ASC ";
             cursor = db.rawQuery(query,null);
             db.setTransactionSuccessful();

@@ -129,6 +129,7 @@ public class UV_Entry extends Fragment {
                     Toast.makeText(activity,messages, Toast.LENGTH_SHORT).show();
                     if (messages.equals("University Details saved!")){
                         setView(uvText,button,submitBtn,editText);
+
                     }
                 }else {
                     Toast.makeText(activity,"Name or Image Logo is not defined..!", Toast.LENGTH_SHORT).show();

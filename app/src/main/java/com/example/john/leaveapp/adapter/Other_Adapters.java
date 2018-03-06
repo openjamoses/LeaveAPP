@@ -2,6 +2,7 @@ package com.example.john.leaveapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.utils.ListView_Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,19 +61,14 @@ public class Other_Adapters extends BaseAdapter {
         try {
 
             TextView faculty_txt = (TextView) view.findViewById(R.id.faculty_txt);
-            ListView listView = (ListView) view.findViewById(R.id.listView);
+            TextView subText = (TextView) view.findViewById(R.id.subText);
 
             faculty_txt.setText(name.get(i));
-            List<String> list = new ArrayList<>();
+            String text = "";
             for (int j=0; j<dep_name.get(i).size(); j++){
-                list.add(dep_name.get(i).get(j));
+                text = text.concat("- "+dep_name.get(i).get(j)+"\n");
             }
-
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                    context,
-                    R.layout.simple_list_item,
-                    list );
-            listView.setAdapter(arrayAdapter);
+            subText.setText(text);
         }catch (Exception e){
             e.printStackTrace();
         }

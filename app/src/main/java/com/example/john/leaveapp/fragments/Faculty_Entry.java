@@ -84,6 +84,7 @@ public class Faculty_Entry extends Fragment {
                     String message = new Faculty(activity).save(input_name.getText().toString().trim(), id);
                     Toast.makeText(activity,message, Toast.LENGTH_SHORT).show();
                     setValue();
+                    input_name.setText("");
                 }
             }
         });

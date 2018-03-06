@@ -116,6 +116,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/input_salary"
+                        android:inputType="number"
                         android:hint="@string/present_salary" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -130,6 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/input_username"
+                        android:inputType="text"
                         android:hint="@string/username" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -145,6 +147,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/input_password"
+                        android:inputType="textPassword"
                         android:hint="@string/password" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
@@ -155,9 +158,14 @@
                     android:id="@+id/con_layout"
                     android:layout_marginTop="20sp"
                     android:gravity="center">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/confirm_password"/>
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textPassword"
                         android:id="@+id/input_confirm"
                         android:hint="@string/confirm_password" />
                 </android.support.design.widget.TextInputLayout>
