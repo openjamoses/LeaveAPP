@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.john.leaveapp.R;
 import com.example.john.leaveapp.db_operartions.Secretary;
+import com.example.john.leaveapp.db_operartions.Staff;
 import com.example.john.leaveapp.db_operartions.University;
 import com.example.john.leaveapp.utils.Constants;
 
@@ -66,13 +67,25 @@ public class US_Entry extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.us_entry, container, false);
-        Spinner us_spinner = (Spinner) rootView.findViewById(R.id.us_spinner);
+        final Spinner us_spinner = (Spinner) rootView.findViewById(R.id.us_spinner);
         Button submitBtn = (Button) rootView.findViewById(R.id.submitBtn);
 
-        List<String > staff = new ArrayList<>();
+        final List<String > staff = new ArrayList<>();
         final List<Integer > id_ = new ArrayList<>();
         staff.add("--- Select Staff Name ----");
         id_.add(0);
+        try{
+           Cursor cursor = new Staff(activity).getAll();
+           if (cursor.moveToFirst()){
+               do {
+                   staff.add(cursor.getString(cursor.getColumnIndex(Constants.config.STAFFL_FNAME))+" "+
+                           cursor.getString(cursor.getColumnIndex(Constants.config.STAFFL_LNAME)));
+                   id_.add(cursor.getInt(cursor.getColumnIndex(Constants.config.STAFF_ID)));
+               }while (cursor.moveToNext());
+           }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,8 +95,12 @@ public class US_Entry extends Fragment {
                         if (cursor.moveToFirst()){
                             do {
                                 int id = cursor.getInt(cursor.getColumnIndex(Constants.config.UNIVERSITY_ID));
-                                String message = new Secretary(activity).save(id,id_.get(0));
-                                Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
+                                for (int i=0; i<staff.size(); i++){
+                                    if (staff.get(i).equals(us_spinner.getSelectedItem().toString().trim())){
+                                        String message = new Secretary(activity).save(id,id_.get(i));
+                                        Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                             }while (cursor.moveToNext());
                         }else {
                             Toast.makeText(activity,"University name not defined..!",Toast.LENGTH_SHORT).show();
@@ -96,8 +113,6 @@ public class US_Entry extends Fragment {
                 }
             }
         });
-
-
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity,
                 android.R.layout.simple_spinner_item, staff);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

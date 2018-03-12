@@ -11,6 +11,8 @@ import com.example.john.leaveapp.utils.Phone;
 
 import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_ID;
 import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_NAME;
+import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_STATUS;
+import static com.example.john.leaveapp.utils.Constants.config.DEP_STATUS;
 import static com.example.john.leaveapp.utils.Constants.config.FACULTY_ID;
 import static com.example.john.leaveapp.utils.Constants.config.FACULTY_NAME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ID;
@@ -39,7 +41,7 @@ public class Departments {
 
             contentValues.put(DEPARTMENT_NAME,name);
             contentValues.put(FACULTY_ID,faculty_id);
-            //contentValues.put(STAFF_ID,staff_id);
+            contentValues.put(DEPARTMENT_STATUS,status);
 
             String query = "SELECT *  FROM "+Constants.config.TABLE_DEPARTMENT+" f" +
                     " WHERE "+DEPARTMENT_NAME+" = '"+name+"' ORDER BY "+Constants.config.DEPARTMENT_ID+" ASC ";
@@ -66,6 +68,41 @@ public class Departments {
         return message;
     }
 
+    public String save_staff(int staff_id, int department_id) {
+        SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
+        String message = null;
+
+        try{
+            int status = 0;
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DEPARTMENT_ID,department_id);
+            contentValues.put(STAFF_ID,staff_id);
+            contentValues.put(DEP_STATUS,status);
+            //contentValues.put(STAFF_ID,staff_id);
+            String query = "SELECT *  FROM "+Constants.config.TABLE_DEP_STAFF+" f" +
+                    " WHERE "+STAFF_ID+" = '"+staff_id+"'";
+            database = DBHelper.getHelper(context).getReadableDatabase();
+            Cursor cursor = database.rawQuery(query,null);
+            if (cursor.moveToFirst()){
+                message = "Department details Already exist!";
+            }else {
+                database = DBHelper.getHelper(context).getWritableDatabase();
+                database.insert(Constants.config.TABLE_DEP_STAFF, null, contentValues);
+                //database.setTransactionSuccessful();
+                message = "Department Details saved!";
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            message = "Sorry, error: "+e;
+        }finally {
+            //database.close();
+            // database.endTransaction();
+        }
+        return message;
+    }
+
+
     public String edit(String name,  int faculty_id, int staff_id, int id) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
@@ -77,7 +114,8 @@ public class Departments {
             ContentValues contentValues = new ContentValues();
             contentValues.put(DEPARTMENT_NAME,name);
             contentValues.put(FACULTY_ID,faculty_id);
-            contentValues.put(STAFF_ID,staff_id);
+            //contentValues.put(STAFF_ID,staff_id);
+            contentValues.put(DEPARTMENT_STATUS,status);
             String query = "SELECT *  FROM "+Constants.config.TABLE_DEPARTMENT+" f" +
                     " WHERE "+DEPARTMENT_NAME+" = '"+name+"' ORDER BY "+Constants.config.DEPARTMENT_ID+" ASC ";
 

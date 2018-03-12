@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -88,6 +88,15 @@
 
                 <Spinner
                     android:layout_width="match_parent"
+                    android:id="@+id/spinner_department"
+                    android:layout_marginLeft="@dimen/magin_spacing"
+                    android:layout_marginRight="@dimen/magin_spacing"
+                    android:layout_marginTop="20sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"/>
+
+                <Spinner
+                    android:layout_width="match_parent"
                     android:id="@+id/spinner_role"
                     android:layout_marginLeft="@dimen/magin_spacing"
                     android:layout_marginRight="@dimen/magin_spacing"
@@ -125,6 +134,21 @@
                         android:hint="@string/username" />
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/magin_spacing"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginRight="@dimen/magin_spacing"
+                    android:id="@+id/oldpass_layout"
+                    android:gravity="center">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/input_oldpassword"
+                        android:inputType="textPassword"
+                        android:hint="@string/old_password" />
+                </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -156,17 +180,17 @@
                         android:id="@+id/input_confirm"
                         android:hint="@string/confirm_password" />
                 </android.support.design.widget.TextInputLayout>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/magin_spacing"
-                android:layout_marginRight="@dimen/magin_spacing"
-                android:id="@+id/btn_signup"
-                android:text="@string/submit_application"
-                android:background="@drawable/button"
-                android:layout_marginBottom="@dimen/horizonal_padding"
-                android:layout_marginTop="20sp"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/magin_spacing"
+                    android:layout_marginRight="@dimen/magin_spacing"
+                    android:id="@+id/btn_signup"
+                    android:text="@string/submit_application"
+                    android:background="@drawable/button"
+                    android:layout_marginBottom="@dimen/horizonal_padding"
+                    android:layout_marginTop="20sp"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

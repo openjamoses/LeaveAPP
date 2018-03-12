@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.core.UserDetails;
 import com.example.john.leaveapp.db_operartions.Departments;
 import com.example.john.leaveapp.db_operartions.Staff;
 import com.example.john.leaveapp.utils.Constants;
@@ -32,26 +33,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by john on 3/3/18.
+ * Created by john on 3/6/18.
  */
 
-public class SignupActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
     private Button btn_signup;
-    private EditText input_fname,input_lname,input_salary,input_username,input_password,input_confirm;
-    private Spinner  spinner_role;
+    private EditText input_fname,input_lname,input_salary,input_username,input_password,input_confirm,input_oldpassword;
+    private Spinner spinner_role,spinner_department;
     private RadioGroup gender_group;
     private IntlPhoneInput my_phone_input;
     private AwesomeValidation awesomeValidation;
-    private TextInputLayout pass_layout, con_layout;
+    private TextInputLayout pass_layout, con_layout,oldpass_layout;
     private RadioGroup radioGroup;
     List<String> roleList = new ArrayList<>();
     private Context context = this;
-    String password1 = "",password2 = "";
-
+    String password1 = "",password2 = "",password_old = "";
+    List<String> dList = new ArrayList<>();
+    List<Integer> dID = new ArrayList<>();
+    private RadioButton maleRadio, femaleRadio;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_account);
+        setContentView(R.layout.activity_edit_profile);
 
         //TODO:: GET BY ID...!!
         input_fname = (EditText) findViewById(R.id.input_fname);
@@ -59,15 +62,20 @@ public class SignupActivity extends AppCompatActivity {
         input_salary = (EditText) findViewById(R.id.input_salary);
         input_username = (EditText) findViewById(R.id.input_username);
         input_password = (EditText) findViewById(R.id.input_password);
+        input_oldpassword = (EditText) findViewById(R.id.input_oldpassword);
         input_confirm = (EditText) findViewById(R.id.input_confirm);
+        spinner_department = (Spinner) findViewById(R.id.spinner_department);
         spinner_role = (Spinner) findViewById(R.id.spinner_role);
         my_phone_input = (IntlPhoneInput) findViewById(R.id.my_phone_input);
         btn_signup = (Button) findViewById(R.id.btn_signup);
         pass_layout = (TextInputLayout) findViewById(R.id.pass_layout);
         con_layout = (TextInputLayout) findViewById(R.id.con_layout);
+        oldpass_layout = (TextInputLayout) findViewById(R.id.oldpass_layout);
         radioGroup = (RadioGroup) findViewById(R.id.gender_group);
+        maleRadio = (RadioButton) findViewById(R.id.radio_male);
+        femaleRadio = (RadioButton) findViewById(R.id.radio_female);
 
-                setSpinner();
+        setSpinner();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         final String pattern = "\\d{10}|(?:\\d{3})";
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -78,6 +86,23 @@ public class SignupActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        input_password.setEnabled(false);
+        input_oldpassword.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                password_old = input_oldpassword.getText().toString().trim();
+                //todo::.. you can call or do what you want with your EditText here
+                if (password_old.equals(new UserDetails(context).getpassword())){
+                    input_password.setEnabled(true);
+                    oldpass_layout.setErrorEnabled(false);
+                }else {
+                    input_password.setEnabled(false);
+                    oldpass_layout.setError("Invalid Password..!");
+                    oldpass_layout.setErrorEnabled(true);
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
         input_password.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 password1 = input_password.getText().toString().trim();
@@ -113,6 +138,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
+        setValues();
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,23 +151,27 @@ public class SignupActivity extends AppCompatActivity {
                         String salary = input_salary.getText().toString().trim();
                         String username = input_username.getText().toString().trim();
                         String password = input_password.getText().toString().trim();
-
+                        String department = spinner_department.getSelectedItem().toString().trim();
                         String role = spinner_role.getSelectedItem().toString().trim();
                         String gender = "";
                         if(radioGroup.getCheckedRadioButtonId() != -1 ) {
                             int driesId = radioGroup.getCheckedRadioButtonId();
                             // find the radiobutton by returned id
-                             gender = ((RadioButton)findViewById(driesId)).getText().toString();
+                            gender = ((RadioButton)findViewById(driesId)).getText().toString();
                         }
-
-
-                            if (!role.equals(" --- Select Designation ---- ") && !gender.equals("")){
-                                 String message = new Staff(context).save(fname,lname,gender,username,password,phone,salary,role) ;
-                                Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
-                                if (message.equals("Staff Details saved!")){
-                                    startActivity(new Intent(context,LoginActivity.class));
-                                    finish();
+                        if (!department.equals(" --- Select Department ---") && !role.equals(" --- Select Designation ---- ") && !gender.equals("")){
+                            for (int i=0; i<dList.size(); i++){
+                                if (department.equals(dList.get(i))){
+                                    new Departments(context).save_staff(new UserDetails(context).getid(),dID.get(i));
                                 }
+                            }
+
+                            String message = new Staff(context).edit(fname,lname,gender,username,password,phone,salary,role) ;
+                            Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                            if (message.equals("personel details updated!")){
+                                //startActivity(new Intent(context,LoginActivity.class));
+                                finish();
+                            }
                         }else {
                             Toast.makeText(context,"Please make a valid selection..!",Toast.LENGTH_SHORT).show();
                         }
@@ -151,13 +181,52 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
+    private void setValues(){
+        dList.add(" --- Select Department ---");
+        dID.add(0);
+        try{
+            Cursor cursor = new Departments(context).selectAll();
+            if (cursor.moveToFirst()){
+                do {
+                    dList.add(cursor.getString(cursor.getColumnIndex(Constants.config.DEPARTMENT_NAME)));
+                    dID.add(cursor.getInt(cursor.getColumnIndex(Constants.config.DEPARTMENT_ID)));
+                }while (cursor.moveToNext());
+            }
+
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context,
+                    android.R.layout.simple_spinner_item, dList);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner_department.setAdapter(dataAdapter);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            input_fname.setText(new UserDetails(context).getfname());
+            input_lname.setText(new UserDetails(context).getlname());
+            input_salary.setText(new UserDetails(context).getsalary());
+            input_username.setText(new UserDetails(context).getusername());
+            my_phone_input.setNumber(new UserDetails(context).getphone());
+
+            if (maleRadio.getText().toString().equals(new UserDetails(context).getgender())){
+                maleRadio.setSelected(true);
+            }else {
+                femaleRadio.setSelected(true);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
     private void setSpinner() {
         try{
-            roleList.add(" --- Select Designation ---- ");
-            roleList.add("Lecturer");
+
+            roleList.add(new UserDetails(context).getrole());
             roleList.add("Senior Lecturer");
             roleList.add("Other Staff");
             roleList.add("Non Staff");

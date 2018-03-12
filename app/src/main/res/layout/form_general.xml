@@ -25,17 +25,11 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:enabled="false"
+                    android:id="@+id/input_fullname"
                     android:hint="@string/full_name" />
             </android.support.design.widget.TextInputLayout>
-            <Spinner
-                android:layout_width="match_parent"
-                android:id="@+id/spinner_department"
-                android:layout_marginLeft="@dimen/magin_spacing"
-                android:layout_marginRight="@dimen/magin_spacing"
-                android:layout_marginTop="20sp"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,6 +40,23 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:id="@+id/input_department"
+                    android:hint="@string/department_name" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/magin_spacing"
+                android:layout_marginRight="@dimen/magin_spacing"
+                android:layout_marginTop="20sp"
+                android:gravity="center">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:enabled="false"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/input_designation"
                     android:hint="@string/designation" />
             </android.support.design.widget.TextInputLayout>
 
@@ -59,6 +70,8 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:id="@+id/input_salary"
                     android:hint="@string/present_salary" />
             </android.support.design.widget.TextInputLayout>
 
@@ -70,9 +83,10 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:gravity="center">
-                <MultiAutoCompleteTextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/input_assumption"
                     android:hint="@string/date_of_asumption_of_duties_on_first_appointment" />
             </android.support.design.widget.TextInputLayout>
 
@@ -86,6 +100,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/input_promotion"
                     android:hint="Date of promotion within last 12 month (no-academic staff)" />
             </android.support.design.widget.TextInputLayout>
 
@@ -96,9 +111,10 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:gravity="center">
-                <MultiAutoCompleteTextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/input_last_leave"
                     android:hint="Date of return of last leave" />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -108,9 +124,10 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:gravity="center">
-                <MultiAutoCompleteTextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/input_days_last_leave"
                     android:hint="Number of days taken from last leave" />
             </android.support.design.widget.TextInputLayout>
 
@@ -121,9 +138,10 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:gravity="center">
-                <MultiAutoCompleteTextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/input_balance"
                     android:hint="Balance" />
             </android.support.design.widget.TextInputLayout>
 
@@ -134,13 +152,12 @@
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:gravity="center">
-                <MultiAutoCompleteTextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Present annual entitlement" />
+                    android:hint="Present annual entitlement"
+                    android:id="@+id/input_entitlement"/>
             </android.support.design.widget.TextInputLayout>
-
-
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -153,6 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:id="@+id/input_leave_now"
                     android:hint="Leave now required" />
             </android.support.design.widget.TextInputLayout>
 
@@ -167,12 +185,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/input_from"
                     android:hint="From:" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/input_to"
                     android:hint="To:" />
             </LinearLayout>
 
@@ -201,6 +221,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:id="@+id/input_balance_outstanding"
                     android:hint="Balance outstanding of last Leave" />
             </android.support.design.widget.TextInputLayout>
 
@@ -215,12 +236,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/leave_due"
                     android:hint="Leave Due From:" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/input_due_to"
                     android:hint="To:" />
             </LinearLayout>
         </LinearLayout>

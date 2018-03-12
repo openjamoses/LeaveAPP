@@ -26,9 +26,7 @@ public class SelectFragment extends Fragment {
     private OnFragmentInteractionListener listener;
 
     ImageView img;
-
     int[] bgs = new int[]{R.drawable.ic_flight_24dp, R.drawable.ic_mail_24dp, R.drawable.ic_explore_24dp};
-
     public SelectFragment() {
 
     }
@@ -71,33 +69,40 @@ public class SelectFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.select_typefragment, container, false);
         final RadioGroup radioGroup  = (RadioGroup) rootView.findViewById(R.id.radioGroup);
         RadioButton radioAnual = (RadioButton) rootView.findViewById(R.id.radioAnual);
-        RadioButton radioClinical = (RadioButton) rootView.findViewById(R.id.radioClinical);
-        RadioButton radioOthers = (RadioButton) rootView.findViewById(R.id.radioSabatical);
+        RadioButton radioMaternity = (RadioButton) rootView.findViewById(R.id.radioMaternity);
+        RadioButton radioSick = (RadioButton) rootView.findViewById(R.id.radioSick);
+        RadioButton radioStudy = (RadioButton) rootView.findViewById(R.id.radioStudy);
+        RadioButton radioSabatical = (RadioButton) rootView.findViewById(R.id.radioSabatical);
         radioAnual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendData(radioGroup,rootView);
             }
         });
-        radioClinical.setOnClickListener(new View.OnClickListener() {
+        radioMaternity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendData(radioGroup,rootView);
             }
         });
-        radioOthers.setOnClickListener(new View.OnClickListener() {
+        radioSick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendData(radioGroup,rootView);
             }
         });
-        radioAnual.setOnClickListener(new View.OnClickListener() {
+        radioStudy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendData(radioGroup,rootView);
             }
         });
-
+        radioSabatical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendData(radioGroup,rootView);
+            }
+        });
         return rootView;
     }
 
@@ -118,6 +123,16 @@ public class SelectFragment extends Fragment {
                 Log.e("TAG","Interface is Null");
             }
             Log.e("PagerActivity_Tag1","Value: "+radioValue);
+
+            try {
+                PlaceholderFragment2 nextFrag = new PlaceholderFragment2();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .remove(nextFrag)
+                        .addToBackStack(null)
+                        .commit();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

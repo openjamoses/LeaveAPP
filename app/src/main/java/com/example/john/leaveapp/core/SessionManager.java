@@ -13,14 +13,16 @@ import com.example.john.leaveapp.utils.DateTime;
 
 import java.util.HashMap;
 
+import static com.example.john.leaveapp.utils.Constants.config.LOGIN_DATE;
 import static com.example.john.leaveapp.utils.Constants.config.LOGIN_TIME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_LNAME;
-import static com.example.john.leaveapp.utils.Constants.config.STAFF_DOB;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_GENDER;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ID;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_PASSWORD;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_PHONE;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_ROLE;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_SALARY;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_USERNAME;
 
 
@@ -71,40 +73,6 @@ public class SessionManager {
             //_context.startActivity(i);
         }
     }
-    /**
-     * Get stored session data
-     * */
-    public HashMap<String, String> getUserDetails(){
-        HashMap<String, String> user = new HashMap<String, String>();
-        // user name
-        user.put(KEY_SESSION_TYPE, pref.getString(KEY_SESSION_TYPE, null));
-
-        // return user
-        return user;
-    }
-
-
-
-    public HashMap<String, String> getCurrentDoctor(){
-        HashMap<String, String> calls = new HashMap<String, String>();
-        //calls.put(KEY_CURRENT_DOCTOR, pref.getString(KEY_CURRENT_DOCTOR, null));
-        return calls;
-    }
-
-    public HashMap<String, String> getCurrentPassword(){
-        HashMap<String, String> calls = new HashMap<String, String>();
-        //calls.put(KEY_CURRENT_PASSWORD, pref.getString(KEY_CURRENT_PASSWORD, null));
-        return calls;
-    }
-
-    public HashMap<String, String> getDoctorDetails(){
-        HashMap<String, String> user = new HashMap<String, String>();
-        // user name
-        user.put(KEY_SESSION_TYPE, pref.getString(KEY_SESSION_TYPE, null));
-
-        // return user
-        return user;
-    }
 
     /**
      * Clear session details
@@ -124,7 +92,7 @@ public class SessionManager {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public void loginSession(int useID, String fname, String lname, String username, String password,String phone, String gender) {
+    public void loginSession(int useID, String fname, String lname, String username, String password,String phone, String gender, String role, String salary) {
         // Storing login value as TRUE
         if(isLoggedIn()){
             logoutUser();
@@ -135,10 +103,31 @@ public class SessionManager {
         editor.putString(STAFF_PASSWORD, password);
         editor.putString(STAFF_ID, String.valueOf(useID));
         editor.putString(STAFF_PHONE, phone);
+        editor.putString(STAFF_ROLE, role);
         editor.putString(STAFF_GENDER, gender);
-        editor.putString(LOGIN_TIME, DateTime.getCurrentDate()+" "+DateTime.getCurrentTime());
+        editor.putString(STAFF_SALARY, salary);
+        editor.putString(LOGIN_DATE, DateTime.getCurrentDate());
+        editor.putString(LOGIN_TIME, DateTime.getCurrentTime());
         editor.putBoolean(IS_LOGIN, true);
          // commit changes
         editor.commit();
+    }
+
+    public HashMap<String, String> getDetails(){
+        HashMap<String, String> user = new HashMap<String, String>();
+        // user name
+        user.put(STAFFL_FNAME, pref.getString(STAFFL_FNAME, null));
+        user.put(STAFFL_LNAME, pref.getString(STAFFL_LNAME, null));
+        user.put(STAFF_USERNAME, pref.getString(STAFF_USERNAME, null));
+        user.put(STAFF_PASSWORD, pref.getString(STAFF_PASSWORD, null));
+        user.put(STAFF_GENDER, pref.getString(STAFF_GENDER, null));
+        user.put(STAFF_SALARY, pref.getString(STAFF_SALARY, null));
+        user.put(STAFF_PHONE, pref.getString(STAFF_PHONE, null));
+        user.put(STAFF_ROLE, pref.getString(STAFF_ROLE, null));
+        user.put(STAFF_ID, pref.getString(STAFF_ID, null));
+        user.put(LOGIN_DATE, pref.getString(LOGIN_DATE, null));
+        user.put(LOGIN_TIME, pref.getString(LOGIN_TIME, null));
+        // return user
+        return user;
     }
 }

@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.john.leaveapp.R;
-import com.example.john.leaveapp.activities.us_activities.PagerActivity;
+import com.example.john.leaveapp.activities.us_activities.ApplyActivity;
 
 public class US_DFragment extends Fragment {
 
@@ -37,7 +37,7 @@ public class US_DFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(activity, PagerActivity.class));
+                startActivity(new Intent(activity, ApplyActivity.class));
             }
         });
         return view;

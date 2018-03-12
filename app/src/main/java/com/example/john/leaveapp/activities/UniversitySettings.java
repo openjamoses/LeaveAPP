@@ -1,7 +1,6 @@
 package com.example.john.leaveapp.activities;
 
 import android.animation.ArgbEvaluator;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,13 +17,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.john.leaveapp.R;
-import com.example.john.leaveapp.activities.us_activities.PagerActivity;
 import com.example.john.leaveapp.fragments.Faculty_Entry;
 import com.example.john.leaveapp.fragments.HOD_Entry;
 import com.example.john.leaveapp.fragments.US_Entry;
 import com.example.john.leaveapp.fragments.UV_Entry;
-import com.example.john.leaveapp.fragments.us_fragments.PlaceholderFragment2;
-import com.example.john.leaveapp.fragments.us_fragments.SelectFragment;
 import com.example.john.leaveapp.utils.Utils;
 
 /**
@@ -57,7 +53,7 @@ public class UniversitySettings extends AppCompatActivity  {
     CoordinatorLayout mCoordinator;
 
 
-    static final String TAG = "PagerActivity";
+    static final String TAG = "ApplyActivity";
 
     int page = 0;   //  to track page position
 
@@ -200,7 +196,7 @@ public class UniversitySettings extends AppCompatActivity  {
             public void onClick(View v) {
                 finish();
                 //  update 1st time pref
-                // Utils.saveSharedSetting(PagerActivity.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
+                // Utils.saveSharedSetting(ApplyActivity.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
 
             }
         });

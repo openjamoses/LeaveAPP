@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,12 +21,10 @@ import com.example.john.leaveapp.R;
 import com.example.john.leaveapp.fragments.us_fragments.SelectFragment;
 import com.example.john.leaveapp.fragments.us_fragments.PlaceholderFragment2;
 import com.example.john.leaveapp.utils.Utils;
-
 /**
  * Created by john on 2/25/18.
  */
-
-public class PagerActivity extends AppCompatActivity implements SelectFragment.OnFragmentInteractionListener {
+public class ApplyActivity extends AppCompatActivity implements SelectFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -53,7 +52,7 @@ public class PagerActivity extends AppCompatActivity implements SelectFragment.O
     CoordinatorLayout mCoordinator;
 
 
-    static final String TAG = "PagerActivity";
+    static final String TAG = "ApplyActivity";
 
     int page = 0;   //  to track page position
 
@@ -72,6 +71,10 @@ public class PagerActivity extends AppCompatActivity implements SelectFragment.O
 
          **/
         setContentView(R.layout.activity_pager);
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -128,6 +131,7 @@ public class PagerActivity extends AppCompatActivity implements SelectFragment.O
                 }
 
 
+
             }
 
             @Override
@@ -165,6 +169,7 @@ public class PagerActivity extends AppCompatActivity implements SelectFragment.O
             }
         });
 
+
         mNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,7 +191,7 @@ public class PagerActivity extends AppCompatActivity implements SelectFragment.O
             public void onClick(View v) {
                 finish();
                 //  update 1st time pref
-               // Utils.saveSharedSetting(PagerActivity.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
+               // Utils.saveSharedSetting(ApplyActivity.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
 
             }
         });
@@ -200,20 +205,23 @@ public class PagerActivity extends AppCompatActivity implements SelectFragment.O
             );
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onFragmentInteraction(String name, String desc) {
         placeholderFragment2.onFragmentInteraction(name,desc);
     }
 
-
     /**
      * A placeholder fragment containing a simple view.
      */
-
-
-
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.

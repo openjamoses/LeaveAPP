@@ -58,4 +58,11 @@
     <string name="sign_up">Sign Up</string>
     <string name="enter_valid_name">Enter a valid Name..!</string>
     <string name="enter_valid_username">Enter a valid Username..!</string>
+    <string name="your_profile_details">Your Profile Details!</string>
+    <string name="old_password">Old Password</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="action_logout">Logout</string>
+    <string name="close">Close</string>
+    <string name="add"><![CDATA[Add >>]]></string>
+    <string name="accompanied_by">Accompanied By..!</string>
 </resources>
