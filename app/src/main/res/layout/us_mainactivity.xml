@@ -11,6 +11,5 @@
     <include layout="@layout/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
     <include layout="@layout/tab_main"/>
 </LinearLayout>

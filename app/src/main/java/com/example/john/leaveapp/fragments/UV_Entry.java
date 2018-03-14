@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,6 +115,8 @@ public class UV_Entry extends Fragment {
         final Button submitBtn = (Button) rootView.findViewById(R.id.submitBtn);
         final EditText editText = (EditText) rootView.findViewById(R.id.editText);
         final TextView uvText = (TextView) rootView.findViewById(R.id.uvText);
+        final FloatingActionButton flag = (FloatingActionButton) rootView.findViewById(R.id.flag);
+        //flag.setVisibility(View.GONE);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,20 +131,18 @@ public class UV_Entry extends Fragment {
                     String messages = new University(activity).save(name,file_path);
                     Toast.makeText(activity,messages, Toast.LENGTH_SHORT).show();
                     if (messages.equals("University Details saved!")){
-                        setView(uvText,button,submitBtn,editText);
-
+                        setView(uvText,button,submitBtn,editText,flag);
                     }
                 }else {
                     Toast.makeText(activity,"Name or Image Logo is not defined..!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-        setView(uvText,button,submitBtn,editText);
+        setView(uvText,button,submitBtn,editText,flag);
 
         return rootView;
     }
-    private void setView(TextView uvText, Button button, Button submitBtn, EditText editText){
+    private void setView(TextView uvText, Button button, Button submitBtn, EditText editText,FloatingActionButton flag){
         try{
             Cursor cursor = new University(activity).selectAll();
             if (cursor != null){
@@ -159,6 +160,8 @@ public class UV_Entry extends Fragment {
                     editText.setVisibility(View.GONE);
 
                 }
+
+                flag.setVisibility(View.VISIBLE);
             }
         }catch (Exception e){
             e.printStackTrace();

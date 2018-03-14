@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.john.leaveapp.core.DBHelper;
 import com.example.john.leaveapp.utils.Constants;
 import com.example.john.leaveapp.utils.Phone;
+
+import static com.example.john.leaveapp.utils.Constants.config.ANNUAL_ID;
 import static com.example.john.leaveapp.utils.Constants.config.APPLY_ID;
 import static com.example.john.leaveapp.utils.Constants.config.APPLY_STATUS;
 import static com.example.john.leaveapp.utils.Constants.config.DATE;
@@ -93,6 +95,26 @@ public class Apply {
         return message;
     }
 
+    public Cursor getAnual(){
+        SQLiteDatabase db = DBHelper.getHelper(context).getReadableDB();
+        Cursor cursor = null;
+        int type = 1;
+        try{
+            db.beginTransaction();
+            String query = "SELECT *  FROM" +
+                    " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_ANNUAL+" n, "+Constants.config.TABLE_STAFF+" s WHERE " +
+                    " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.ANNUAL_ID+" AND a."+Constants.config.LEAVETYPE_ID+" = '"+type+"'" +
+                    " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" ORDER BY a."+Constants.config.DATE+" DESC";
+            cursor = db.rawQuery(query,null);
+            db.setTransactionSuccessful();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            db.endTransaction();
+        }
+        return  cursor;
+    }
+
     public Cursor get(){
         SQLiteDatabase db = DBHelper.getHelper(context).getReadableDB();
         Cursor cursor = null;
@@ -100,6 +122,25 @@ public class Apply {
             db.beginTransaction();
             String query = "SELECT *  FROM" +
                     " "+ Constants.config.TABLE_SECRETARY+" d, ORDER BY "+Constants.config.SECRETARY_ID+" DESC LIMIT 1";
+            cursor = db.rawQuery(query,null);
+            db.setTransactionSuccessful();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            db.endTransaction();
+        }
+        return  cursor;
+    }
+    public Cursor getAnualbyID(int leave_id) {
+        SQLiteDatabase db = DBHelper.getHelper(context).getReadableDB();
+        Cursor cursor = null;
+        int type = 1;
+        try{
+            db.beginTransaction();
+            String query = "SELECT *  FROM" +
+                    " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_ANNUAL+" n, "+Constants.config.TABLE_STAFF+" s WHERE " +
+                    " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.ANNUAL_ID+" AND a."+Constants.config.LEAVETYPE_ID+" = '"+type+"'" +
+                    " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" AND n."+ANNUAL_ID+" = '"+leave_id+"' ORDER BY a."+Constants.config.DATE+" DESC";
             cursor = db.rawQuery(query,null);
             db.setTransactionSuccessful();
         }catch (Exception e){

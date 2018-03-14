@@ -6,7 +6,7 @@
     android:padding="@dimen/horizonal_padding"
     android:layout_gravity="center"
     android:gravity="center"
-    android:background="@android:color/transparent"
+    android:background="@drawable/bg2"
     android:layout_height="match_parent">
 
     <TextView

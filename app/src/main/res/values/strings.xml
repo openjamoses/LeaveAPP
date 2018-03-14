@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Leave APP</string>
+    <string name="app_name">Leave APP V:1.0</string>
     <string name="us_platform">US Platform</string>
     <string name="dashboard">Dashboard</string>
     <string name="report">Report</string>
@@ -9,7 +9,7 @@
     <string name="pdf">PDF</string>
     <string name="excel">Excel</string>
     <string name="generate_report">Generate Reports</string>
-    <string name="incoming_leave">Incoming Leave</string>
+    <string name="incoming_leave">Incoming Leave </string>
     <string name="section_format">Page %1$d</string>
     <string name="select_leave_type">Select Leave Type</string>
     <string name="anual_leave">Anual Leave</string>
@@ -65,4 +65,13 @@
     <string name="close">Close</string>
     <string name="add"><![CDATA[Add >>]]></string>
     <string name="accompanied_by">Accompanied By..!</string>
+    <string name="view_details">VIew Details</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="waiting_for_approval">Waiting for Approval..!</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="register_staff">Register Staff</string>
+    <string name="registered_staff">Registered Staffs</string>
+    <string name="leave_type">Leave Type</string>
 </resources>

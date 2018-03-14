@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.activities.LeaveHistoryActivity;
+import com.example.john.leaveapp.activities.UniversitySettings;
 import com.example.john.leaveapp.activities.us_activities.ApplyActivity;
 
 public class US_DFragment extends Fragment {
@@ -33,11 +35,25 @@ public class US_DFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.us_dashboard, container, false);
         Button btn_apply = (Button) view.findViewById(R.id.btn_apply);
+        Button history_btn = (Button) view.findViewById(R.id.btn_incoming);
+        Button btn_university = (Button) view.findViewById(R.id.btn_university);
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(activity, ApplyActivity.class));
+            }
+        });
+        history_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(activity, LeaveHistoryActivity.class));
+
+            }
+        });
+        btn_university.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(activity, UniversitySettings.class));
             }
         });
         return view;

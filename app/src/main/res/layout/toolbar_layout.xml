@@ -24,11 +24,11 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:src="@android:drawable/presence_away"
-            android:layout_width="wrap_content"
+            android:src="@drawable/bg"
+            android:layout_width="50sp"
             android:id="@+id/toolbar_image"
-            android:background="@drawable/round"
-            android:layout_height="wrap_content" />
+            android:background="@drawable/circle_w"
+            android:layout_height="50sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
