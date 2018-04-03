@@ -10,20 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.john.leaveapp.R;
-import com.example.john.leaveapp.core.UserDetails;
-import com.example.john.leaveapp.db_operartions.Accompanied;
 import com.example.john.leaveapp.db_operartions.Apply;
 import com.example.john.leaveapp.utils.Constants;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -136,7 +128,7 @@ public class IncomingAdapter extends BaseAdapter {
         try{
             final AlertDialog.Builder alert = new AlertDialog.Builder(context);
             LayoutInflater inflater = LayoutInflater.from(context);
-            View view = inflater.inflate(R.layout.activity_leave_details, null);
+            View view = inflater.inflate(R.layout.leave_details_dialog, null);
             // this is set the view from XML inside AlertDialog
             alert.setView(view);
             Button close_btn = (Button) view.findViewById(R.id.close_btn);

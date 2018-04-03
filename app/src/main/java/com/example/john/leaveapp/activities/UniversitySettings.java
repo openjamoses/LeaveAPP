@@ -27,7 +27,7 @@ import com.example.john.leaveapp.utils.Utils;
  * Created by john on 2/28/18.
  */
 
-public class UniversitySettings extends AppCompatActivity  {
+public class UniversitySettings extends AppCompatActivity  implements Faculty_Entry.OnFacultyListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -51,6 +51,7 @@ public class UniversitySettings extends AppCompatActivity  {
     int lastLeftValue = 0;
 
     CoordinatorLayout mCoordinator;
+    static HOD_Entry hod_entry;
 
 
     static final String TAG = "ApplyActivity";
@@ -93,6 +94,7 @@ public class UniversitySettings extends AppCompatActivity  {
         two = (ImageView) findViewById(R.id.intro_indicator_3);
         three = (ImageView) findViewById(R.id.intro_indicator_4);
 
+        hod_entry = new HOD_Entry();
 
         mCoordinator = (CoordinatorLayout) findViewById(R.id.main_content);
 
@@ -209,6 +211,11 @@ public class UniversitySettings extends AppCompatActivity  {
                     i == position ? R.drawable.indicator_selected : R.drawable.indicator_unselected
             );
         }
+    }
+
+    @Override
+    public void onFacultyListener(String name, String desc) {
+        hod_entry.onFacultyListener(name,desc);
     }
 
 

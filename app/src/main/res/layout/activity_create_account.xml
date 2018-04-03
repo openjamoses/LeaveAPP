@@ -163,7 +163,7 @@
                 android:layout_marginLeft="@dimen/magin_spacing"
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:id="@+id/btn_signup"
-                android:text="@string/submit_application"
+                android:text="@string/submit_details"
                 android:background="@drawable/button"
                 android:layout_marginBottom="@dimen/horizonal_padding"
                 android:layout_marginTop="20sp"/>

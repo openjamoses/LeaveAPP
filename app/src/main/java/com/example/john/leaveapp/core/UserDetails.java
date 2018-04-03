@@ -15,13 +15,14 @@ import static com.example.john.leaveapp.utils.Constants.config.STAFF_PHONE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ROLE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_SALARY;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_USERNAME;
+import static com.example.john.leaveapp.utils.Constants.config.USER_TYPE;
 
 /**
  * Created by john on 3/6/18.
  */
 
 public class UserDetails {
-    private String fname, lname, gender, phone, department, role, salary,username,password,date,time;
+    private String fname, lname, gender, phone, department, role, salary,username,password,date,time, user_type;
     private int id;
     public UserDetails(Context context){
         SessionManager sessionManager = new SessionManager(context);
@@ -38,6 +39,8 @@ public class UserDetails {
             date = user.get(LOGIN_DATE);
             time = user.get(LOGIN_TIME);
             id = Integer.parseInt(user.get(STAFF_ID));
+
+            user_type = sessionManager.getType().get(USER_TYPE);
         }
     }
     public  String getfname(){
@@ -63,6 +66,10 @@ public class UserDetails {
     }
     public  String getpassword(){
         return password;
+    }
+
+    public String getUser_type(){
+        return user_type;
     }
 
     public  int getid(){

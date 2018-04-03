@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.core.BaseApplication;
 import com.example.john.leaveapp.core.SessionManager;
 import com.example.john.leaveapp.fragments.us_fragments.US_DFragment;
 import com.example.john.leaveapp.fragments.us_fragments.Report_Fragment;
@@ -68,6 +69,7 @@ public class US_MainActivity extends AppCompatActivity {
                 tabLayout.getTabAt(i).setIcon(icons[i]);
             }
             tabLayout.getTabAt(0).select();
+            BaseApplication.deleteCache(context);
         }catch (Exception e){
             e.printStackTrace();
         }

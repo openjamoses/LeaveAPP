@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -23,14 +22,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.john.leaveapp.R;
 import com.example.john.leaveapp.core.UserDetails;
 import com.example.john.leaveapp.db_operartions.Accompanied;
-import com.example.john.leaveapp.db_operartions.AnnualLeave;
+import com.example.john.leaveapp.db_operartions.Leave;
 import com.example.john.leaveapp.db_operartions.Apply;
-import com.example.john.leaveapp.db_operartions.Faculty;
 import com.example.john.leaveapp.db_operartions.Staff;
-import com.example.john.leaveapp.fragments.DateDialogFragment;
 import com.example.john.leaveapp.utils.Constants;
 import com.example.john.leaveapp.utils.DateTime;
 
@@ -38,7 +42,25 @@ import net.rimoto.intlphoneinput.IntlPhoneInput;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.john.leaveapp.utils.Constants.config.BALANCE_OUTSTANDING;
+import static com.example.john.leaveapp.utils.Constants.config.BALANCE_TAKEN;
+import static com.example.john.leaveapp.utils.Constants.config.DATE_ASSUMPTION;
+import static com.example.john.leaveapp.utils.Constants.config.DATE_PROMOTION;
+import static com.example.john.leaveapp.utils.Constants.config.DATE_RETURN;
+import static com.example.john.leaveapp.utils.Constants.config.DAYS_TAKEN;
+import static com.example.john.leaveapp.utils.Constants.config.ENTITLEMENT;
+import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVEDUE_FROM;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVEDUE_TO;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_FROM;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_NOW;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_TO;
+import static com.example.john.leaveapp.utils.Constants.config.SIGNATURE;
+import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_LEAVE;
 
 /**
  * Created by john on 2/28/18.
@@ -55,6 +77,7 @@ public class PlaceholderFragment2 extends Fragment implements SelectFragment.OnF
     ImageView img;
     private static TextView textView;
     private Activity activity;
+    private static final String TAG = "PlaceholderFragment2";
 
     private EditText input_fullname,input_department,input_designation,input_salary,input_assumption,input_promotion,
             input_last_leave,input_days_last_leave,input_balance,input_entitlement,input_leave_now,input_from,input_to,
@@ -213,18 +236,15 @@ public class PlaceholderFragment2 extends Fragment implements SelectFragment.OnF
 
                     if (!assumption.equals("") && !promotion.equals("") && !dtaken.equals("") && !dreturn.equals("") &&
                              !entitlement.equals("") && !dbalance.equals("") && !lnow.equals("") && !lfrom.equals("") &&
+
                              !lto.equals("") && !outstanding.equals("") && !ldfrom.equals("") && !ldto.equals("")){
-                        String message = new AnnualLeave(activity).save(assumption,promotion,dreturn,dbalance,
-                                dtaken,entitlement,lnow,lfrom,lto,outstanding,ldfrom,ldto,1);
-                        if (message.equals("Anual Leave Details saved!")){
-                            int id = new AnnualLeave(activity).lastID();
-                            String date = DateTime.getCurrentDate();
-                            String time = DateTime.getCurrentTime();
-                            String message2 = new Apply(activity).save(id,1,0,0,0,date,time,new UserDetails(activity).getid());
-                            if (message2.equals("Apply Details saved!")){
-                                activity.finish();
-                            }
+
+                        try{
+                            send(assumption,promotion,dreturn,dbalance,dtaken,entitlement,lnow,lfrom,lto,outstanding,ldfrom,ldto,1);
+                        }catch (Exception e){
+                            e.printStackTrace();
                         }
+
                     }else {
                         Toast.makeText(activity,"Empty field detected..!",Toast.LENGTH_SHORT).show();
                     }
@@ -243,6 +263,82 @@ public class PlaceholderFragment2 extends Fragment implements SelectFragment.OnF
         }
         return rootView;
     }
+
+
+    public void send(final String assumption, final String promotion, final String dreturn, final String dbance, final String dtaken, final String entitlement, final String lnow, final String lfrom, final String lto,
+                     final String outstanding, final String ldfrom, final String ldto, final int signature){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, HOST_URL+URL_SAVE_LEAVE,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.e(TAG, "Results: " + response);
+
+                            String[] splits = response.split("/");
+                            int status = 0, id = 0;
+
+                            if (splits[0].equals("Success")) {
+                                status = 1;
+                                id = Integer.parseInt(splits[1]);
+
+                            }
+                            String message =new Leave(activity). save(id,assumption,promotion,dreturn,dbance,dtaken,entitlement,lnow,lfrom,lto,outstanding,ldfrom,ldto,signature,status);
+                            Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
+                            if (message.equals("Leave Details saved!")){
+                                String date = DateTime.getCurrentDate();
+                                String time = DateTime.getCurrentTime();
+                                new Apply(activity).send(id,1,0,0,0,date,time,new UserDetails(activity).getid(), ldfrom, ldto);
+                                activity.finish();
+                            }
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                        Log.e(TAG,response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        try {
+                            Log.e(TAG, ""+volleyError.getMessage());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                // int status = 1;
+                Map<String, String> params = new Hashtable<String, String>();
+
+                params.put(DATE_ASSUMPTION,assumption);
+                params.put(DATE_PROMOTION,promotion);
+                params.put(DATE_RETURN,dreturn);
+                params.put(DAYS_TAKEN,dtaken);
+                params.put(BALANCE_TAKEN,dbance);
+                params.put(ENTITLEMENT,entitlement);
+                params.put(LEAVE_NOW,lnow);
+                params.put(LEAVE_FROM,lfrom);
+                params.put(LEAVE_TO,lto);
+                params.put(BALANCE_OUTSTANDING,outstanding);
+                params.put(LEAVEDUE_FROM,ldfrom);
+                params.put(LEAVEDUE_TO,ldto);
+                params.put(SIGNATURE, String.valueOf(signature));
+
+                //returning parameters
+                return params;
+            }
+        };
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
+
+
     public static void updateText(String radioValue) {
         Log.e("PagerActivity_Tag2","Value: "+radioValue);
         textView.setText(radioValue);

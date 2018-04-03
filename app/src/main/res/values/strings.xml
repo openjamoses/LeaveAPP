@@ -74,4 +74,7 @@
     <string name="register_staff">Register Staff</string>
     <string name="registered_staff">Registered Staffs</string>
     <string name="leave_type">Leave Type</string>
+    <string name="update_university_detail">Update University Details</string>
+    <string name="other_staff_member">Other Staff Member</string>
+    <string name="your_leave_history">Your Leave History</string>
 </resources>

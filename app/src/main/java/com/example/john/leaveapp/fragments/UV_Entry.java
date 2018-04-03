@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.db_operartions.Apply;
 import com.example.john.leaveapp.db_operartions.University;
 import com.example.john.leaveapp.fragments.us_fragments.SelectFragment;
 import com.example.john.leaveapp.utils.Constants;
@@ -45,6 +47,12 @@ public class UV_Entry extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final int SELECTED_PIC = 1;
+    private static final int SELECTED_PIC_2 = 2;
+    Button button;
+    Button submitBtn;
+    EditText editText;
+    TextView uvText;
+    FloatingActionButton flag;
     int[] bgs = new int[]{R.drawable.ic_flight_24dp, R.drawable.ic_mail_24dp, R.drawable.ic_explore_24dp};
     String file_path = "";
     ImageView imageView;
@@ -100,8 +108,6 @@ public class UV_Entry extends Fragment {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, SELECTED_PIC);
     }
-
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -111,12 +117,12 @@ public class UV_Entry extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.uv_entry, container, false);
         imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        final Button button = (Button) rootView.findViewById(R.id.button);
-        final Button submitBtn = (Button) rootView.findViewById(R.id.submitBtn);
-        final EditText editText = (EditText) rootView.findViewById(R.id.editText);
-        final TextView uvText = (TextView) rootView.findViewById(R.id.uvText);
-        final FloatingActionButton flag = (FloatingActionButton) rootView.findViewById(R.id.flag);
-        //flag.setVisibility(View.GONE);
+        button = (Button) rootView.findViewById(R.id.button);
+        submitBtn = (Button) rootView.findViewById(R.id.submitBtn);
+        editText = (EditText) rootView.findViewById(R.id.editText);
+        uvText = (TextView) rootView.findViewById(R.id.uvText);
+        flag = (FloatingActionButton) rootView.findViewById(R.id.flag);
+        flag.setVisibility(View.GONE);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,18 +137,25 @@ public class UV_Entry extends Fragment {
                     String messages = new University(activity).save(name,file_path);
                     Toast.makeText(activity,messages, Toast.LENGTH_SHORT).show();
                     if (messages.equals("University Details saved!")){
-                        setView(uvText,button,submitBtn,editText,flag);
+                        setView();
                     }
                 }else {
                     Toast.makeText(activity,"Name or Image Logo is not defined..!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        setView(uvText,button,submitBtn,editText,flag);
+
+        flag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popUpdateDialog(uvText.getText().toString().trim());
+            }
+        });
+        setView();
 
         return rootView;
     }
-    private void setView(TextView uvText, Button button, Button submitBtn, EditText editText,FloatingActionButton flag){
+    private void setView(){
         try{
             Cursor cursor = new University(activity).selectAll();
             if (cursor != null){
@@ -166,5 +179,59 @@ public class UV_Entry extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void popUpdateDialog(String name){
+        final AlertDialog dialog;
+        try{
+            final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+            LayoutInflater inflater = LayoutInflater.from(activity);
+            View view = inflater.inflate(R.layout.update_university, null);
+            // this is set the view from XML inside AlertDialog
+            alert.setView(view);
+            ImageView close_btn = (ImageView) view.findViewById(R.id.close_btn);
+            Button submitBtn = (Button) view.findViewById(R.id.submitBtn);
+            final EditText nameText = (EditText) view.findViewById(R.id.editText);
+            Button chose_btn = (Button) view.findViewById(R.id.button);
+            // disallow cancel of AlertDialog on click of back button and outside touch
+            nameText.setText(name+"");
+            alert.setCancelable(false);
+            dialog = alert.create();
+            dialog.show();
+            close_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            chose_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    chosePics();
+                }
+            });
+
+            final int id = new University(activity).selectLastID();
+            submitBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String name = nameText.getText().toString().trim();
+                    if (!name.equals("") && !file_path.equals("")){
+                        String messages = new University(activity).edit(name,file_path,id);
+                        Toast.makeText(activity,messages, Toast.LENGTH_SHORT).show();
+                        if (messages.equals("University Details updated!")){
+                            setView();
+                            dialog.dismiss();
+                        }
+                    }else {
+                        Toast.makeText(activity,"Name or Image Logo is not defined..!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

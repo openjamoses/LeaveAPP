@@ -23,7 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.core.BaseApplication;
 import com.example.john.leaveapp.core.SessionManager;
+import com.example.john.leaveapp.core.UserDetails;
+import com.example.john.leaveapp.db_operartions.DBController;
+import com.example.john.leaveapp.db_operartions.Secretary;
 import com.example.john.leaveapp.db_operartions.Staff;
 import com.example.john.leaveapp.utils.Constants;
 
@@ -39,6 +43,13 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.VIBRATE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_APPLY;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVE;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_SECRETARY;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_STAFF;
+import static com.example.john.leaveapp.utils.Constants.config.URL_FETCH_JSON;
+import static com.example.john.leaveapp.utils.Constants.config.USER_HOD;
+import static com.example.john.leaveapp.utils.Constants.config.USER_US;
 
 /**
  * Created by john on 3/3/18.
@@ -48,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_login;
     private EditText userText, passText;
     private Context context = this;
-    private TextView create_text;
 
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
     private static int SPLASH_TIME_OUT = 2000;
@@ -62,15 +72,40 @@ public class LoginActivity extends AppCompatActivity {
         btn_login = (Button) findViewById(R.id.btn_login);
         userText = (EditText) findViewById(R.id.userEdit);
         passText = (EditText) findViewById(R.id.passEdit);
-        create_text = (TextView) findViewById(R.id.create_text);
 
         try {
             SessionManager sessionManager = new SessionManager(context);
             if (sessionManager.isLoggedIn() == true) {
-                startActivity(new Intent(context, US_MainActivity.class));
+                String user_type = new UserDetails(context).getUser_type();
+                if (user_type.equals(USER_US)){
+                    startActivity(new Intent(context, US_MainActivity.class));
+                }else if (user_type.equals(USER_HOD)){
+                    startActivity(new Intent(context, HOD_MainActivity.class));
+                }else {
+                    startActivity(new Intent(context, Staff_MainActivity.class));
+                }
                 finish();
             }
             checkAndRequestPermissions();
+            if (checkAndRequestPermissions() == true){
+                ///TODO::::
+
+                BaseApplication.deleteCache(context);
+                String staff_query = "SELECT * FROM staff_tb ORDER BY fname, lname ASC";
+                String secretary_query = "SELECT * FROM secretary_tb";
+                String leave_query = "SELECT * FROM leave_tb";
+                String apply_query = "SELECT * FROM apply_tb";
+
+                DBController.fetchJSON(context,staff_query,URL_FETCH_JSON,OPERATION_STAFF);
+                DBController.fetchJSON(context,leave_query,URL_FETCH_JSON,OPERATION_LEAVE);
+                DBController.fetchJSON(context,apply_query,URL_FETCH_JSON,OPERATION_APPLY);
+                DBController.fetchJSON(context,secretary_query,URL_FETCH_JSON,OPERATION_SECRETARY);
+
+                Log.e(TAG, "All permission..!");
+            }else {
+                Log.e(TAG, "Not All permission granted..!");
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -79,14 +114,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = userText.getText().toString().trim();
                 String password = passText.getText().toString().trim();
+                String role = "";
 
                 try{
                     Cursor cursor = new Staff(context).login(username,password);
                     if (cursor != null){
+                        int id = 0;
                         if (cursor.moveToFirst()){
                             do {
-                                int id = cursor.getInt(cursor.getColumnIndex(Constants.config.STAFF_ID));
-                                String fname = cursor.getString(cursor.getColumnIndex(Constants.config.STAFFL_FNAME));
+                                id = cursor.getInt(cursor.getColumnIndex(Constants.config.STAFF_ID));
+                                role = cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_ROLE));
                                 new SessionManager(context).loginSession(
                                         cursor.getInt(cursor.getColumnIndex(Constants.config.STAFF_ID)),
                                         cursor.getString(cursor.getColumnIndex(Constants.config.STAFFL_FNAME)),
@@ -100,7 +137,21 @@ public class LoginActivity extends AppCompatActivity {
                                         );
                             }while (cursor.moveToNext());
                             //todo::: Go to the main activity...!
-                            startActivity(new Intent(context,US_MainActivity.class));
+
+                            String user_type = "";
+                            Cursor res = new Secretary(context).getByID(id);
+                            if (res.moveToFirst()){
+                                startActivity(new Intent(context,US_MainActivity.class));
+                                user_type = Constants.config.USER_US;
+                            }else if (role.equals("HOD")){
+                                startActivity(new Intent(context,HOD_MainActivity.class));
+                                user_type = Constants.config.USER_HOD;
+                            }else {
+                                startActivity(new Intent(context,Staff_MainActivity.class));
+                                user_type = Constants.config.USER_STAFF;
+                            }
+                            new SessionManager(context).createType(user_type);
+
                             finish();
                         }else {
                             Toast.makeText(context,"Username or Password not found..!",Toast.LENGTH_SHORT).show();
@@ -111,15 +162,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        create_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(context,SignupActivity.class));
-            }
-        });
-
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -294,7 +336,6 @@ public class LoginActivity extends AppCompatActivity {
                         READ_EXTERNAL_STORAGE,
                         GET_ACCOUNTS
                 }, RequestPermissionCode);
-
     }
 
 }

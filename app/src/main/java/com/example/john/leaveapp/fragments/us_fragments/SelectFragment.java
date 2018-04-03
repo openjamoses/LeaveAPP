@@ -70,9 +70,9 @@ public class SelectFragment extends Fragment {
         final RadioGroup radioGroup  = (RadioGroup) rootView.findViewById(R.id.radioGroup);
         RadioButton radioAnual = (RadioButton) rootView.findViewById(R.id.radioAnual);
         RadioButton radioMaternity = (RadioButton) rootView.findViewById(R.id.radioMaternity);
-        RadioButton radioSick = (RadioButton) rootView.findViewById(R.id.radioSick);
-        RadioButton radioStudy = (RadioButton) rootView.findViewById(R.id.radioStudy);
-        RadioButton radioSabatical = (RadioButton) rootView.findViewById(R.id.radioSabatical);
+        //RadioButton radioSick = (RadioButton) rootView.findViewById(R.id.radioSick);
+        //RadioButton radioStudy = (RadioButton) rootView.findViewById(R.id.radioStudy);
+        //RadioButton radioSabatical = (RadioButton) rootView.findViewById(R.id.radioSabatical);
         radioAnual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +85,7 @@ public class SelectFragment extends Fragment {
                 sendData(radioGroup,rootView);
             }
         });
+        /**
         radioSick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +104,7 @@ public class SelectFragment extends Fragment {
                 sendData(radioGroup,rootView);
             }
         });
+         ***/
         return rootView;
     }
 

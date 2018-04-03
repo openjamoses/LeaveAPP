@@ -21,6 +21,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
                 <Button
                     android:layout_width="100sp"
@@ -28,22 +29,21 @@
                     android:drawableTop="@mipmap/ic_action_city"
                     android:background="@null"
                     android:padding="10sp"
-                    android:id="@+id/btn_university"
+                    android:id="@+id/btn_history"
                     android:layout_weight="1"
-                    android:text="@string/university_details"/>
+                    android:text="@string/your_leave_history"/>
 
                 <Button
                     android:layout_width="100sp"
                     android:layout_height="100sp"
-                    android:layout_weight="1"
-                    android:padding="10sp"
-                    android:layout_marginLeft="40sp"
-                    android:drawableTop="@mipmap/ic_plus"
+                    android:drawableTop="@mipmap/ic_traffic_light_on"
                     android:background="@null"
-                    android:id="@+id/register_btn"
-                    android:text="@string/register_staff"/>
-            </LinearLayout>
+                    android:padding="10sp"
+                    android:id="@+id/btn_report"
+                    android:layout_weight="1"
+                    android:text="@string/generate_report"/>
 
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -85,24 +85,24 @@
                 <Button
                     android:layout_width="100sp"
                     android:layout_height="100sp"
-                    android:id="@+id/btn_view_staff"
+                    android:id="@+id/btn_profile"
                     android:layout_weight="1"
                     android:padding="10sp"
                     android:drawableTop="@mipmap/ic_dashboard"
                     android:background="@null"
-                    android:text="@string/registered_staff"/>
+                    android:text="@string/your_profile_details"/>
 
 
                 <Button
                     android:layout_width="100sp"
                     android:layout_height="100sp"
-                    android:id="@+id/btn_type"
+                    android:id="@+id/btn_others"
                     android:layout_weight="1"
                     android:padding="10sp"
                     android:layout_marginLeft="40sp"
                     android:drawableTop="@mipmap/ic_event"
                     android:background="@null"
-                    android:text="@string/leave_type"/>
+                    android:text="@string/other_staff_member"/>
 
             </LinearLayout>
 

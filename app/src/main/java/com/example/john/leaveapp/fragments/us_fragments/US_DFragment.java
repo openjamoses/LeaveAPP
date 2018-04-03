@@ -18,6 +18,7 @@ import android.widget.Button;
 
 import com.example.john.leaveapp.R;
 import com.example.john.leaveapp.activities.LeaveHistoryActivity;
+import com.example.john.leaveapp.activities.SignupActivity;
 import com.example.john.leaveapp.activities.UniversitySettings;
 import com.example.john.leaveapp.activities.us_activities.ApplyActivity;
 
@@ -37,6 +38,7 @@ public class US_DFragment extends Fragment {
         Button btn_apply = (Button) view.findViewById(R.id.btn_apply);
         Button history_btn = (Button) view.findViewById(R.id.btn_incoming);
         Button btn_university = (Button) view.findViewById(R.id.btn_university);
+        Button register_btn = (Button) view.findViewById(R.id.register_btn);
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +48,9 @@ public class US_DFragment extends Fragment {
         history_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(activity, LeaveHistoryActivity.class));
+                Intent intent = new Intent(activity, LeaveHistoryActivity.class);
+                intent.putExtra("mode","all");
+                startActivity(intent);
 
             }
         });
@@ -54,6 +58,12 @@ public class US_DFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(activity, UniversitySettings.class));
+            }
+        });
+        register_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(activity, SignupActivity.class));
             }
         });
         return view;

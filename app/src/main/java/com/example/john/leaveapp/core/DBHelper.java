@@ -9,12 +9,12 @@ import android.util.Log;
 import com.example.john.leaveapp.utils.Constants;
 
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_ACCOMPANIED;
-import static com.example.john.leaveapp.core.Create_Table.create.CREATE_ANNUAL;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_APPLY;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_APPROVAL;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_DEPARTMENT;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_DEP_STAFF;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_FACULTY;
+import static com.example.john.leaveapp.core.Create_Table.create.CREATE_LEAVE;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_LEAVETYPE;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_RESPONSIBILY;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_SECRETARY;
@@ -43,7 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_UNIVERSITY);
         db.execSQL(CREATE_FACULTY);
         db.execSQL(CREATE_DEPARTMENT);
-        db.execSQL(CREATE_ANNUAL);
+        db.execSQL(CREATE_LEAVE);
         db.execSQL(CREATE_DEP_STAFF);
         db.execSQL(CREATE_SECRETARY);
         db.execSQL(CREATE_LEAVETYPE);
@@ -61,7 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ Constants.config.TABLE_FACULTY);
         db.execSQL("DROP TABLE IF EXISTS "+ Constants.config.TABLE_DEPARTMENT);
         db.execSQL("DROP TABLE IF EXISTS "+ Constants.config.TABLE_RESPONSIBILITY);
-        db.execSQL("DROP TABLE IF EXISTS "+ Constants.config.TABLE_ANNUAL);
+        db.execSQL("DROP TABLE IF EXISTS "+ Constants.config.TABLE_LEAVE);
         db.execSQL("DROP TABLE IF EXISTS "+ Constants.config.TABLE_SECRETARY);
         db.execSQL("DROP TABLE IF EXISTS "+ Constants.config.TABLE_DEP_STAFF);
         db.execSQL("DROP TABLE IF EXISTS "+ Constants.config.TABLE_LEAVE_TYPE);

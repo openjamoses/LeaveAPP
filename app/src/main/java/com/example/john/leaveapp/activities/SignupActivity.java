@@ -1,5 +1,6 @@
 package com.example.john.leaveapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,6 +21,13 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.john.leaveapp.R;
@@ -29,7 +38,21 @@ import com.example.john.leaveapp.utils.Constants;
 import net.rimoto.intlphoneinput.IntlPhoneInput;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
+import static com.example.john.leaveapp.utils.Constants.config.RESPONSIBILITY_ID;
+import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
+import static com.example.john.leaveapp.utils.Constants.config.STAFFL_LNAME;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_GENDER;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_PASSWORD;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_PHONE;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_ROLE;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_SALARY;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_USERNAME;
+import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_STAFF;
 
 /**
  * Created by john on 3/3/18.
@@ -47,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
     List<String> roleList = new ArrayList<>();
     private Context context = this;
     String password1 = "",password2 = "";
-
+    private static final String TAG = "SignupActivity";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,12 +159,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
                             if (!role.equals(" --- Select Designation ---- ") && !gender.equals("")){
-                                 String message = new Staff(context).save(fname,lname,gender,username,password,phone,salary,role) ;
-                                Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
-                                if (message.equals("Staff Details saved!")){
-                                    startActivity(new Intent(context,LoginActivity.class));
-                                    finish();
-                                }
+                                send(fname,lname,gender,username,password,phone,salary,role,1); ;
                         }else {
                             Toast.makeText(context,"Please make a valid selection..!",Toast.LENGTH_SHORT).show();
                         }
@@ -159,7 +177,7 @@ public class SignupActivity extends AppCompatActivity {
             roleList.add(" --- Select Designation ---- ");
             roleList.add("Lecturer");
             roleList.add("Senior Lecturer");
-            roleList.add("Other Staff");
+            roleList.add("HOD");
             roleList.add("Non Staff");
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context,
                     android.R.layout.simple_spinner_item, roleList);
@@ -178,4 +196,84 @@ public class SignupActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void send(final String fname, final String lname, final String gender, final String username, final String password, final String contact, final String salary, final String role, final int responsibity_id){
+        final ProgressDialog dialog = new ProgressDialog(context);
+        try{
+            dialog.setMessage("Pleasse wait...");
+            dialog.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, HOST_URL+URL_SAVE_STAFF,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.e(TAG, "Results: " + response);
+
+                            String[] splits = response.split("/");
+                            int status = 0, id = 0;
+
+                            if (splits[0].equals("Success")) {
+                                status = 1;
+                                id = Integer.parseInt(splits[1]);
+
+                            }
+                            String message = new Staff(context).save(id,fname,lname,gender,username,password,contact,salary,role,responsibity_id,status);
+                            Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+                            if (message.equals("Staff Details saved!")){
+                                //startActivity(new Intent(context,LoginActivity.class));
+                                 finish();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                        try{
+                            if (dialog.isShowing()){
+                                dialog.dismiss();
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        Log.e(TAG,response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        try {
+                            Log.e(TAG, ""+volleyError.getMessage());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<String, String>();
+
+                params.put(STAFFL_FNAME,fname);
+                params.put(STAFFL_LNAME,lname);
+                params.put(STAFF_ROLE,role);
+                params.put(STAFF_GENDER,gender);
+                params.put(STAFF_USERNAME,username);
+                params.put(STAFF_PASSWORD,password);
+                params.put(STAFF_PHONE,contact);
+                params.put(STAFF_SALARY,salary);
+                params.put(RESPONSIBILITY_ID, String.valueOf(responsibity_id));
+                //returning parameters
+                return params;
+            }
+        };
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
+
+
 }

@@ -6,20 +6,20 @@ public class Constants {
     public abstract class config{
         public static final String DB_NAME = "leaveapp_db";
         public static final int DB_VERSION = 1;
-
         public static final int TOTAL_TABLES = 11;
         /****** URL DECLARATION ******************************/
         public static final String URL_PHONE = "http://192.168.43.18/";
-        public static final String URL_CAMTECH = "http://192.168.1.119/";
+        public static final String URL_CAMTECH = "http://192.168.137.51/";
         public static final String URL_SERVER = "http://173.255.219.164/";
-        public static final String HOST_URL = URL_PHONE+ "leaveapp/";
-
+        public static final String HOST_URL = URL_PHONE+ "LEAVEAPP/pages/mobile_connections/";
         public static final String IMEI = "IMEI";
         public static final String APP_VERSION = "app_version";
-
         ///DB CONNECTIONS
+
+        public static final String USER_TYPE = "user_type";
         //// TODO: 10/12/17   STAFF
         public static final String STAFF_ID = "staff_id";
+        public static final String STAFFID = "staffID";
         public static final String TABLE_STAFF = "staff_tb";
         public static final String STAFFL_FNAME = "fname";
         public static final String STAFFL_LNAME = "lname";
@@ -34,14 +34,16 @@ public class Constants {
         public static final String LOGIN_DATE = "login_date";
         //// TODO: 10/12/17   APPLY
         public static final String APPLY_ID = "apply_id";
+        public static final String APPLYID = "applyID";
         public static final String TABLE_APPLY = "apply_tb";
         public static final String START_DATE = "start_date";
         public static final String END_DATE = "end_date";
         public static final String APPLY_STATUS = "apply_status";
         //// TODO: 10/13/17 FORM TB
-        public static final String ANNUAL_ID = "annual_id";
-        public static final String LEAVE_ID = "annual_tb";
-        public static final String TABLE_ANNUAL = "annual_tb";
+        //public static final String ANNUAL_ID = "annual_id";
+        public static final String LEAVE_ID = "leave_id";
+        public static final String LEAVEID = "leaveID";
+        //public static final String TABLE_ANNUAL = "annual_tb";
         public static final String DATE_ASSUMPTION = "date_assumption";
         public static final String DATE_PROMOTION = "date_promotion";
         public static final String DATE_RETURN = "date_return";
@@ -60,8 +62,9 @@ public class Constants {
         public static final String LEAVE_STATUS1 = "leave_status1";
         public static final String LEAVE_STATUS2 = "leave_status2";
         public static final String LESS_LEAVE = "less_leave";
-        public static final String ANNUAL_STATUS = "annual_status";
-
+        //public static final String ANNUAL_STATUS = "annual_status";
+        public static final String LEAVE_STATUS = "leave_status";
+        public static final String TABLE_LEAVE = "leave_tb";
         //// TODO: 10/13/17 DEPARTMENT
         public static final String DEPARTMENT_ID = "department_id";
         public static final String TABLE_DEPARTMENT = "department_tb";
@@ -94,7 +97,6 @@ public class Constants {
         public static final String RESPONSIBILITY_NAME = "responsibility_name";
         public static final String RESPONSIBILITY_STATUS = "responsibility_status";
         //// TODO: 11/10/17 INTERMEDIATE TABLE BETWEEN  LEAVETYPE_TB AND FORM_TB
-
         //// TODO: 11/10/17  APPROVAL
         public static final String TABLE_APPROVAL = "approval_tb";
         public static final String APPROVAL_ID = "approval_id";
@@ -114,20 +116,32 @@ public class Constants {
         public static final String ACCOMPANIED_AGE = "accompanied_age";
         public static final String ACCOMPANIED_STATUS = "accompanied_status";
         ///*********************** End of Operations ******************************/
-        ///
-        public static final String OPERATION_CASES = "cases";
-        public static final String OPERATION_ACTIVATION = "activation";
-        public static final String OPERATION_INSTALATION = "instalation";
-        public static final String OPERATION_MANAGEMENT = "management";
-        public static final String OPERATION_SUBSCRIPTION = "subscription";
-        public static final String OPERATION_FEES = "fees";
-        public static final String OPERATION_PAYMENTS = "payments";
-        public static final String OPERATION_PAYPAL = "paypal";
+        //??TODO:: URL CALLINGS >>>>>>>>>>>>>>>>>>>>>>>>>
+        public static final String SYNCING_FOLDER = "syncing/";
+        public static final String URL_SAVE_STAFF = SYNCING_FOLDER+"save_staff.php";
+        public static final String URL_SAVE_LEAVE = SYNCING_FOLDER+"save_leave.php";
+        public static final String URL_SAVE_UNIVERSITY = SYNCING_FOLDER+"save_university.php";
+        public static final String URL_SAVE_APPLY = SYNCING_FOLDER+"save_apply.php";
+        public static final String URL_SAVE_DEPARTMENT = SYNCING_FOLDER+"save_departments.php";
+        public static final String URL_SAVE_FACULTY = SYNCING_FOLDER+"save_faculty.php";
+        public static final String URL_SAVE_LEAVETYPE = SYNCING_FOLDER+"save_leavetype.php";
+        public static final String URL_FETCH_JSON = SYNCING_FOLDER+"fetch_json.php";
+        ///TODO ?? OPERATIONS.......!!!!!!>>>>>>>>>>>>>>>>>>>
+        public static final String OPERATION_LEAVE = "leave";
+        public static final String OPERATION_SECRETARY = "secretary";
+        public static final String OPERATION_FACULTY = "faculty";
+        public static final String OPERATION_UNIVERSITY = "university";
+        public static final String OPERATION_STAFF = "staff";
+        public static final String OPERATION_APPLY = "apply";
+        public static final String OPERATION_DEPARTMENT = "department";
 
-        public static final String ACTION_ASSESSEMENT = "assessement";
-        public static final String ACTION_HISTORY = "history";
-        public static final String ACTION_SEARCH = "search";
-        public static final String ACTION_ACTIVATE = "activate";
+
+        public static final String USER_STAFF = "user_staff";
+        public static final String USER_US = "user_us";
+        public static final String USER_HOD = "user_hod";
+
+
+        public static final String SQL_QUERY = "query";
 
     }
 }

@@ -33,7 +33,7 @@ import java.util.Set;
  * Created by john on 2/28/18.
  */
 
-public class HOD_Entry extends Fragment {
+public class HOD_Entry extends Fragment implements Faculty_Entry.OnFacultyListener {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -119,6 +119,8 @@ public class HOD_Entry extends Fragment {
         return rootView;
     }
     private void setSpinner(){
+        lID = new ArrayList<>();
+        lList = new ArrayList<>();
         try{
             Cursor cursor = new Faculty(activity).selectAll();
             if (cursor.moveToFirst()){
@@ -185,5 +187,10 @@ public class HOD_Entry extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onFacultyListener(String name, String desc) {
+        setSpinner();
     }
 }

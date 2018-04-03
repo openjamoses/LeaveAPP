@@ -63,6 +63,9 @@ public class Faculty_Entry extends Fragment {
 
     }
 
+    public interface OnFacultyListener{
+        void onFacultyListener(String name, String desc);
+    }
     @Override
     public void onDetach() {
         super.onDetach();

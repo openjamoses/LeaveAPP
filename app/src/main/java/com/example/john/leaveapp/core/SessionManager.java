@@ -24,6 +24,7 @@ import static com.example.john.leaveapp.utils.Constants.config.STAFF_PHONE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ROLE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_SALARY;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_USERNAME;
+import static com.example.john.leaveapp.utils.Constants.config.USER_TYPE;
 
 
 public class SessionManager {
@@ -39,39 +40,11 @@ public class SessionManager {
     private static final String PREF_NAME = "HBB_USER_Pref";
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
-
-    public static final String KEY_SESSION_TYPE = "user";
-
-    // User name (make variable public to access from outside)
-    public static final String KEY_IMEI = Constants.config.IMEI;
-    public static final String KEY_VERSION = Constants.config.APP_VERSION;
-
     // Constructor
     public SessionManager(Context context){
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
-    }
-
-    /**
-     * Check login method wil check user login status
-     * If false it will redirect user to login page
-     * Else won't do anything
-     * */
-    public void checkLogin(){
-        // Check login status
-        if(!this.isLoggedIn()){
-            // user is not logged in redirect him to Login Activity
-            //Intent i = new Intent(_context, MainActivity.class);
-            // Closing all the Activities
-            //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            // Add new Flag to start new Activity
-            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            // Staring Login Activity
-            //_context.startActivity(i);
-        }
     }
 
     /**
@@ -112,7 +85,6 @@ public class SessionManager {
          // commit changes
         editor.commit();
     }
-
     public HashMap<String, String> getDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         // user name
@@ -129,5 +101,15 @@ public class SessionManager {
         user.put(LOGIN_TIME, pref.getString(LOGIN_TIME, null));
         // return user
         return user;
+    }
+
+    public void createType(String user_type) {
+        editor.putString(USER_TYPE, user_type);
+        editor.commit();
+    }
+    public HashMap<String, String> getType(){
+        HashMap<String, String> type = new HashMap<>();
+        type.put(USER_TYPE, pref.getString(USER_TYPE, null));
+        return type;
     }
 }
