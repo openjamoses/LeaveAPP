@@ -78,9 +78,7 @@ public class IncomingAdapter extends BaseAdapter {
             status1Text.setText("HOD Approval: "+status1.get(i));
             status2Text.setText("U.S Approval: "+status2.get(i));
             status3Text.setText("Tel Number: "+phone.get(i));
-
             setOnclick(parent_layout, leave_id.get(i),name.get(i),type.get(i),date_from.get(i),date_to.get(i));
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -122,6 +120,11 @@ public class IncomingAdapter extends BaseAdapter {
         }
     }
 
+    /**
+     *
+     * @param leave_id
+     * @param type
+     */
     private void popdetailsDialog(int leave_id, String type){
 
         final AlertDialog dialog;
@@ -197,6 +200,15 @@ public class IncomingAdapter extends BaseAdapter {
         }
 
     }
+
+    /**
+     *
+     * @param leave_id
+     * @param name_
+     * @param type
+     * @param start
+     * @param end
+     */
     private void popUpdateDialog(int leave_id,String name_, String type, String start, String end){
         final AlertDialog dialog;
             try{
