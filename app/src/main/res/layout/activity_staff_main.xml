@@ -6,8 +6,6 @@
     android:padding="@dimen/horizonal_padding"
     android:background="@drawable/bg2"
     android:layout_height="match_parent">
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -33,30 +31,22 @@
                     android:id="@+id/btn_history"
                     android:layout_weight="1"
                     android:text="@string/your_leave_history"/>
-
-
                 <Button
                     android:layout_width="100sp"
                     android:layout_height="100sp"
                     android:id="@+id/btn_apply"
                     android:layout_weight="1"
                     android:padding="10sp"
-
                     android:drawableTop="@mipmap/ic_atm"
                     android:background="@null"
                     android:text="@string/apply_for_leave"/>
-
-
             </LinearLayout>
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40sp"
                 android:orientation="horizontal">
-
                 <Button
                     android:layout_width="100sp"
                     android:layout_height="100sp"
@@ -67,24 +57,17 @@
                     android:background="@null"
                     android:text="@string/your_profile_details"/>
 
-
                 <Button
                     android:layout_width="100sp"
                     android:layout_height="100sp"
-                    android:id="@+id/btn_others"
+                    android:id="@+id/btn_notification"
                     android:layout_weight="1"
                     android:padding="10sp"
                     android:layout_marginLeft="40sp"
                     android:drawableTop="@mipmap/ic_event"
                     android:background="@null"
-                    android:text="@string/other_staff_member"/>
-
+                    android:text="@string/view_notification"/>
             </LinearLayout>
-
-
         </LinearLayout>
-
     </ScrollView>
-
-
 </RelativeLayout>

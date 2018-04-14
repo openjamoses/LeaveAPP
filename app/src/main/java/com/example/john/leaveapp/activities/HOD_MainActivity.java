@@ -32,7 +32,7 @@ import java.util.List;
 
 public class HOD_MainActivity extends AppCompatActivity {
     private Context context = this;
-    private Button btn_history,btn_apply,btn_profile,btn_others;
+    private Button btn_incoming,btn_apply,btn_recent,btn_others;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +44,9 @@ public class HOD_MainActivity extends AppCompatActivity {
             TextView toolbar_subtitle = (TextView) findViewById(R.id.toolbar_subtitle);
             toolbar_subtitle.setText("HOD Platform");
 
-            btn_history = (Button) findViewById(R.id.btn_history);
+            btn_incoming = (Button) findViewById(R.id.btn_incoming);
             btn_apply = (Button) findViewById(R.id.btn_apply);
-            btn_profile = (Button) findViewById(R.id.btn_profile);
+            btn_recent = (Button) findViewById(R.id.btn_recent);
             btn_others = (Button) findViewById(R.id.btn_others);
 
 
@@ -57,19 +57,19 @@ public class HOD_MainActivity extends AppCompatActivity {
                 }
             });
 
-            btn_history.setOnClickListener(new View.OnClickListener() {
+            btn_incoming.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, LeaveHistoryActivity.class);
-                    intent.putExtra("mode","single");
+                    intent.putExtra("mode","hod");
                     startActivity(intent);
                 }
             });
 
-            btn_profile.setOnClickListener(new View.OnClickListener() {
+            btn_recent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(context, ProfileActivity.class));
+                    startActivity(new Intent(context, YourLeaveHistory.class));
                 }
             });
             BaseApplication.deleteCache(context);

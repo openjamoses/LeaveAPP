@@ -13,6 +13,7 @@ import com.example.john.leaveapp.utils.DateTime;
 
 import java.util.HashMap;
 
+import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_ID;
 import static com.example.john.leaveapp.utils.Constants.config.LOGIN_DATE;
 import static com.example.john.leaveapp.utils.Constants.config.LOGIN_TIME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
@@ -44,6 +45,7 @@ public class SessionManager {
     public SessionManager(Context context){
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        BaseApplication.deleteCache(_context);
         editor = pref.edit();
     }
 
@@ -65,11 +67,12 @@ public class SessionManager {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public void loginSession(int useID, String fname, String lname, String username, String password,String phone, String gender, String role, String salary) {
+    public void loginSession(int useID, String fname, String lname, String username, String password,String phone, String gender, String role, String salary, int department_id) {
         // Storing login value as TRUE
         if(isLoggedIn()){
             logoutUser();
         }
+
         editor.putString(STAFFL_FNAME, fname);
         editor.putString(STAFFL_LNAME, lname);
         editor.putString(STAFF_USERNAME, username);
@@ -81,6 +84,7 @@ public class SessionManager {
         editor.putString(STAFF_SALARY, salary);
         editor.putString(LOGIN_DATE, DateTime.getCurrentDate());
         editor.putString(LOGIN_TIME, DateTime.getCurrentTime());
+        editor.putString(DEPARTMENT_ID, String.valueOf(department_id));
         editor.putBoolean(IS_LOGIN, true);
          // commit changes
         editor.commit();
@@ -97,6 +101,7 @@ public class SessionManager {
         user.put(STAFF_PHONE, pref.getString(STAFF_PHONE, null));
         user.put(STAFF_ROLE, pref.getString(STAFF_ROLE, null));
         user.put(STAFF_ID, pref.getString(STAFF_ID, null));
+        user.put(DEPARTMENT_ID, pref.getString(DEPARTMENT_ID, null));
         user.put(LOGIN_DATE, pref.getString(LOGIN_DATE, null));
         user.put(LOGIN_TIME, pref.getString(LOGIN_TIME, null));
         // return user

@@ -96,6 +96,16 @@
                     android:gravity="center"
                     android:layout_height="wrap_content"/>
 
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:id="@+id/spinner_department"
+                    android:layout_marginLeft="@dimen/magin_spacing"
+                    android:layout_marginRight="@dimen/magin_spacing"
+                    android:layout_marginTop="20sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"/>
+
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

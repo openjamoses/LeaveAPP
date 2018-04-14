@@ -43,6 +43,7 @@ import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVEDUE_FROM;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVEDUE_TO;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVEID;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVETYPE_ID;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVE_FROM;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVE_ID;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVE_NOW;
@@ -63,8 +64,8 @@ public class Leave {
         this.context = context;
     }
 
-    public String save(int id,String assumption, String promotion, String dreturn,String dbance,String dtaken, String entitlement,String lnow,String lfrom,String lto,
-                       String outstanding, String ldfrom, String ldto,int signature, int status) {
+    public String save(int id,String assumption, String promotion, String dreturn,int dbance,int dtaken,int lnow,String lfrom,String lto,
+                       String outstanding, String ldfrom, String ldto,int signature, int leavetype_id, int status) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
         try{
@@ -76,7 +77,7 @@ public class Leave {
             contentValues.put(DATE_RETURN,dreturn);
             contentValues.put(DAYS_TAKEN,dtaken);
             contentValues.put(BALANCE_TAKEN,dbance);
-            contentValues.put(ENTITLEMENT,entitlement);
+            //contentValues.put(ENTITLEMENT,entitlement);
             contentValues.put(LEAVE_NOW,lnow);
             contentValues.put(LEAVE_FROM,lfrom);
             contentValues.put(LEAVE_ID,id);
@@ -84,8 +85,8 @@ public class Leave {
             contentValues.put(BALANCE_OUTSTANDING,outstanding);
             contentValues.put(LEAVEDUE_FROM,ldfrom);
             contentValues.put(LEAVEDUE_TO,ldto);
-            //contentValues.put(SIGNATURE,signature);
-            contentValues.put(LEAVE_STATUS,status);
+            contentValues.put(LEAVETYPE_ID,leavetype_id);
+            //contentValues.put(LEAVE_STATUS,status);
             database.insert(Constants.config.TABLE_LEAVE, null, contentValues);
             //database.setTransactionSuccessful();
             message = "Leave Details saved!";
@@ -117,7 +118,7 @@ public class Leave {
             contentValues.put(DATE_RETURN,dreturn);
             contentValues.put(DAYS_TAKEN,dtaken);
             contentValues.put(BALANCE_TAKEN,dbance);
-            contentValues.put(ENTITLEMENT,entitlement);
+            //contentValues.put(ENTITLEMENT,entitlement);
             contentValues.put(LEAVE_NOW,lnow);
             contentValues.put(LEAVE_FROM,lfrom);
             contentValues.put(LEAVE_TO,lto);
@@ -202,14 +203,14 @@ public class Leave {
                 params.put(DATE_RETURN,cursor.getString(cursor.getColumnIndex(DATE_RETURN)));
                 params.put(DAYS_TAKEN,cursor.getString(cursor.getColumnIndex(DAYS_TAKEN)));
                 params.put(BALANCE_TAKEN,cursor.getString(cursor.getColumnIndex(BALANCE_TAKEN)));
-                params.put(ENTITLEMENT,cursor.getString(cursor.getColumnIndex(ENTITLEMENT)));
+                //params.put(ENTITLEMENT,cursor.getString(cursor.getColumnIndex(ENTITLEMENT)));
                 params.put(LEAVE_NOW,cursor.getString(cursor.getColumnIndex(LEAVE_NOW)));
                 params.put(LEAVE_FROM,cursor.getString(cursor.getColumnIndex(LEAVE_FROM)));
                 params.put(LEAVE_TO,cursor.getString(cursor.getColumnIndex(LEAVE_TO)));
                 params.put(BALANCE_OUTSTANDING,cursor.getString(cursor.getColumnIndex(BALANCE_OUTSTANDING)));
                 params.put(LEAVEDUE_FROM,cursor.getString(cursor.getColumnIndex(LEAVEDUE_FROM)));
                 params.put(LEAVEDUE_TO,cursor.getString(cursor.getColumnIndex(LEAVEDUE_TO)));
-                //params.put(SIGNATURE, String.valueOf(cursor.getLong(cursor.getColumnIndex(SIGNATURE))));
+                params.put(LEAVETYPE_ID, String.valueOf(cursor.getLong(cursor.getColumnIndex(LEAVETYPE_ID))));
 
                 wordList.add(params);
             } while (cursor.moveToNext());
@@ -235,14 +236,14 @@ public class Leave {
                 params.put(DATE_RETURN,cursor.getString(cursor.getColumnIndex(DATE_RETURN)));
                 params.put(DAYS_TAKEN,cursor.getString(cursor.getColumnIndex(DAYS_TAKEN)));
                 params.put(BALANCE_TAKEN,cursor.getString(cursor.getColumnIndex(BALANCE_TAKEN)));
-                params.put(ENTITLEMENT,cursor.getString(cursor.getColumnIndex(ENTITLEMENT)));
+                //params.put(ENTITLEMENT,cursor.getString(cursor.getColumnIndex(ENTITLEMENT)));
                 params.put(LEAVE_NOW,cursor.getString(cursor.getColumnIndex(LEAVE_NOW)));
                 params.put(LEAVE_FROM,cursor.getString(cursor.getColumnIndex(LEAVE_FROM)));
                 params.put(LEAVE_TO,cursor.getString(cursor.getColumnIndex(LEAVE_TO)));
                 params.put(BALANCE_OUTSTANDING,cursor.getString(cursor.getColumnIndex(BALANCE_OUTSTANDING)));
                 params.put(LEAVEDUE_FROM,cursor.getString(cursor.getColumnIndex(LEAVEDUE_FROM)));
                 params.put(LEAVEDUE_TO,cursor.getString(cursor.getColumnIndex(LEAVEDUE_TO)));
-               // params.put(SIGNATURE, String.valueOf(cursor.getLong(cursor.getColumnIndex(SIGNATURE))));
+               params.put(LEAVETYPE_ID, String.valueOf(cursor.getLong(cursor.getColumnIndex(LEAVETYPE_ID))));
 
                 wordList.add(params);
             } while (cursor.moveToNext());
@@ -338,7 +339,7 @@ public class Leave {
                 //String get_json = get
                 //JSONArray jsonArray = new JSONArray(results);
                 JSONArray jsonArray = jsonArrays[0];
-                db.execSQL("DELETE FROM " + Constants.config.TABLE_LEAVE+" WHERE "+LEAVE_STATUS+" = '"+status+"' ");
+                db.execSQL("DELETE FROM " + Constants.config.TABLE_LEAVE+" ");
 
                 int total = 0;
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -350,7 +351,7 @@ public class Leave {
                     contentValues.put(DATE_RETURN,jsonObject.getString(Constants.config.DATE_RETURN));
                     contentValues.put(DAYS_TAKEN,jsonObject.getString(Constants.config.DAYS_TAKEN));
                     contentValues.put(BALANCE_TAKEN,jsonObject.getString(Constants.config.BALANCE_TAKEN));
-                    contentValues.put(ENTITLEMENT,jsonObject.getString(Constants.config.ENTITLEMENT));
+                    //contentValues.put(ENTITLEMENT,jsonObject.getString(Constants.config.ENTITLEMENT));
                     contentValues.put(LEAVE_NOW,jsonObject.getString(Constants.config.LEAVE_NOW));
                     contentValues.put(LEAVE_FROM,jsonObject.getString(Constants.config.LEAVE_FROM));
                     contentValues.put(LEAVE_ID,jsonObject.getLong(Constants.config.LEAVE_ID));
@@ -358,8 +359,8 @@ public class Leave {
                     contentValues.put(BALANCE_OUTSTANDING,jsonObject.getString(Constants.config.BALANCE_OUTSTANDING));
                     contentValues.put(LEAVEDUE_FROM,jsonObject.getString(Constants.config.LEAVEDUE_FROM));
                     contentValues.put(LEAVEDUE_TO,jsonObject.getString(Constants.config.LEAVEDUE_TO));
-                    //contentValues.put(SIGNATURE,jsonObject.getLong(Constants.config.SIGNATURE));
-                    contentValues.put(LEAVE_STATUS,status);
+                    contentValues.put(LEAVETYPE_ID,jsonObject.getLong(Constants.config.LEAVETYPE_ID));
+                    //contentValues.put(LEAVE_STATUS,status);
 
                         db = DBHelper.getHelper(context).getWritableDB();
                         db.insert(Constants.config.TABLE_LEAVE, null, contentValues);

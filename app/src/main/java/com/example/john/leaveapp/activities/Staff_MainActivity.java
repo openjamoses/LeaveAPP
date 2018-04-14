@@ -22,7 +22,7 @@ import com.example.john.leaveapp.core.SessionManager;
 
 public class Staff_MainActivity extends AppCompatActivity {
     private Context context = this;
-    private Button btn_history,btn_apply,btn_profile,btn_others;
+    private Button btn_history,btn_apply,btn_profile,btn_notification;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class Staff_MainActivity extends AppCompatActivity {
         btn_history = (Button) findViewById(R.id.btn_history);
         btn_apply = (Button) findViewById(R.id.btn_apply);
         btn_profile = (Button) findViewById(R.id.btn_profile);
-        btn_others = (Button) findViewById(R.id.btn_others);
+        btn_notification = (Button) findViewById(R.id.btn_notification);
 
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,22 +44,21 @@ public class Staff_MainActivity extends AppCompatActivity {
                 startActivity(new Intent(context, ApplyActivity.class));
             }
         });
-
         btn_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, LeaveHistoryActivity.class);
+                Intent intent = new Intent(context, YourLeaveHistory.class);
                 intent.putExtra("mode","single");
                 startActivity(intent);
             }
         });
-
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(context, ProfileActivity.class));
             }
         });
+        //TODO:::
         BaseApplication.deleteCache(context);
     }
 
@@ -69,7 +68,6 @@ public class Staff_MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

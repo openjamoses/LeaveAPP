@@ -1,6 +1,7 @@
 package com.example.john.leaveapp.activities;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.activities.firebase.Config;
+import com.example.john.leaveapp.activities.firebase.DeviceToken;
+import com.example.john.leaveapp.activities.firebase.SendTokens;
 import com.example.john.leaveapp.core.BaseApplication;
 import com.example.john.leaveapp.core.SessionManager;
 import com.example.john.leaveapp.core.UserDetails;
@@ -30,6 +35,9 @@ import com.example.john.leaveapp.db_operartions.DBController;
 import com.example.john.leaveapp.db_operartions.Secretary;
 import com.example.john.leaveapp.db_operartions.Staff;
 import com.example.john.leaveapp.utils.Constants;
+import com.example.john.leaveapp.utils.Phone;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,9 +52,13 @@ import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.VIBRATE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_APPLY;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_DEPARTMENT;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_FACULTY;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVE;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVETYPE;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_SECRETARY;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_STAFF;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_UNIVERSITY;
 import static com.example.john.leaveapp.utils.Constants.config.URL_FETCH_JSON;
 import static com.example.john.leaveapp.utils.Constants.config.USER_HOD;
 import static com.example.john.leaveapp.utils.Constants.config.USER_US;
@@ -64,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 2000;
     public static final int RequestPermissionCode = 1;
     private static final String TAG = "LoginActivity";
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +86,25 @@ public class LoginActivity extends AppCompatActivity {
         btn_login = (Button) findViewById(R.id.btn_login);
         userText = (EditText) findViewById(R.id.userEdit);
         passText = (EditText) findViewById(R.id.passEdit);
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // checking for type intent filter
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                    // gcm successfully registered
+                    // now subscribe to `global` topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+                    displayFirebaseRegId();
+                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+                    String message = intent.getStringExtra("message");
+                    //Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+                    //txtMessage.setText(message);
+                }
+            }
+        };
+
 
         try {
             SessionManager sessionManager = new SessionManager(context);
@@ -84,6 +117,11 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     startActivity(new Intent(context, Staff_MainActivity.class));
                 }
+
+
+
+                sendToken(new UserDetails(context).getid());
+
                 finish();
             }
             checkAndRequestPermissions();
@@ -95,11 +133,20 @@ public class LoginActivity extends AppCompatActivity {
                 String secretary_query = "SELECT * FROM secretary_tb";
                 String leave_query = "SELECT * FROM leave_tb";
                 String apply_query = "SELECT * FROM apply_tb";
+                String leavetype_query = "SELECT * FROM leavetype_tb";
+                String university_query = "SELECT * FROM university_tb";
+                String faculty_query = "SELECT * FROM faculty_tb";
+                String department_query = "SELECT * FROM department_tb";
 
                 DBController.fetchJSON(context,staff_query,URL_FETCH_JSON,OPERATION_STAFF);
                 DBController.fetchJSON(context,leave_query,URL_FETCH_JSON,OPERATION_LEAVE);
                 DBController.fetchJSON(context,apply_query,URL_FETCH_JSON,OPERATION_APPLY);
                 DBController.fetchJSON(context,secretary_query,URL_FETCH_JSON,OPERATION_SECRETARY);
+                DBController.fetchJSON(context,leavetype_query,URL_FETCH_JSON,OPERATION_LEAVETYPE);
+
+                DBController.fetchJSON(context,university_query,URL_FETCH_JSON,OPERATION_UNIVERSITY);
+                DBController.fetchJSON(context,faculty_query,URL_FETCH_JSON,OPERATION_FACULTY);
+                DBController.fetchJSON(context,department_query,URL_FETCH_JSON,OPERATION_DEPARTMENT);
 
                 Log.e(TAG, "All permission..!");
             }else {
@@ -115,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                 String username = userText.getText().toString().trim();
                 String password = passText.getText().toString().trim();
                 String role = "";
+                BaseApplication.deleteCache(context);
 
                 try{
                     Cursor cursor = new Staff(context).login(username,password);
@@ -133,7 +181,8 @@ public class LoginActivity extends AppCompatActivity {
                                         cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_PHONE)),
                                         cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_GENDER)),
                                         cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_ROLE)),
-                                        cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_SALARY))
+                                        cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_SALARY)),
+                                        cursor.getInt(cursor.getColumnIndex(Constants.config.DEPARTMENT_ID))
                                         );
                             }while (cursor.moveToNext());
                             //todo::: Go to the main activity...!
@@ -152,6 +201,9 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             new SessionManager(context).createType(user_type);
 
+                            sendToken(new UserDetails(context).getid());
+                            BaseApplication.deleteCache(context);
+
                             finish();
                         }else {
                             Toast.makeText(context,"Username or Password not found..!",Toast.LENGTH_SHORT).show();
@@ -166,6 +218,36 @@ public class LoginActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
+
+    public void sendToken(int staff_id){
+        try {
+            String token = new DeviceToken(context).token();
+            String imei = Phone.getIMEI(context);
+            if (token != null) {
+                new SendTokens(context).sendTokenToServer(token, staff_id);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void displayFirebaseRegId() {
+        //SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        String regId = new DeviceToken(context).token();
+        if(regId == null) {
+            regId = FirebaseInstanceId.getInstance().getToken();
+        }
+        Log.e(TAG, "Firebase reg id: " + regId);
+
+        if (!TextUtils.isEmpty(regId))
+            //txtRegId.setText("Firebase Reg Id: " + regId);
+            Log.e(TAG,"Firebase Reg Id: " + regId);
+        else
+            //txtRegId.setText("Firebase Reg Id is not received yet!");
+            Log.e(TAG,"Firebase Reg Id is not received yet!");
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -158,15 +158,20 @@
                     android:id="@+id/input_entitlement"/>
             </android.support.design.widget.TextInputLayout>
 
-
-            <Spinner
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/magin_spacing"
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
-                android:id="@+id/input_leave_now"
-                android:gravity="center"/>
+                android:gravity="center">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:id="@+id/input_leave_now"
+                    android:hint="Leave now required" />
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -190,27 +195,12 @@
                     android:hint="To:" />
             </LinearLayout>
 
-            <net.rimoto.intlphoneinput.IntlPhoneInput
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:textSize="14sp"
-                app:textColor="#000000"
-                app:flagPaddingBottom="4dp"
-                app:flagPaddingEnd="4dp"
-                app:flagPaddingStart="4dp"
-                android:layout_marginLeft="@dimen/magin_spacing"
-                android:layout_marginRight="@dimen/magin_spacing"
-                android:layout_marginTop="20sp"
-                app:flagPaddingTop="4dp"
-                android:id="@+id/my_phone_input" />
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/magin_spacing"
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
-                android:visibility="gone"
                 android:gravity="center">
                 <EditText
                     android:layout_width="match_parent"
@@ -225,7 +215,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/magin_spacing"
                 android:layout_marginRight="@dimen/magin_spacing"
-                android:visibility="gone"
                 android:layout_marginTop="20sp"
                 android:orientation="horizontal">
                 <EditText

@@ -17,10 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.activities.ApplyActivity;
+import com.example.john.leaveapp.activities.Entry_LeaveType;
 import com.example.john.leaveapp.activities.LeaveHistoryActivity;
 import com.example.john.leaveapp.activities.SignupActivity;
 import com.example.john.leaveapp.activities.UniversitySettings;
-import com.example.john.leaveapp.activities.us_activities.ApplyActivity;
+import com.example.john.leaveapp.activities.YourLeaveHistory;
 
 public class US_DFragment extends Fragment {
 
@@ -39,6 +41,8 @@ public class US_DFragment extends Fragment {
         Button history_btn = (Button) view.findViewById(R.id.btn_incoming);
         Button btn_university = (Button) view.findViewById(R.id.btn_university);
         Button register_btn = (Button) view.findViewById(R.id.register_btn);
+        Button btn_your = (Button) view.findViewById(R.id.btn_your);
+        Button btn_type = (Button) view.findViewById(R.id.btn_type);
         btn_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +53,7 @@ public class US_DFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, LeaveHistoryActivity.class);
-                intent.putExtra("mode","all");
+                intent.putExtra("mode","us");
                 startActivity(intent);
 
             }
@@ -66,6 +70,20 @@ public class US_DFragment extends Fragment {
                 startActivity(new Intent(activity, SignupActivity.class));
             }
         });
+        btn_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(activity, Entry_LeaveType.class));
+            }
+        });
+
+        btn_your.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(activity, YourLeaveHistory.class));
+            }
+        });
+
         return view;
     }
 }

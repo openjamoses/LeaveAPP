@@ -31,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.core.ReturnCursor;
 import com.example.john.leaveapp.db_operartions.Departments;
 import com.example.john.leaveapp.db_operartions.Staff;
 import com.example.john.leaveapp.utils.Constants;
@@ -42,6 +43,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_ID;
 import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
 import static com.example.john.leaveapp.utils.Constants.config.RESPONSIBILITY_ID;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
@@ -52,6 +54,7 @@ import static com.example.john.leaveapp.utils.Constants.config.STAFF_PHONE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ROLE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_SALARY;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_USERNAME;
+import static com.example.john.leaveapp.utils.Constants.config.TABLE_DEPARTMENT;
 import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_STAFF;
 
 /**
@@ -61,13 +64,15 @@ import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_STAFF;
 public class SignupActivity extends AppCompatActivity {
     private Button btn_signup;
     private EditText input_fname,input_lname,input_salary,input_username,input_password,input_confirm;
-    private Spinner  spinner_role;
+    private Spinner  spinner_role, spinner_department;
     private RadioGroup gender_group;
     private IntlPhoneInput my_phone_input;
     private AwesomeValidation awesomeValidation;
     private TextInputLayout pass_layout, con_layout;
     private RadioGroup radioGroup;
     List<String> roleList = new ArrayList<>();
+    List<String> depList = new ArrayList<>();
+    List<Integer> depID = new ArrayList<>();
     private Context context = this;
     String password1 = "",password2 = "";
     private static final String TAG = "SignupActivity";
@@ -84,6 +89,7 @@ public class SignupActivity extends AppCompatActivity {
         input_password = (EditText) findViewById(R.id.input_password);
         input_confirm = (EditText) findViewById(R.id.input_confirm);
         spinner_role = (Spinner) findViewById(R.id.spinner_role);
+        spinner_department = (Spinner) findViewById(R.id.spinner_department);
         my_phone_input = (IntlPhoneInput) findViewById(R.id.my_phone_input);
         btn_signup = (Button) findViewById(R.id.btn_signup);
         pass_layout = (TextInputLayout) findViewById(R.id.pass_layout);
@@ -91,6 +97,7 @@ public class SignupActivity extends AppCompatActivity {
         radioGroup = (RadioGroup) findViewById(R.id.gender_group);
 
                 setSpinner();
+                setSpinnerD();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         final String pattern = "\\d{10}|(?:\\d{3})";
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -148,18 +155,24 @@ public class SignupActivity extends AppCompatActivity {
                         String salary = input_salary.getText().toString().trim();
                         String username = input_username.getText().toString().trim();
                         String password = input_password.getText().toString().trim();
-
+                        String department = spinner_department.getSelectedItem().toString().trim();
                         String role = spinner_role.getSelectedItem().toString().trim();
                         String gender = "";
+                        int department_id = 0;
+                        if (!department.equals(" --- Select Department ---- ")){
+                            for (int i=0; i<depList.size(); i++){
+                                if (depList.get(i).equals(department)){
+                                    department_id = depID.get(i);
+                                }
+                            }
+                        }
                         if(radioGroup.getCheckedRadioButtonId() != -1 ) {
                             int driesId = radioGroup.getCheckedRadioButtonId();
                             // find the radiobutton by returned id
                              gender = ((RadioButton)findViewById(driesId)).getText().toString();
                         }
-
-
-                            if (!role.equals(" --- Select Designation ---- ") && !gender.equals("")){
-                                send(fname,lname,gender,username,password,phone,salary,role,1); ;
+                            if (!role.equals(" --- Select Designation ---- ") && !gender.equals("") && !department.equals(" --- Select Department ---- ")){
+                                send(fname,lname,gender,username,password,phone,salary,role,1,department_id); ;
                         }else {
                             Toast.makeText(context,"Please make a valid selection..!",Toast.LENGTH_SHORT).show();
                         }
@@ -187,7 +200,30 @@ public class SignupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+    private void setSpinnerD() {
+        try{
+            depList.add(" --- Select Department ---- ");
+            depID.add(0);
+            String query = " SELECT * FROM "+TABLE_DEPARTMENT+" ORDER BY "+Constants.config.DEPARTMENT_NAME+"";
+            try{
+               Cursor cursor = ReturnCursor.getCursor(query,context);
+               if (cursor.moveToFirst()){
+                   do {
+                      depList.add(cursor.getString(cursor.getColumnIndex(Constants.config.DEPARTMENT_NAME)));
+                      depID.add(cursor.getInt(cursor.getColumnIndex(Constants.config.DEPARTMENT_ID)));
+                   }while (cursor.moveToNext());
+               }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context,
+                    android.R.layout.simple_spinner_item, depList);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner_department.setAdapter(dataAdapter);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
@@ -198,7 +234,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-    public void send(final String fname, final String lname, final String gender, final String username, final String password, final String contact, final String salary, final String role, final int responsibity_id){
+    public void send(final String fname, final String lname, final String gender, final String username, final String password, final String contact, final String salary, final String role, final int responsibity_id, final int department_id){
         final ProgressDialog dialog = new ProgressDialog(context);
         try{
             dialog.setMessage("Pleasse wait...");
@@ -222,7 +258,7 @@ public class SignupActivity extends AppCompatActivity {
                                 id = Integer.parseInt(splits[1]);
 
                             }
-                            String message = new Staff(context).save(id,fname,lname,gender,username,password,contact,salary,role,responsibity_id,status);
+                            String message = new Staff(context).save(id,fname,lname,gender,username,password,contact,salary,role,responsibity_id,department_id,status);
                             Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
                             if (message.equals("Staff Details saved!")){
                                 //startActivity(new Intent(context,LoginActivity.class));
@@ -265,6 +301,7 @@ public class SignupActivity extends AppCompatActivity {
                 params.put(STAFF_PHONE,contact);
                 params.put(STAFF_SALARY,salary);
                 params.put(RESPONSIBILITY_ID, String.valueOf(responsibity_id));
+                params.put(DEPARTMENT_ID, String.valueOf(department_id));
                 //returning parameters
                 return params;
             }

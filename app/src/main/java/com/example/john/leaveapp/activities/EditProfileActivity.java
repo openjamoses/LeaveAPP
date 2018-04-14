@@ -166,12 +166,14 @@ public class EditProfileActivity extends AppCompatActivity {
                                 }
                             }
 
-                            String message = new Staff(context).edit(fname,lname,gender,username,password,phone,salary,role,1) ;
+                            /**
+                            //String message = new Staff(context).edit(fname,lname,gender,username,password,phone,salary,role,1) ;
                             Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
                             if (message.equals("personel details updated!")){
                                 //startActivity(new Intent(context,LoginActivity.class));
                                 finish();
                             }
+                             **/
                         }else {
                             Toast.makeText(context,"Please make a valid selection..!",Toast.LENGTH_SHORT).show();
                         }

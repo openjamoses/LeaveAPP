@@ -26,4 +26,19 @@ public class DateTime {
         String strTime = sdf.format(c.getTime());
         return strTime;
     }
+    public static String addDays(String date, int days){
+        String dt_return = date;  // Start date
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar c = Calendar.getInstance();
+            c.setTime(sdf.parse(date));
+            c.add(Calendar.DATE, days);  // number of days to add
+            dt_return = sdf.format(c.getTime());  // dt is now the new date
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return dt_return;
+    }
 }

@@ -85,12 +85,12 @@
                 <Button
                     android:layout_width="100sp"
                     android:layout_height="100sp"
-                    android:id="@+id/btn_profile"
+                    android:id="@+id/btn_recent"
                     android:layout_weight="1"
                     android:padding="10sp"
-                    android:drawableTop="@mipmap/ic_dashboard"
+                    android:drawableTop="@android:drawable/ic_menu_recent_history"
                     android:background="@null"
-                    android:text="@string/your_profile_details"/>
+                    android:text="@string/your_leave_history"/>
 
 
                 <Button

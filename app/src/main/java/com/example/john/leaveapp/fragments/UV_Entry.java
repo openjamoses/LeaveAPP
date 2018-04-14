@@ -1,6 +1,7 @@
 package com.example.john.leaveapp.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -133,12 +134,14 @@ public class UV_Entry extends Fragment {
             @Override
             public void onClick(View view) {
                 String name = editText.getText().toString().trim();
-                if (!name.equals("") && !file_path.equals("")){
-                    String messages = new University(activity).save(name,file_path);
-                    Toast.makeText(activity,messages, Toast.LENGTH_SHORT).show();
-                    if (messages.equals("University Details saved!")){
+                if (!name.equals("")){
+                    ProgressDialog dialog = new ProgressDialog(activity);
+                    dialog.setMessage("please wait");
+                    new University(activity).send(name,dialog);
+                    //Toast.makeText(activity,messages, Toast.LENGTH_SHORT).show();
+                    //if (messages.equals("University Details saved!")){
                         setView();
-                    }
+                  //  }
                 }else {
                     Toast.makeText(activity,"Name or Image Logo is not defined..!", Toast.LENGTH_SHORT).show();
                 }
@@ -217,8 +220,8 @@ public class UV_Entry extends Fragment {
                 @Override
                 public void onClick(View view) {
                     String name = nameText.getText().toString().trim();
-                    if (!name.equals("") && !file_path.equals("")){
-                        String messages = new University(activity).edit(name,file_path,id);
+                    if (!name.equals("")){
+                        String messages = new University(activity).edit(name,id);
                         Toast.makeText(activity,messages, Toast.LENGTH_SHORT).show();
                         if (messages.equals("University Details updated!")){
                             setView();
@@ -229,6 +232,7 @@ public class UV_Entry extends Fragment {
                     }
                 }
             });
+            ///todo:::: Make ........
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package com.example.john.leaveapp.core;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -15,6 +16,12 @@ import java.io.File;
 public class BaseApplication extends Application {
     private static BaseApplication thisInstance;
     private RequestQueue mRequestQueue;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {

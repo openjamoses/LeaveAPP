@@ -19,28 +19,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/fill_in_the_details_below"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/leaveType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Please select the Leave type "
-                android:layout_gravity="center"
-                android:textColor="@color/colorAccent"
+                android:text="@string/application_for_annual_leave"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+        <include layout="@layout/form_general"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/horizonal_padding"
             android:orientation="vertical">
-            <include layout="@layout/form_general"/>
-
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

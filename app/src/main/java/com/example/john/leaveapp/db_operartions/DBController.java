@@ -35,7 +35,10 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_APPLY;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_DEPARTMENT;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_FACULTY;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVE;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVETYPE;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_SECRETARY;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_STAFF;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_UNIVERSITY;
@@ -178,7 +181,7 @@ public class DBController {
                         try{
                             JSONArray jsonArray = new JSONArray(response);
                             if(operation.equals(OPERATION_UNIVERSITY)){
-                                //new University(context).insert(jsonArray);
+                                new University(context).insert(jsonArray);
                             }else if (operation.equals(OPERATION_STAFF)){
                                 new Staff(context).insert(jsonArray);
                             }if (operation.equals(OPERATION_LEAVE)){
@@ -187,6 +190,15 @@ public class DBController {
                                 new Apply(context).insert(jsonArray);
                             }if (operation.equals(OPERATION_SECRETARY)){
                                 new Secretary(context).insert(jsonArray);
+                            }
+                            if (operation.equals(OPERATION_LEAVETYPE)){
+                                new LeaveType(context).insert(jsonArray);
+                            }
+                            if (operation.equals(OPERATION_FACULTY)){
+                                //new LeaveType(context).insert(jsonArray);
+                            }
+                            if (operation.equals(OPERATION_DEPARTMENT)){
+                                new Departments(context).insert(jsonArray);
                             }
                         }catch (Exception e){
                             e.printStackTrace();

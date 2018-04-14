@@ -14,10 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.core.ReturnCursor;
 import com.example.john.leaveapp.db_operartions.Apply;
 import com.example.john.leaveapp.utils.Constants;
 
 import java.util.List;
+
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_ID;
 
 /**
  * Created by john on 3/12/18.
@@ -152,9 +155,16 @@ public class IncomingAdapter extends BaseAdapter {
             TextView applied_text = (TextView) view.findViewById(R.id.applied_text);
 
 
+            String query = "SELECT *  FROM" +
+                    " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_LEAVE+" n, "+Constants.config.TABLE_STAFF+" s WHERE " +
+                    " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+" AND a."+Constants.config.LEAVETYPE_ID+" = '"+type+"'" +
+                    " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" AND n."+LEAVE_ID+" = '"+leave_id+"' ORDER BY a."+Constants.config.DATE+" DESC";
+
+
             try{
-                if (type.equals("Anual Leave")){
-                    Cursor cursor = new Apply(context).getAnualbyID(leave_id);
+                //if (type.equals("Anual Leave")){
+
+                    Cursor cursor = ReturnCursor.getCursor(query,context);
                     if (cursor.moveToFirst()){
                         do {
                             name_text.setText("Applicant: "+cursor.getString(cursor.getColumnIndex(Constants.config.STAFFL_FNAME))+" "+
@@ -177,7 +187,7 @@ public class IncomingAdapter extends BaseAdapter {
 
                         }while (cursor.moveToNext());
                     }
-                }
+               // }
 
             }catch (Exception e){
                 e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.example.john.leaveapp.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,18 +17,34 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.john.leaveapp.R;
 import com.example.john.leaveapp.adapter.Other_Adapters;
+import com.example.john.leaveapp.core.BaseApplication;
 import com.example.john.leaveapp.db_operartions.Departments;
 import com.example.john.leaveapp.db_operartions.Faculty;
+import com.example.john.leaveapp.db_operartions.University;
 import com.example.john.leaveapp.utils.Constants;
 import com.example.john.leaveapp.utils.ListView_Util;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_NAME;
+import static com.example.john.leaveapp.utils.Constants.config.FACULTY_ID;
+import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
+import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_DEPARTMENT;
 
 /**
  * Created by john on 2/28/18.
@@ -96,12 +113,13 @@ public class HOD_Entry extends Fragment implements Faculty_Entry.OnFacultyListen
                                 id = lID.get(i);
                             }
                         }
-                        String message = new Departments(activity).save(name_2, id);
-                        Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
-                        if (message.equals("Department Details saved!")){
-                            setVal();
-                            input_name.setText("");
-                        }
+                        ProgressDialog progressDialog = new ProgressDialog(activity);
+                        progressDialog.setMessage("please wait...");
+                        send(name_2, id,progressDialog);
+                        //Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
+                        //if (message.equals("Department Details saved!")){
+                        input_name.setText("");
+                        //}
                     }else {
                         Toast.makeText(activity,"Enter a valid Name..!",Toast.LENGTH_SHORT).show();
                     }
@@ -118,7 +136,64 @@ public class HOD_Entry extends Fragment implements Faculty_Entry.OnFacultyListen
         }
         return rootView;
     }
+
+    public void send(final String names , final int faculty_id, final ProgressDialog progressDialog){
+        BaseApplication.deleteCache(activity);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, HOST_URL+URL_SAVE_DEPARTMENT,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.e(TAG, "Results: " + response);
+                            String[] splits = response.split("/");
+                            int status = 0, id = 0;
+                            if (splits[0].equals("Success")) {
+                                status = 1;
+                                id = Integer.parseInt(splits[1]);
+                            }
+                            String message = new Departments(activity).save(id,names,faculty_id,status);
+                            Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
+                            setVal();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                        if (progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
+                        Log.e(TAG,response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        try {
+                            Log.e(TAG, ""+volleyError.getMessage());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<String, String>();
+                params.put(DEPARTMENT_NAME,names);
+                params.put(FACULTY_ID, String.valueOf(faculty_id));
+                //params.put(ENTITLEMENT,entitlement);
+                //returning parameters
+                return params;
+            }
+        };
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
+
+
+
     private void setSpinner(){
+
         lID = new ArrayList<>();
         lList = new ArrayList<>();
         try{

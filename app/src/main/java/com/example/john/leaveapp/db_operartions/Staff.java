@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.john.leaveapp.core.BaseApplication;
 import com.example.john.leaveapp.core.DBHelper;
 import com.example.john.leaveapp.core.UserDetails;
 import com.example.john.leaveapp.utils.Constants;
@@ -37,13 +38,6 @@ import static com.example.john.leaveapp.utils.Constants.config.DATE;
 import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_ID;
 import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_NAME;
 import static com.example.john.leaveapp.utils.Constants.config.DEP_STAFF_ID;
-import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
-import static com.example.john.leaveapp.utils.Constants.config.LEAVEID;
-import static com.example.john.leaveapp.utils.Constants.config.LEAVETYPE_ID;
-import static com.example.john.leaveapp.utils.Constants.config.LEAVE_ID;
-import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS1;
-import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS2;
-import static com.example.john.leaveapp.utils.Constants.config.LESS_LEAVE;
 import static com.example.john.leaveapp.utils.Constants.config.RESPONSIBILITY_ID;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFID;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
@@ -58,9 +52,6 @@ import static com.example.john.leaveapp.utils.Constants.config.STAFF_STATUS;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_USERNAME;
 import static com.example.john.leaveapp.utils.Constants.config.TABLE_APPLY;
 import static com.example.john.leaveapp.utils.Constants.config.TABLE_STAFF;
-import static com.example.john.leaveapp.utils.Constants.config.TIME;
-import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_APPLY;
-import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_STAFF;
 
 /**
  * Created by john on 10/17/17.
@@ -72,7 +63,7 @@ public class Staff {
         this.context = context;
     }
 
-    public String save(int id,String fname, String lname, String gender,String username, String password,String contact,String salary,String role, int res_id, int status) {
+    public String save(int id,String fname, String lname, String gender,String username, String password,String contact,String salary,String role, int res_id, int department_id, int status) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
         try{
@@ -90,6 +81,7 @@ public class Staff {
             contentValues.put(STAFF_SALARY,salary);
             contentValues.put(STAFF_STATUS,status);
             contentValues.put(RESPONSIBILITY_ID,res_id);
+            contentValues.put(DEPARTMENT_ID,department_id);
             database.insert(Constants.config.TABLE_STAFF, null, contentValues);
             //database.setTransactionSuccessful();
             message = "Staff Details saved!";
@@ -128,6 +120,7 @@ public class Staff {
     }
 
     public Cursor login(String username, String password) {
+        BaseApplication.deleteCache(context);
         SQLiteDatabase db = DBHelper.getHelper(context).getReadableDB();
         Cursor cursor = null;
         String message = "";
@@ -146,7 +139,7 @@ public class Staff {
         return  cursor;
     }
 
-    public String edit(String fname, String lname, String role, String gender, String username, String password,String contact, String salary, int res_id) {
+    public String edit(String fname, String lname, String role, String gender, String username, String password,String contact, String salary, int res_id, int department_id) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
 
@@ -165,6 +158,7 @@ public class Staff {
             contentValues.put(STAFF_PHONE,contact);
             contentValues.put(STAFF_SALARY,salary);
             contentValues.put(RESPONSIBILITY_ID,res_id);
+            contentValues.put(DEPARTMENT_ID,department_id);
             contentValues.put(STAFF_STATUS,status);
             database.update(Constants.config.TABLE_STAFF
                     ,contentValues,STAFF_ID+"="+new UserDetails(context).getid(), null);
@@ -179,7 +173,6 @@ public class Staff {
         }
         return message;
     }
-
     public String getDepartment(int id){
         SQLiteDatabase db = DBHelper.getHelper(context).getReadableDB();
         Cursor cursor = null;
@@ -203,8 +196,6 @@ public class Staff {
         }
         return  department;
     }
-
-
     public Cursor getAll(){
         SQLiteDatabase db = DBHelper.getHelper(context).getReadableDB();
         Cursor cursor = null;
@@ -221,9 +212,6 @@ public class Staff {
         }
         return  cursor;
     }
-
-
-
     //// TODO: 10/15/17  Syncing
     public ArrayList<HashMap<String, String>> getAllUsers() {
         ArrayList<HashMap<String, String>> wordList;
@@ -247,6 +235,7 @@ public class Staff {
                 params.put(STAFF_PHONE,cursor.getString(cursor.getColumnIndex(STAFF_PHONE)));
                 params.put(STAFF_SALARY,cursor.getString(cursor.getColumnIndex(STAFF_SALARY)));
                 params.put(RESPONSIBILITY_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(RESPONSIBILITY_ID))));
+                params.put(DEPARTMENT_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(DEPARTMENT_ID))));
 
                 wordList.add(params);
             } while (cursor.moveToNext());
@@ -276,6 +265,7 @@ public class Staff {
                 params.put(STAFF_PHONE,cursor.getString(cursor.getColumnIndex(STAFF_PHONE)));
                 params.put(STAFF_SALARY,cursor.getString(cursor.getColumnIndex(STAFF_SALARY)));
                 params.put(RESPONSIBILITY_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(RESPONSIBILITY_ID))));
+                params.put(DEPARTMENT_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(DEPARTMENT_ID))));
 
                 wordList.add(params);
             } while (cursor.moveToNext());
@@ -343,10 +333,7 @@ public class Staff {
             }
         }
     }
-
-
     ///// TODO: 10/23/17
-
     public void insert(JSONArray jsonArray){
         new InsertBackground(context).execute(jsonArray);
     }
@@ -389,6 +376,7 @@ public class Staff {
                     contentValues.put(STAFF_SALARY,jsonObject.getString(Constants.config.STAFF_SALARY));
                     contentValues.put(STAFF_STATUS,status);
                     contentValues.put(RESPONSIBILITY_ID,jsonObject.getLong(Constants.config.RESPONSIBILITY_ID));
+                    contentValues.put(DEPARTMENT_ID,jsonObject.getLong(Constants.config.DEPARTMENT_ID));
 
                     db = DBHelper.getHelper(context).getWritableDB();
                     db.insert(Constants.config.TABLE_STAFF, null, contentValues);

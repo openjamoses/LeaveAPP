@@ -36,9 +36,9 @@ import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVEID;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVETYPE_ID;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVE_ID;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS1;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS2;
-import static com.example.john.leaveapp.utils.Constants.config.LESS_LEAVE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ID;
 import static com.example.john.leaveapp.utils.Constants.config.START_DATE;
 import static com.example.john.leaveapp.utils.Constants.config.TABLE_APPLY;
@@ -57,7 +57,7 @@ public class Apply {
     public Apply(Context context){
         this.context = context;
     }
-    public String save(int apply_id,int leave_id, int type_id,int less, int status1, int status2, String date, String time , int staff_id, int status, String start_date, String end_date ) {
+    public String save(int apply_id,int leave_id, int less, int status1, int status2, String date, String time , int staff_id, int status, String start_date, String end_date ) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
 
@@ -68,8 +68,7 @@ public class Apply {
 
             contentValues.put(APPLY_ID,apply_id);
             contentValues.put(LEAVE_ID,leave_id);
-            contentValues.put(LEAVETYPE_ID,type_id);
-            contentValues.put(LESS_LEAVE,less);
+            contentValues.put(LEAVE_STATUS,less);
             contentValues.put(LEAVE_STATUS1,status1);
             contentValues.put(LEAVE_STATUS2,status2);
             contentValues.put(DATE,date);
@@ -101,9 +100,9 @@ public class Apply {
             String imei = Phone.getIMEI(context);
             //database.beginTransaction();
             ContentValues contentValues = new ContentValues();
-            contentValues.put(LEAVE_ID,leave_id);
-            contentValues.put(LEAVETYPE_ID,type_id);
-            contentValues.put(LESS_LEAVE,less);
+            //contentValues.put(LEAVE_ID,leave_id);
+            contentValues.put(LEAVE_ID,type_id);
+            contentValues.put(LEAVE_STATUS,less);
             contentValues.put(LEAVE_STATUS1,status1);
             contentValues.put(LEAVE_STATUS2,status2);
             contentValues.put(DATE,date);
@@ -132,7 +131,7 @@ public class Apply {
             db.beginTransaction();
             String query = "SELECT *  FROM" +
                     " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_LEAVE+" n, "+Constants.config.TABLE_STAFF+" s WHERE " +
-                    " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+" AND a."+Constants.config.LEAVETYPE_ID+" = '"+type+"'" +
+                    " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+"   " +
                     " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" ORDER BY a."+Constants.config.DATE+" DESC";
             cursor = db.rawQuery(query,null);
             db.setTransactionSuccessful();
@@ -151,8 +150,8 @@ public class Apply {
         try{
             db.beginTransaction();
             String query = "SELECT *  FROM" +
-                    " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_LEAVE+" n, "+Constants.config.TABLE_STAFF+" s WHERE " +
-                    " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+" AND a."+Constants.config.LEAVETYPE_ID+" = '"+type+"'" +
+                    " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_LEAVE+" n, "+Constants.config.TABLE_STAFF+" s,  WHERE " +
+                    " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+"  " +
                     " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" AND a."+Constants.config.STAFF_ID+" = '"+staff_id+"' ORDER BY a."+Constants.config.DATE+" DESC";
             cursor = db.rawQuery(query,null);
             db.setTransactionSuccessful();
@@ -201,7 +200,7 @@ public class Apply {
         return  cursor;
     }
 
-    public void send(final int leave_id, final int type_id, final int less, final int status1, final int status2, final String date, final String time , final int staff_id, final String start_date, final String end_date){
+    public void send(final int leave_id, final int leave_status, final int status1, final int status2, final String date, final String time , final int staff_id, final String start_date, final String end_date){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, HOST_URL+URL_SAVE_APPLY,
                 new Response.Listener<String>() {
 
@@ -218,7 +217,7 @@ public class Apply {
                                 id = Integer.parseInt(splits[1]);
 
                             }
-                            String message = save(id,leave_id,type_id,less,status1,status2,date,time,staff_id,status, start_date, end_date);
+                            String message = save(id,leave_id,leave_status,status1,status2,date,time,staff_id,status, start_date, end_date);
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -241,14 +240,13 @@ public class Apply {
                 int status = 1;
                 Map<String, String> params = new Hashtable<String, String>();
 
+                //params.put(LEAVE_ID, String.valueOf(leave_id));
                 params.put(LEAVE_ID, String.valueOf(leave_id));
-                params.put(LEAVETYPE_ID, String.valueOf(type_id));
-                params.put(LESS_LEAVE, String.valueOf(less));
+                params.put(LEAVE_STATUS, String.valueOf(leave_status));
                 params.put(LEAVE_STATUS1, String.valueOf(status1));
                 params.put(LEAVE_STATUS2, String.valueOf(status2));
                 params.put(START_DATE,start_date);
                 params.put(END_DATE,end_date);
-
                 params.put(DATE,date);
                 params.put(TIME,time);
                 params.put(STAFF_ID, String.valueOf(staff_id));
@@ -278,9 +276,9 @@ public class Apply {
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("id", String.valueOf(cursor.getInt(cursor.getColumnIndex(APPLYID))));
 
+               // params.put(LEAVE_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(LEAVE_ID))));
                 params.put(LEAVE_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(LEAVE_ID))));
-                params.put(LEAVETYPE_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(LEAVETYPE_ID))));
-                params.put(LESS_LEAVE, String.valueOf(cursor.getInt(cursor.getColumnIndex(LESS_LEAVE))));
+                params.put(LEAVE_STATUS, String.valueOf(cursor.getInt(cursor.getColumnIndex(LEAVE_STATUS))));
                 params.put(LEAVE_STATUS1, cursor.getString(cursor.getColumnIndex(LEAVE_STATUS1)));
                 params.put(LEAVE_STATUS2, cursor.getString(cursor.getColumnIndex(LEAVE_STATUS2)));
                 params.put(START_DATE,cursor.getString(cursor.getColumnIndex(START_DATE)));
@@ -308,9 +306,9 @@ public class Apply {
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("id", String.valueOf(cursor.getInt(cursor.getColumnIndex(APPLYID))));
 
+               // params.put(LEAVE_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(LEAVE_ID))));
                 params.put(LEAVE_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(LEAVE_ID))));
-                params.put(LEAVETYPE_ID, String.valueOf(cursor.getInt(cursor.getColumnIndex(LEAVETYPE_ID))));
-                params.put(LESS_LEAVE, String.valueOf(cursor.getInt(cursor.getColumnIndex(LESS_LEAVE))));
+                params.put(LEAVE_STATUS, String.valueOf(cursor.getInt(cursor.getColumnIndex(LEAVE_STATUS))));
                 params.put(LEAVE_STATUS1, cursor.getString(cursor.getColumnIndex(LEAVE_STATUS1)));
                 params.put(LEAVE_STATUS2, cursor.getString(cursor.getColumnIndex(LEAVE_STATUS2)));
                 params.put(DATE,cursor.getString(cursor.getColumnIndex(DATE)));
@@ -422,9 +420,9 @@ public class Apply {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                     contentValues.put(APPLY_ID,jsonObject.getLong(Constants.config.APPLY_ID));
+                   // contentValues.put(LEAVE_ID,jsonObject.getLong(Constants.config.LEAVE_ID));
                     contentValues.put(LEAVE_ID,jsonObject.getLong(Constants.config.LEAVE_ID));
-                    contentValues.put(LEAVETYPE_ID,jsonObject.getLong(Constants.config.LEAVETYPE_ID));
-                    contentValues.put(LESS_LEAVE,jsonObject.getLong(Constants.config.LESS_LEAVE));
+                    contentValues.put(LEAVE_STATUS,jsonObject.getLong(Constants.config.LEAVE_STATUS));
                     contentValues.put(LEAVE_STATUS1,jsonObject.getLong(Constants.config.LEAVE_STATUS1));
                     contentValues.put(LEAVE_STATUS2,jsonObject.getLong(Constants.config.LEAVE_STATUS2));
                     contentValues.put(DATE,jsonObject.getString(Constants.config.DATE));

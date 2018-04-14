@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.john.leaveapp.R;
 import com.example.john.leaveapp.db_operartions.Faculty;
 import com.example.john.leaveapp.db_operartions.University;
+import com.example.john.leaveapp.fragments.us_fragments.SelectFragment;
 import com.example.john.leaveapp.utils.Constants;
 
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class Faculty_Entry extends Fragment {
     private Button btn_submit;
     private ListView listView;
     private Activity activity;
-
+    private SelectFragment.OnFragmentInteractionListener listener;
 
     public Faculty_Entry() {
 
@@ -60,15 +62,25 @@ public class Faculty_Entry extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity =  activity;
+        if (activity instanceof SelectFragment.OnFragmentInteractionListener){
+            listener = (SelectFragment.OnFragmentInteractionListener)activity;
+        }else {
+            try {
+                throw new RuntimeException(activity.toString() + "" +
+                        " Must implement OnFragmentInteractionListener");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
 
     }
-
     public interface OnFacultyListener{
         void onFacultyListener(String name, String desc);
     }
     @Override
     public void onDetach() {
         super.onDetach();
+        listener = null;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -77,7 +89,11 @@ public class Faculty_Entry extends Fragment {
         input_name = (EditText) rootView.findViewById(R.id.input_name);
         btn_submit = (Button) rootView.findViewById(R.id.btn_submit);
         listView = (ListView) rootView.findViewById(R.id.listView);
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         setValue();
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,12 +104,19 @@ public class Faculty_Entry extends Fragment {
                     Toast.makeText(activity,message, Toast.LENGTH_SHORT).show();
                     setValue();
                     input_name.setText("");
+
+                    if (listener != null){
+                        listener.onFragmentInteraction(input_name.getText().toString().trim(),"Desc Forms");
+                    }else {
+                        Log.e("TAG","Interface is Null");
+                    }
                 }
             }
         });
 
         return rootView;
     }
+
     private void setValue(){
         List<String> list = new ArrayList<>();
 

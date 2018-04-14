@@ -111,9 +111,7 @@ public class ApplyActivity extends AppCompatActivity implements SelectFragment.O
         //final int color1 = ContextCompat.getColor(this, R.color.cyan);
         final int color1 = ContextCompat.getColor(this, R.color.white_70);
         final int color2 = ContextCompat.getColor(this, R.color.white_70);
-
         final int[] colorList = new int[]{color1, color2};
-
         final ArgbEvaluator evaluator = new ArgbEvaluator();
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

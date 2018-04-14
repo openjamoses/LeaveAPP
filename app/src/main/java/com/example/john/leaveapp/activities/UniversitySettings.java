@@ -46,7 +46,7 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
     ImageButton mNextBtn;
     Button mSkipBtn, mFinishBtn;
 
-    ImageView zero, one, two,three;
+    ImageView zero, two,three;
     ImageView[] indicators;
     int lastLeftValue = 0;
 
@@ -90,7 +90,7 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
 
         //zero = (ImageView) findViewById(R.id.intro_indicator_0);
         zero = (ImageView) findViewById(R.id.intro_indicator_1);
-        one = (ImageView) findViewById(R.id.intro_indicator_2);
+        //one = (ImageView) findViewById(R.id.intro_indicator_2);
         two = (ImageView) findViewById(R.id.intro_indicator_3);
         three = (ImageView) findViewById(R.id.intro_indicator_4);
 
@@ -99,7 +99,7 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
         mCoordinator = (CoordinatorLayout) findViewById(R.id.main_content);
 
 
-        indicators = new ImageView[]{zero, one, two,three};
+        indicators = new ImageView[]{zero, two,three};
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -111,11 +111,11 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
 
         //final int color1 = ContextCompat.getColor(this, R.color.cyan);
         final int color1 = ContextCompat.getColor(this, R.color.white_70);
-        final int color2 = ContextCompat.getColor(this, R.color.white_70);
+        ///final int color2 = ContextCompat.getColor(this, R.color.white_70);
         final int color3 = ContextCompat.getColor(this, R.color.white_70);
         final int color4 = ContextCompat.getColor(this, R.color.white_70);
 
-        final int[] colorList = new int[]{color1, color2,color3,color4};
+        final int[] colorList = new int[]{color1,color3,color4};
 
         final ArgbEvaluator evaluator = new ArgbEvaluator();
 
@@ -148,25 +148,17 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
                         mViewPager.setBackgroundColor(color1);
                         break;
                     case 1:
-                        mViewPager.setBackgroundColor(color2);
+                        mViewPager.setBackgroundColor(color3);
                         break;
                     case 2:
-                        mViewPager.setBackgroundColor(color2);
+                        mViewPager.setBackgroundColor(color4);
                         break;
                     case 3:
-                        mViewPager.setBackgroundColor(color2);
+                        mViewPager.setBackgroundColor(color1);
                         break;
-                    /// case 2:
-                    //mViewPager.setBackgroundColor(color3);
-                    //   break;
                 }
-
-
-                //mNextBtn.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
-                //mFinishBtn.setVisibility(position == 2 ? View.VISIBLE : View.GONE);
-
-                mNextBtn.setVisibility(position == 3 ? View.GONE : View.VISIBLE);
-                mFinishBtn.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
+                mNextBtn.setVisibility(position == 2 ? View.GONE : View.VISIBLE);
+                mFinishBtn.setVisibility(position == 2 ? View.VISIBLE : View.GONE);
 
 
             }
@@ -241,9 +233,9 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
             if (position == 0){
                 return UV_Entry.newInstance(position + 1);
             }else if (position == 1){
-                return US_Entry.newInstance(position + 1);
-            }else if (position == 2){
                 return Faculty_Entry.newInstance(position + 1);
+            }else if (position == 2){
+                return HOD_Entry.newInstance(position + 1);
             }else {
                 return HOD_Entry.newInstance(position + 1);
             }
@@ -254,7 +246,7 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 3;
         }
 
         @Override
@@ -266,9 +258,6 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
                     return "SECTION 2";
                 case 2:
                     return "SECTION 3";
-                case 3:
-                    return "SECTION 4";
-
             }
             return null;
         }

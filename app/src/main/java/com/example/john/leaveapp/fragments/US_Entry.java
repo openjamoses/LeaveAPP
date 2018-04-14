@@ -58,7 +58,6 @@ public class US_Entry extends Fragment {
         this.activity = activity;
 
     }
-
     @Override
     public void onDetach() {
         super.onDetach();

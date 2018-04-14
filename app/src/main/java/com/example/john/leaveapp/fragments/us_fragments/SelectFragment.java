@@ -24,7 +24,6 @@ public class SelectFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
     private OnFragmentInteractionListener listener;
-
     ImageView img;
     int[] bgs = new int[]{R.drawable.ic_flight_24dp, R.drawable.ic_mail_24dp, R.drawable.ic_explore_24dp};
     public SelectFragment() {
@@ -59,7 +58,6 @@ public class SelectFragment extends Fragment {
         super.onDetach();
         listener = null;
     }
-
     public interface OnFragmentInteractionListener{
         void onFragmentInteraction(String name, String desc);
     }
@@ -70,9 +68,7 @@ public class SelectFragment extends Fragment {
         final RadioGroup radioGroup  = (RadioGroup) rootView.findViewById(R.id.radioGroup);
         RadioButton radioAnual = (RadioButton) rootView.findViewById(R.id.radioAnual);
         RadioButton radioMaternity = (RadioButton) rootView.findViewById(R.id.radioMaternity);
-        //RadioButton radioSick = (RadioButton) rootView.findViewById(R.id.radioSick);
-        //RadioButton radioStudy = (RadioButton) rootView.findViewById(R.id.radioStudy);
-        //RadioButton radioSabatical = (RadioButton) rootView.findViewById(R.id.radioSabatical);
+        //Todo:: <<<<>>>> <<<<<<<<<<<<<<<<<<<< >>>>>>>>>>>>>>>>>>>>>>>
         radioAnual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,26 +81,6 @@ public class SelectFragment extends Fragment {
                 sendData(radioGroup,rootView);
             }
         });
-        /**
-        radioSick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendData(radioGroup,rootView);
-            }
-        });
-        radioStudy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendData(radioGroup,rootView);
-            }
-        });
-        radioSabatical.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendData(radioGroup,rootView);
-            }
-        });
-         ***/
         return rootView;
     }
 

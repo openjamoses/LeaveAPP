@@ -9,13 +9,13 @@ public class Constants {
         public static final int TOTAL_TABLES = 11;
         /****** URL DECLARATION ******************************/
         public static final String URL_PHONE = "http://192.168.43.18/";
+        public static final String URL_MODEM = "http://10.127.197.233/";
         public static final String URL_CAMTECH = "http://192.168.137.51/";
         public static final String URL_SERVER = "http://173.255.219.164/";
-        public static final String HOST_URL = URL_PHONE+ "LEAVEAPP/pages/mobile_connections/";
+        public static final String HOST_URL = URL_MODEM + "LEAVEAPP/pages/mobile_connections/";
         public static final String IMEI = "IMEI";
         public static final String APP_VERSION = "app_version";
-        ///DB CONNECTIONS
-
+        ///DB CONNECTIONS..!
         public static final String USER_TYPE = "user_type";
         //// TODO: 10/12/17   STAFF
         public static final String STAFF_ID = "staff_id";
@@ -61,7 +61,8 @@ public class Constants {
         public static final String SIGNATURE = "signature";
         public static final String LEAVE_STATUS1 = "leave_status1";
         public static final String LEAVE_STATUS2 = "leave_status2";
-        public static final String LESS_LEAVE = "less_leave";
+        //public static final String L_STATUS = "l_status";
+
         //public static final String ANNUAL_STATUS = "annual_status";
         public static final String LEAVE_STATUS = "leave_status";
         public static final String TABLE_LEAVE = "leave_tb";
@@ -69,8 +70,10 @@ public class Constants {
         public static final String DEPARTMENT_ID = "department_id";
         public static final String TABLE_DEPARTMENT = "department_tb";
         public static final String DEPARTMENT_NAME = "department_name";
+        public static final String DEPARTMENTID = "departmentid";
         public static final String DEPARTMENT_STATUS = "department_status";
         //// TODO: 10/13/17 FACULTY
+        public static final String FACULTYID = "facultyid";
         public static final String FACULTY_ID = "faculty_id";
         public static final String TABLE_FACULTY = "faculty_tb";
         public static final String FACULTY_NAME = "faculty_name";
@@ -83,22 +86,26 @@ public class Constants {
         //TODO::: LEAVE TYPE
         public static final String TABLE_LEAVE_TYPE = "leavetype_tb";
         public static final String LEAVETYPE_ID = "leavetype_id";
+        public static final String LEAVETYPEID = "leavetypeid";
         public static final String LEAVETYPE_NAME = "leavetype_name";
         public static final String LEAVETYPE_STATUS = "leavetype_status";
         //// TODO: 11/10/17  UNIVERSITY
         public static final String TABLE_UNIVERSITY = "university_tb";
+        public static final String UNIVERSITYID = "universityid";
         public static final String UNIVERSITY_ID = "university_id";
         public static final String UNIVERSITY_NAME = "university_name";
         public static final String UNIVERSITY_LOGO = "university_logo";
         public static final String UNIVERSITY_STATUS= "university_status";
         //// TODO: 11/10/17  RESPONSIBILITY
         public static final String TABLE_RESPONSIBILITY = "responsibility_tb";
+        public static final String RESPONSIBILITYID = "responsibilityid";
         public static final String RESPONSIBILITY_ID = "responsibility_id";
         public static final String RESPONSIBILITY_NAME = "responsibility_name";
         public static final String RESPONSIBILITY_STATUS = "responsibility_status";
         //// TODO: 11/10/17 INTERMEDIATE TABLE BETWEEN  LEAVETYPE_TB AND FORM_TB
         //// TODO: 11/10/17  APPROVAL
         public static final String TABLE_APPROVAL = "approval_tb";
+        public static final String APPROVALID = "approvalid";
         public static final String APPROVAL_ID = "approval_id";
         public static final String APPROVAL_DATE = "approval_date";
         public static final String US_STATUS = "us_status";
@@ -106,15 +113,25 @@ public class Constants {
         public static final String APPROVAL_STATUS = "approval_status";
         //// TODO: 11/10/17  APPROVAL
         public static final String TABLE_DEP_STAFF = "dep_staff_tb";
+        public static final String DEP_STAFFID = "dep_staffid";
         public static final String DEP_STAFF_ID = "dep_staff_id";
         public static final String DEP_STATUS = "dep_status";
         //// TODO: 11/10/17  ACOMPANIED BY
         public static final String TABLE_ACCOMPANIED = "accompanied_tb";
+        public static final String ACCOMPANIEDID = "accompaniedid";
         public static final String ACCOMPANIED_ID = "accompanied_id";
         public static final String ACCOMPANIED_NAME = "accompanied_name";
         public static final String ACCOMPANIED_TYPE = "accompanied_type";
         public static final String ACCOMPANIED_AGE = "accompanied_age";
         public static final String ACCOMPANIED_STATUS = "accompanied_status";
+
+        //// TODO: 11/10/17  ACOMPANIED BY
+        public static final String TABLE_NOTICATION = "notification_tb";
+        public static final String NOTICATIONID = "notificationid";
+        public static final String NOTICATION_ID = "notification_id";
+        public static final String NOTICATION_BODY = "notification_body";
+        public static final String NOTIFICATION_DATE = "notification_date";
+        public static final String NOTIFICATION_STATUS = "notification_status";
         ///*********************** End of Operations ******************************/
         //??TODO:: URL CALLINGS >>>>>>>>>>>>>>>>>>>>>>>>>
         public static final String SYNCING_FOLDER = "syncing/";
@@ -128,6 +145,7 @@ public class Constants {
         public static final String URL_FETCH_JSON = SYNCING_FOLDER+"fetch_json.php";
         ///TODO ?? OPERATIONS.......!!!!!!>>>>>>>>>>>>>>>>>>>
         public static final String OPERATION_LEAVE = "leave";
+        public static final String OPERATION_LEAVETYPE = "leave_type";
         public static final String OPERATION_SECRETARY = "secretary";
         public static final String OPERATION_FACULTY = "faculty";
         public static final String OPERATION_UNIVERSITY = "university";
@@ -135,10 +153,13 @@ public class Constants {
         public static final String OPERATION_APPLY = "apply";
         public static final String OPERATION_DEPARTMENT = "department";
 
+        public static final String URL_REGISTER_DEVICE = "firebase/saveTokens.php";
+
 
         public static final String USER_STAFF = "user_staff";
         public static final String USER_US = "user_us";
         public static final String USER_HOD = "user_hod";
+        public static final String KEY_TOKEN = "regId";
 
 
         public static final String SQL_QUERY = "query";
