@@ -8,8 +8,8 @@ public class Constants {
         public static final int DB_VERSION = 1;
         public static final int TOTAL_TABLES = 11;
         /****** URL DECLARATION ******************************/
-        public static final String URL_PHONE = "http://192.168.43.18/";
-        public static final String URL_MODEM = "http://10.127.173.172/";
+        public static final String URL_PHONE = "http://192.168.43.71/";
+        public static final String URL_MODEM = "http://10.127.20.46/";
         public static final String URL_CAMTECH = "http://192.168.137.51/";
         public static final String URL_SERVER = "http://173.255.219.164/";
         public static final String HOST_URL = URL_MODEM + "LEAVEAPP/pages/mobile_connections/";

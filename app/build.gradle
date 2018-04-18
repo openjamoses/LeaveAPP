@@ -53,6 +53,8 @@ dependencies {
     compile 'com.itextpdf:itext-pdfa:5.5.10'
     compile 'com.itextpdf:itextg:5.5.9'
 
+    compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             def requested = details.requested

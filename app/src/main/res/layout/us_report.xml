@@ -24,30 +24,12 @@
         <Button
             android:layout_width="match_parent"
             android:layout_marginTop="20sp"
-            android:layout_height="wrap_content"
+            android:layout_height="100sp"
             android:background="@drawable/button"
             android:layout_marginLeft="@dimen/magin_spacing"
+            android:id="@+id/generate_btn"
             android:layout_marginRight="@dimen/magin_spacing"
-            android:text="@string/pdf"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:background="@drawable/button"
-            android:layout_marginLeft="@dimen/magin_spacing"
-            android:layout_marginRight="@dimen/magin_spacing"
-            android:text="@string/excel"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button"
-            android:layout_marginTop="@dimen/magin_spacing"
-            android:layout_marginRight="@dimen/magin_spacing"
-            android:layout_marginLeft="@dimen/magin_spacing"
-            android:drawableLeft="@android:drawable/ic_menu_report_image"
-            android:text="@string/available_leave"/>
+            android:text="@string/generate_report"/>
 
     </LinearLayout>
 

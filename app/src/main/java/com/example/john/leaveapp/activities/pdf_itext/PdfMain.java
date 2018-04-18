@@ -5,6 +5,7 @@ package com.example.john.leaveapp.activities.pdf_itext;
  */
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,6 +24,7 @@ import com.example.john.leaveapp.R;
 import com.example.john.leaveapp.core.ReturnCursor;
 import com.example.john.leaveapp.core.UserDetails;
 import com.example.john.leaveapp.utils.Constants;
+import com.example.john.leaveapp.utils.DateTime;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -100,7 +102,7 @@ public class PdfMain extends Activity {
 //getting files from directory and display in listview
         try {
 
-            ArrayList<String> FilesInFolder = GetFiles("/sdcard/Leave/PDF Files");
+            final ArrayList<String> FilesInFolder = GetFiles("/sdcard/Leave/PDF Files");
             if (FilesInFolder.size() != 0)
                 list.setAdapter(new ArrayAdapter<String>(this,
                         android.R.layout.simple_list_item_1, FilesInFolder));
@@ -108,14 +110,19 @@ public class PdfMain extends Activity {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                     // Clicking on items
+                    try{
+                        Intent intent = new Intent(context, PDF_Preview.class);
+                        intent.putExtra("filePath",dir+"/"+FilesInFolder );
+                        startActivity(intent);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             });
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
-
-
     public ArrayList<String> GetFiles(String DirectoryPath) {
         ArrayList<String> MyFiles = new ArrayList<String>();
         File f = new File(DirectoryPath);
@@ -136,15 +143,15 @@ public class PdfMain extends Activity {
     public void createPDF() throws FileNotFoundException, DocumentException {
 
         //create document file
-        Document doc = new Document();
         try {
             Log.e("PDFCreator", "PDF Path: " + path);
             SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-            file = new File(dir, "leave PDF" + sdf.format(Calendar.getInstance().getTime()) + ".pdf");
+            file = new File(dir, "leave PDF" + sdf.format(Calendar.getInstance().getTime())+ DateTime.getCurrentTime() + ".pdf");
             FileOutputStream fOut = new FileOutputStream(file);
             Document document = new Document();
-            PdfPTable table = new PdfPTable(new float[] { 4,4,4,8,4,4 });
+            PdfPTable table = new PdfPTable(new float[] {2, 4,4,4,8,4,4 });
             table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+            table.addCell("#");
             table.addCell("First Name");
             table.addCell("Last Name");
             table.addCell("Department");
@@ -158,28 +165,47 @@ public class PdfMain extends Activity {
             }
 
             String query = "SELECT *  FROM" +
-                    " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_LEAVE+" n, "+Constants.config.TABLE_STAFF+" s, "+Constants.config.TABLE_LEAVE_TYPE+" t WHERE " +
-                    " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+"  AND t."+ LEAVETYPE_ID+" = n."+LEAVETYPE_ID+"  " +
+                    " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_LEAVE+" n, "+Constants.config.TABLE_STAFF+" s, "+Constants.config.TABLE_LEAVE_TYPE+" t, "+Constants.config.TABLE_DEPARTMENT+" d" +
+                    " WHERE  s."+Constants.config.DEPARTMENT_ID+" = d."+Constants.config.DEPARTMENT_ID+"" +
+                    "  AND a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+"  AND t."+ LEAVETYPE_ID+" = n."+LEAVETYPE_ID+"  " +
                     " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" ORDER BY a."+Constants.config.DATE+" DESC";
 
             Cursor cursor = ReturnCursor.getCursor(query,context);
+            int count = 0;
             if (cursor.moveToFirst()){
                 do {
+                    count ++;
+                    table.addCell(count+"");
                     table.addCell(cursor.getString(cursor.getColumnIndex(Constants.config.STAFFL_FNAME)));
                     table.addCell(cursor.getString(cursor.getColumnIndex(Constants.config.STAFFL_LNAME)));
-                    table.addCell("Department");
+                    table.addCell(cursor.getString(cursor.getColumnIndex(Constants.config.DEPARTMENT_NAME)));
                     table.addCell(cursor.getString(cursor.getColumnIndex(Constants.config.LEAVETYPE_NAME)));
                     table.addCell(cursor.getString(cursor.getColumnIndex(Constants.config.LEAVE_FROM)));
                     table.addCell(cursor.getString(cursor.getColumnIndex(Constants.config.LEAVE_TO)));
-
                 }while (cursor.moveToNext());
             }
 
-            PdfWriter.getInstance(document, fOut);
+
+            PdfWriter writer = PdfWriter.getInstance(document, fOut);
+            // add header and footer
+            HeaderFooterPageEvent event = new HeaderFooterPageEvent();
+            writer.setPageEvent(event);
+
             document.open();
+            Paragraph preface = new Paragraph("MBARARA UNIVERSITY OF SCIENCE AND TECHNOLOGY");
+            preface.setAlignment(Element.ALIGN_CENTER);
+            document.add(preface);
+            Paragraph preface2 = new Paragraph("LEAVE REPORT");
+            preface2.setAlignment(Element.ALIGN_CENTER);
+            //// document.newPage();
+            document.add(preface2);
+            document.add(new Paragraph("."));
+            document.add(new Paragraph("."));
+            document.add(new Paragraph("."));
             document.add(table);
             document.close();
             System.out.println("Done");
+            Toast.makeText(context,"PDF Created Successfully..!", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
             e.printStackTrace();

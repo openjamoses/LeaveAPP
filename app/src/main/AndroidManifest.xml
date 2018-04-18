@@ -110,6 +110,10 @@
 
 
         <activity
+            android:name=".activities.pdf_itext.PDF_Preview"
+            android:screenOrientation="portrait"
+            android:label="@string/pdf_preview"/>
+        <activity
             android:name=".activities.Entry_LeaveType"
             android:label="@string/leave_type"/>
         <activity

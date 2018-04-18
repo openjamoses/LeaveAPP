@@ -74,7 +74,6 @@ import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_STAFF;
 /**
  * Created by john on 3/3/18.
  */
-
 public class SignupActivity extends AppCompatActivity {
     private Button btn_signup;
     private EditText input_fname,input_lname,input_salary,input_username,input_password,input_confirm;
@@ -94,7 +93,6 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
         //TODO:: GET BY ID...!!
         input_fname = (EditText) findViewById(R.id.input_fname);
         input_lname = (EditText) findViewById(R.id.input_lname);
@@ -196,9 +194,7 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
     private void setSpinner() {
         try{
             roleList.add(" --- Select Designation ---- ");
