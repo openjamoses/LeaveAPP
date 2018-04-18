@@ -25,7 +25,7 @@
                 <Button
                     android:layout_width="100sp"
                     android:layout_height="100sp"
-                    android:drawableTop="@mipmap/ic_action_city"
+                    android:drawableTop="@drawable/ic_history_black_24dp"
                     android:background="@null"
                     android:padding="10sp"
                     android:id="@+id/btn_history"
@@ -64,7 +64,7 @@
                     android:layout_weight="1"
                     android:padding="10sp"
                     android:layout_marginLeft="40sp"
-                    android:drawableTop="@mipmap/ic_event"
+                    android:drawableTop="@drawable/ic_alarm_black_24dp"
                     android:background="@null"
                     android:text="@string/view_notification"/>
             </LinearLayout>

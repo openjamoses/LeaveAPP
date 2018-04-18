@@ -158,20 +158,14 @@
                     android:id="@+id/input_entitlement"/>
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/magin_spacing"
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
-                android:gravity="center">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:id="@+id/input_leave_now"
-                    android:hint="Leave now required" />
-            </android.support.design.widget.TextInputLayout>
+                android:id="@+id/input_leave_now"
+                android:gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -199,6 +193,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/magin_spacing"
+                android:visibility="gone"
                 android:layout_marginRight="@dimen/magin_spacing"
                 android:layout_marginTop="20sp"
                 android:gravity="center">
@@ -215,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/magin_spacing"
                 android:layout_marginRight="@dimen/magin_spacing"
+                android:visibility="gone"
                 android:layout_marginTop="20sp"
                 android:orientation="horizontal">
                 <EditText

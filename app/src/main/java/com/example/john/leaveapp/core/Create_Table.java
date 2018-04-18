@@ -36,8 +36,9 @@ public class Create_Table {
                         " "+Constants.config.BALANCE_OUTSTANDING+" TEXT,"+Constants.config.LEAVEDUE_FROM+" TEXT,"+Constants.config.LEAVEDUE_TO+" TEXT," +
                         " "+Constants.config.SIGNATURE+" INTEGER, "+Constants.config.LEAVETYPE_ID+" INTEGER );";
         public static final String CREATE_DEPARTMENT =
-                "CREATE TABLE "+ Constants.config.TABLE_DEPARTMENT +" ("+ Constants.config.DEPARTMENT_ID+" INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        " "+Constants.config.DEPARTMENT_NAME+" TEXT,"+Constants.config.DEPARTMENT_STATUS+" INTEGER,"+Constants.config.FACULTY_ID+" INTEGER );";
+                "CREATE TABLE "+ Constants.config.TABLE_DEPARTMENT +" ("+ Constants.config.DEPARTMENTID+" INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        " "+Constants.config.DEPARTMENT_NAME+" TEXT,"+Constants.config.DEPARTMENT_STATUS+" INTEGER,"+Constants.config.FACULTY_ID+" INTEGER," +
+                        " "+Constants.config.DEPARTMENT_ID+" INTEGER );";
 
         public static final String CREATE_FACULTY =
                 "CREATE TABLE "+ Constants.config.TABLE_FACULTY +" ("+ Constants.config.FACULTY_ID+" INTEGER PRIMARY KEY AUTOINCREMENT," +

@@ -41,6 +41,7 @@ import com.example.john.leaveapp.core.UserDetails;
 import com.example.john.leaveapp.db_operartions.Accompanied;
 import com.example.john.leaveapp.db_operartions.Apply;
 import com.example.john.leaveapp.db_operartions.Leave;
+import com.example.john.leaveapp.db_operartions.Notications;
 import com.example.john.leaveapp.db_operartions.Staff;
 import com.example.john.leaveapp.fragments.us_fragments.PlaceholderFragment2;
 import com.example.john.leaveapp.utils.Constants;
@@ -100,7 +101,7 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
     int bal = 0;
     int total = 0;
     Button submit_btn;
-    private static final String TAG = "ApplyActivity";
+    private static final String TAG = "ApplyActivity_DEl";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -210,13 +211,12 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
         input_leave_now = (Spinner) rootView.findViewById(R.id.input_leave_now);
         input_from = (EditText) rootView.findViewById(R.id.input_from);
         input_to = (EditText) rootView.findViewById(R.id.input_to);
-
-        //input_balance_outstanding = (EditText) rootView.findViewById(R.id.input_balance_outstanding);
-        //leave_due = (EditText) rootView.findViewById(R.id.leave_due);
-        //input_due_to = (EditText) rootView.findViewById(R.id.input_due_to);
+;
         input_phone = (IntlPhoneInput) rootView.findViewById(R.id.my_phone_input);
         button = (Button) rootView.findViewById(R.id.add_btn);
         submit_btn = (Button) rootView.findViewById(R.id.submit_btn);
+
+        input_department.setText(new UserDetails(context).getDepartment());
         //int apply_status = 0;
         try{
             String query = "SELECT * FROM "+Constants.config.TABLE_LEAVE_TYPE+" WHERE "+Constants.config.LEAVETYPE_ID+" = '"+leave_id+"'";
@@ -234,9 +234,10 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
             e.printStackTrace();
         }
         try{
+            int state = -1;
             String query1 = "SELECT * FROM "+Constants.config.TABLE_APPLY+" a, "+Constants.config.TABLE_LEAVE+" l WHERE " +
                     " a."+Constants.config.STAFF_ID+" = '"+new UserDetails(context).getid()+"'" +
-                    " AND a. "+Constants.config.LEAVE_ID+" = l.'"+LEAVE_ID+"' ";
+                    " AND a. "+Constants.config.LEAVE_ID+" = l.'"+LEAVE_ID+"' AND a."+Constants.config.LEAVE_STATUS+" != '"+state+"' AND l."+Constants.config.LEAVETYPE_ID+" = '"+leave_id+"' ";
             Cursor cursor = ReturnCursor.getCursor(query1,context);
             if (cursor.moveToFirst()){
                 do {
@@ -311,8 +312,6 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
         try{
             input_fullname.setText(new UserDetails(context).getfname()+" "+new UserDetails(context).getlname());
             //int id_ = new UserDetails(context).getid();
-            String department = new Staff(context).getDepartment(new UserDetails(context).getid());
-            input_department.setText(department);
             input_designation.setText(new UserDetails(context).getrole());
             input_salary.setText(new UserDetails(context).getsalary());
             input_phone.setNumber(new UserDetails(context).getphone());
@@ -430,8 +429,6 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
     }
 
     private void addLayout_maternity(final int leave_id){
-
-
         total = 0;
         days = new ArrayList<>();
         days_string = new ArrayList<>();
@@ -454,8 +451,9 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
         input_leave_now = (Spinner) rootView.findViewById(R.id.input_leave_now);
         input_from = (EditText) rootView.findViewById(R.id.input_from);
         input_to = (EditText) rootView.findViewById(R.id.input_to);
-
         submit_btn = (Button) rootView.findViewById(R.id.submit_btn);
+
+        input_department.setText(new UserDetails(context).getDepartment());
         //int apply_status = 0;
         try{
             String query = "SELECT * FROM "+Constants.config.TABLE_LEAVE_TYPE+" WHERE "+Constants.config.LEAVETYPE_ID+" = '"+leave_id+"'";
@@ -473,9 +471,10 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
             e.printStackTrace();
         }
         try{
+            int state = -1;
             String query1 = "SELECT * FROM "+Constants.config.TABLE_APPLY+" a, "+Constants.config.TABLE_LEAVE+" l WHERE " +
                     " a."+Constants.config.STAFF_ID+" = '"+new UserDetails(context).getid()+"'" +
-                    " AND a. "+Constants.config.LEAVE_ID+" = l.'"+LEAVE_ID+"' ";
+                    " AND a. "+Constants.config.LEAVE_ID+" = l.'"+LEAVE_ID+"' AND a."+Constants.config.LEAVE_STATUS+" != '"+state+"' AND l."+Constants.config.LEAVETYPE_ID+" = '"+leave_id+"'  ";
             Cursor cursor = ReturnCursor.getCursor(query1,context);
             if (cursor.moveToFirst()){
                 do {
@@ -550,11 +549,9 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
         try{
             input_fullname.setText(new UserDetails(context).getfname()+" "+new UserDetails(context).getlname());
             //int id_ = new UserDetails(context).getid();
-            String department = new Staff(context).getDepartment(new UserDetails(context).getid());
-            input_department.setText(department);
             input_designation.setText(new UserDetails(context).getrole());
             input_salary.setText(new UserDetails(context).getsalary());
-            input_phone.setNumber(new UserDetails(context).getphone());
+            //input_phone.setNumber(new UserDetails(context).getphone());
 
             input_assumption.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -647,6 +644,7 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
                 }
             });
 
+
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context,
                     android.R.layout.simple_spinner_item, days_string);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -656,6 +654,8 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
         }catch (Exception e){
             e.printStackTrace();
         }
+
+
     }
 
 
@@ -673,7 +673,6 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
             final EditText input_age = (EditText) view.findViewById(R.id.input_age);
             final Spinner spinner = (Spinner) view.findViewById(R.id.accompanied_spinner);
             final ListView listView = (ListView) view.findViewById(R.id.add_listView);
-
             // disallow cancel of AlertDialog on click of back button and outside touch
             alert.setCancelable(false);
 
@@ -734,7 +733,6 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
                 list.add("Husband");
             }
             list.add("Children - Name");
-
             //TODO:: ... Setting the spinner....!!!!..
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context,
                     android.R.layout.simple_spinner_item, list);
@@ -829,8 +827,13 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
                                 String names = new UserDetails(context).getfname()+" "+new UserDetails(context).getlname();
                                 String img_url = "";
 
+                                String role = "HOD";
+                                String userType = new UserDetails(context).getUser_type();
+                                String query = "SELECT * FROM "+Constants.config.TABLE_STAFF+" WHERE "+Constants.config.STAFF_ROLE+" = '"+role+"' AND "+DEPARTMENT_ID+" = '"+new UserDetails(context).getDepartment_id()+"' ";
 
-                                String query = "SELECT * FROM "+Constants.config.TABLE_STAFF+" WHERE "+DEPARTMENT_ID+" = '"+new UserDetails(context).getDepartment_id()+"' ";
+                                if (userType.equals(Constants.config.USER_US)){
+                                    query = "SELECT * FROM "+Constants.config.TABLE_STAFF+" WHERE "+Constants.config.STAFF_ROLE+" = '"+role+"'  ORDER BY "+Constants.config.STAFF_ID+" ASC LIMIT 1";
+                                }
                                 try{
                                     Cursor cursor = ReturnCursor.getCursor(query,context);
                                     if (cursor.moveToFirst()){
@@ -843,6 +846,7 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
                                 }
 
                                 new SendNotification(context).sendSinglePush(names+":users:00000","Incomming leave from "+names,img_url,staff_id);
+                                //new Notications(context).send(staff_id,);
                             }
 
                             String message = new Leave(context).save(id,assumption,promotion,dreturn,bal,dtaken,lnow,lfrom,lto,outstanding,ldfrom,ldto,signature,leave_type_id,staff_id);
@@ -913,9 +917,4 @@ public  class ApplyActivity extends AppCompatActivity  implements AdapterView.On
         //Adding request to the queue
         requestQueue.add(stringRequest);
     }
-
-
-
-
-
 }

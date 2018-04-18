@@ -2,20 +2,25 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/horizonal_padding"
+    android:padding="@dimen/activity_horizontal_margin"
     android:background="@drawable/bg2">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:background="@drawable/square"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/square"
+        android:padding="@dimen/horizonal_padding"
         android:gravity="center"
-        android:padding="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/waiting_for_approval"/>
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:text="Hi, You are about to reject the leave application bellow"/>
         <include layout="@layout/item_divider"/>
 
         <LinearLayout
@@ -127,6 +132,21 @@
 
         </LinearLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/magin_spacing"
+            android:layout_marginRight="@dimen/magin_spacing"
+            android:layout_marginTop="20sp"
+            android:gravity="center">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_type"
+                android:hint="Please type here the feedback for reject the leave application..!" />
+        </android.support.design.widget.TextInputLayout>
+
+
 
         <include layout="@layout/item_divider"/>
 
@@ -140,26 +160,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/btn_close"
+                android:id="@+id/btn_back"
                 android:background="@drawable/square"
-                android:text="@string/close"/>
+                android:text="back"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/btn_reject"
-                android:layout_marginLeft="@dimen/horizonal_padding"
-                android:background="@drawable/square"
-                android:text="@string/reject"/>
-             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/btn_accept"
+                android:id="@+id/btn_continue"
                 android:background="@drawable/button"
                 android:layout_marginLeft="@dimen/horizonal_padding"
-                android:text="@string/accept"/>
+                android:text="continue"/>
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

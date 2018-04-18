@@ -2,6 +2,7 @@ package com.example.john.leaveapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,9 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.john.leaveapp.R;
-import com.example.john.leaveapp.activities.us_activities.ApplyActivity;
+import com.example.john.leaveapp.activities.us_activities.ApplyActivity_DEl;
 import com.example.john.leaveapp.core.BaseApplication;
+import com.example.john.leaveapp.core.ReturnCursor;
 import com.example.john.leaveapp.core.SessionManager;
+import com.example.john.leaveapp.core.UserDetails;
+import com.example.john.leaveapp.utils.Constants;
 
 /**
  * Created by john on 2/28/18.
@@ -60,6 +64,37 @@ public class Staff_MainActivity extends AppCompatActivity {
         });
         //TODO:::
         BaseApplication.deleteCache(context);
+        notification();
+
+        btn_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context,NotificationActivity.class));
+            }
+        });
+    }
+
+    private void notification(){
+        try{
+            int count = 0;
+            String query = "SELECT * FROM "+ Constants.config.TABLE_NOTICATION+" " +
+                    "WHERE "+Constants.config.STAFF_ID+" = '"+new UserDetails(context).getid()+"' ORDER BY "+Constants.config.NOTICATIONID+" DESC";
+            Cursor cursor = ReturnCursor.getCursor(query,context);
+            if (cursor.moveToFirst()){
+                do {
+                    count ++;
+                }while (cursor.moveToNext());
+            }
+            if (count > 0){
+                btn_notification.setTextColor(getResources().getColor(R.color.deep_orange));
+                btn_notification.setText("( "+count+" ) Notifications");
+            }else {
+                btn_notification.setTextColor(getResources().getColor(android.R.color.black));
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

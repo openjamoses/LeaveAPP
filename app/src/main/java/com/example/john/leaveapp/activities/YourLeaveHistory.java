@@ -77,7 +77,6 @@ public class YourLeaveHistory  extends AppCompatActivity {
                     " AND t."+LEAVETYPE_ID+" = n."+LEAVETYPE_ID+" AND a."+Constants.config.STAFF_ID+" = '"+staff_id+"' " +
                     "ORDER BY a."+Constants.config.DATE+" DESC";
 
-
             Cursor cursor = ReturnCursor.getCursor(query,context);
             if (cursor.moveToFirst()){
                 do {
@@ -86,19 +85,22 @@ public class YourLeaveHistory  extends AppCompatActivity {
                             cursor.getString(cursor.getColumnIndex(Constants.config.TIME)));
                     phone.add(new UserDetails(context).getphone());
                     type.add(cursor.getString(cursor.getColumnIndex(Constants.config.LEAVETYPE_NAME)));
-                    int s1 = cursor.getInt(cursor.getColumnIndex(Constants.config.LEAVE_STATUS1));
-                    int s2 = cursor.getInt(cursor.getColumnIndex(Constants.config.LEAVE_STATUS2));
+                    int s1 = cursor.getInt(cursor.getColumnIndex(Constants.config.LEAVE_STATUS));
+                   // int s2 = cursor.getInt(cursor.getColumnIndex(Constants.config.LEAVE_STATUS2));
                     String st1 = "",st2 = "";
                     if (s1 == 0){
                         st1 = "Not Approved";
-                    }else {
-                        st1 = "Approved";
-                    }
-
-                    if (s2 == 0){
                         st2 = "Not Approved";
+                    }else if (s1 == 1){
+                        st1 = "Approved";
+                        st2 = "Not approved";
+                    }else if (s1 == 2){
+                        st1 = "Approved";
+                        st2 = "Granted";
                     }else {
-                        st2 = "Approved";
+                        st1 = "Rejected";
+                        st2 = "Rejected" +
+                                "";
                     }
                     stats1.add(st1);
                     status2.add(st2);
@@ -108,7 +110,7 @@ public class YourLeaveHistory  extends AppCompatActivity {
             }else {
                 Log.e("CURSOR",query+"\nNo cursor data found..!");
             }
-            IncomingAdapter adapter = new IncomingAdapter(context,name,id,type,date_from,date_to,stats1,status2,phone);
+            IncomingAdapter adapter = new IncomingAdapter(context,name,id,type,date_from,date_to,stats1,status2,phone, "history");
             listView.setAdapter(adapter);
         }catch (Exception e){
             e.printStackTrace();

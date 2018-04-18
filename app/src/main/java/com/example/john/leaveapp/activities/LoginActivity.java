@@ -56,6 +56,7 @@ import static com.example.john.leaveapp.utils.Constants.config.OPERATION_DEPARTM
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_FACULTY;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVE;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVETYPE;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_NOTIFICATION;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_SECRETARY;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_STAFF;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_UNIVERSITY;
@@ -137,6 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                 String university_query = "SELECT * FROM university_tb";
                 String faculty_query = "SELECT * FROM faculty_tb";
                 String department_query = "SELECT * FROM department_tb";
+                String notification_query = "SELECT * FROM notication_tb";
 
                 DBController.fetchJSON(context,staff_query,URL_FETCH_JSON,OPERATION_STAFF);
                 DBController.fetchJSON(context,leave_query,URL_FETCH_JSON,OPERATION_LEAVE);
@@ -147,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                 DBController.fetchJSON(context,university_query,URL_FETCH_JSON,OPERATION_UNIVERSITY);
                 DBController.fetchJSON(context,faculty_query,URL_FETCH_JSON,OPERATION_FACULTY);
                 DBController.fetchJSON(context,department_query,URL_FETCH_JSON,OPERATION_DEPARTMENT);
+                DBController.fetchJSON(context,notification_query,URL_FETCH_JSON,OPERATION_NOTIFICATION);
 
                 Log.e(TAG, "All permission..!");
             }else {
@@ -182,7 +185,8 @@ public class LoginActivity extends AppCompatActivity {
                                         cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_GENDER)),
                                         cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_ROLE)),
                                         cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_SALARY)),
-                                        cursor.getInt(cursor.getColumnIndex(Constants.config.DEPARTMENT_ID))
+                                        cursor.getInt(cursor.getColumnIndex(Constants.config.DEPARTMENT_ID)),
+                                        cursor.getString(cursor.getColumnIndex(Constants.config.DEPARTMENT_NAME))
                                         );
                             }while (cursor.moveToNext());
                             //todo::: Go to the main activity...!

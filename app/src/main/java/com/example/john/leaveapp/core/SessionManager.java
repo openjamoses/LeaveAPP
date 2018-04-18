@@ -14,6 +14,7 @@ import com.example.john.leaveapp.utils.DateTime;
 import java.util.HashMap;
 
 import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_ID;
+import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_NAME;
 import static com.example.john.leaveapp.utils.Constants.config.LOGIN_DATE;
 import static com.example.john.leaveapp.utils.Constants.config.LOGIN_TIME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
@@ -67,7 +68,7 @@ public class SessionManager {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public void loginSession(int useID, String fname, String lname, String username, String password,String phone, String gender, String role, String salary, int department_id) {
+    public void loginSession(int useID, String fname, String lname, String username, String password,String phone, String gender, String role, String salary, int department_id, String dep_name) {
         // Storing login value as TRUE
         if(isLoggedIn()){
             logoutUser();
@@ -85,6 +86,7 @@ public class SessionManager {
         editor.putString(LOGIN_DATE, DateTime.getCurrentDate());
         editor.putString(LOGIN_TIME, DateTime.getCurrentTime());
         editor.putString(DEPARTMENT_ID, String.valueOf(department_id));
+        editor.putString(DEPARTMENT_NAME, dep_name);
         editor.putBoolean(IS_LOGIN, true);
          // commit changes
         editor.commit();
@@ -104,6 +106,8 @@ public class SessionManager {
         user.put(DEPARTMENT_ID, pref.getString(DEPARTMENT_ID, null));
         user.put(LOGIN_DATE, pref.getString(LOGIN_DATE, null));
         user.put(LOGIN_TIME, pref.getString(LOGIN_TIME, null));
+        user.put(DEPARTMENT_NAME, pref.getString(DEPARTMENT_NAME, null));
+        //user.put(USER_TYPE, pref.getString(USER_TYPE, null));
         // return user
         return user;
     }

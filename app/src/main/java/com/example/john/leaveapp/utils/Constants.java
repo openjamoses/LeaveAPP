@@ -9,7 +9,7 @@ public class Constants {
         public static final int TOTAL_TABLES = 11;
         /****** URL DECLARATION ******************************/
         public static final String URL_PHONE = "http://192.168.43.18/";
-        public static final String URL_MODEM = "http://10.127.197.233/";
+        public static final String URL_MODEM = "http://10.127.173.172/";
         public static final String URL_CAMTECH = "http://192.168.137.51/";
         public static final String URL_SERVER = "http://173.255.219.164/";
         public static final String HOST_URL = URL_MODEM + "LEAVEAPP/pages/mobile_connections/";
@@ -128,7 +128,7 @@ public class Constants {
         //// TODO: 11/10/17  ACOMPANIED BY
         public static final String TABLE_NOTICATION = "notification_tb";
         public static final String NOTICATIONID = "notificationid";
-        public static final String NOTICATION_ID = "notification_id";
+        public static final String NOTICATION_ID = "notication_id";
         public static final String NOTICATION_BODY = "notification_body";
         public static final String NOTIFICATION_DATE = "notification_date";
         public static final String NOTIFICATION_STATUS = "notification_status";
@@ -142,6 +142,9 @@ public class Constants {
         public static final String URL_SAVE_DEPARTMENT = SYNCING_FOLDER+"save_departments.php";
         public static final String URL_SAVE_FACULTY = SYNCING_FOLDER+"save_faculty.php";
         public static final String URL_SAVE_LEAVETYPE = SYNCING_FOLDER+"save_leavetype.php";
+        public static final String URL_SAVE_NOTIFICATION = SYNCING_FOLDER+"save_notification.php";
+        public static final String URL_QUERY = SYNCING_FOLDER+"query.php";
+
         public static final String URL_FETCH_JSON = SYNCING_FOLDER+"fetch_json.php";
         ///TODO ?? OPERATIONS.......!!!!!!>>>>>>>>>>>>>>>>>>>
         public static final String OPERATION_LEAVE = "leave";
@@ -152,6 +155,7 @@ public class Constants {
         public static final String OPERATION_STAFF = "staff";
         public static final String OPERATION_APPLY = "apply";
         public static final String OPERATION_DEPARTMENT = "department";
+        public static final String OPERATION_NOTIFICATION = "notification";
 
         public static final String URL_REGISTER_DEVICE = "firebase/saveTokens.php";
 
@@ -160,8 +164,6 @@ public class Constants {
         public static final String USER_US = "user_us";
         public static final String USER_HOD = "user_hod";
         public static final String KEY_TOKEN = "regId";
-
-
         public static final String SQL_QUERY = "query";
 
     }

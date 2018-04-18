@@ -24,7 +24,7 @@ import com.example.john.leaveapp.utils.Utils;
 /**
  * Created by john on 2/25/18.
  */
-public class ApplyActivity extends AppCompatActivity implements SelectFragment.OnFragmentInteractionListener {
+public class ApplyActivity_DEl extends AppCompatActivity implements SelectFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -52,7 +52,7 @@ public class ApplyActivity extends AppCompatActivity implements SelectFragment.O
     CoordinatorLayout mCoordinator;
 
 
-    static final String TAG = "ApplyActivity";
+    static final String TAG = "ApplyActivity_DEl";
 
     int page = 0;   //  to track page position
 
@@ -189,7 +189,7 @@ public class ApplyActivity extends AppCompatActivity implements SelectFragment.O
             public void onClick(View v) {
                 finish();
                 //  update 1st time pref
-               // Utils.saveSharedSetting(ApplyActivity.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
+               // Utils.saveSharedSetting(ApplyActivity_DEl.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
 
             }
         });

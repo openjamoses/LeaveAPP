@@ -88,7 +88,7 @@
                     android:id="@+id/btn_your"
                     android:layout_weight="1"
                     android:padding="10sp"
-                    android:drawableTop="@android:drawable/ic_menu_recent_history"
+                    android:drawableTop="@drawable/ic_history_black_24dp"
                     android:background="@null"
                     android:text="@string/your_leave_history"/>
 
@@ -104,7 +104,24 @@
                     android:text="@string/leave_type"/>
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40sp"
+                android:orientation="horizontal">
 
+                <Button
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:id="@+id/btn_notification"
+                    android:padding="10sp"
+                    android:drawableTop="@drawable/ic_alarm_black_24dp"
+                    android:background="@null"
+                    android:text="@string/view_notification"/>
+
+
+
+            </LinearLayout>
 
         </LinearLayout>
 

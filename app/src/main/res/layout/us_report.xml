@@ -20,11 +20,12 @@
             android:textStyle="bold"
 
             android:text="@string/generate_report"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_marginTop="20sp"
             android:layout_height="wrap_content"
-            android:background="@drawable/circle"
+            android:background="@drawable/button"
             android:layout_marginLeft="@dimen/magin_spacing"
             android:layout_marginRight="@dimen/magin_spacing"
             android:text="@string/pdf"/>
@@ -33,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
-            android:background="@drawable/circle"
+            android:background="@drawable/button"
             android:layout_marginLeft="@dimen/magin_spacing"
             android:layout_marginRight="@dimen/magin_spacing"
             android:text="@string/excel"/>
@@ -41,7 +42,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/circle"
+            android:background="@drawable/button"
             android:layout_marginTop="@dimen/magin_spacing"
             android:layout_marginRight="@dimen/magin_spacing"
             android:layout_marginLeft="@dimen/magin_spacing"

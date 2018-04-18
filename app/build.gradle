@@ -38,16 +38,20 @@ dependencies {
     compile 'net.rimoto:intlphoneinput:1.0.1'
     //syncing
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
+    //compile 'com.mcxiaoke.volley:library-aar:1.0.0'
+    compile 'com.android.volley:volley:1.0.0'
     compile 'com.android.support:multidex:1.0.1'
 
-    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
+    //compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     compile 'net.gotev:uploadservice:2.1'
     compile 'com.google.firebase:firebase-messaging:11.4.2'
     compile 'com.google.firebase:firebase-core:11.4.2'
     compile 'com.google.firebase:firebase-auth:11.4.2'
     compile 'com.google.android.gms:play-services-auth:11.4.2'
     compile 'com.firebase:firebase-client-android:2.4.0'
+    //todo:: adding itext library using gradual....
+    compile 'com.itextpdf:itext-pdfa:5.5.10'
+    compile 'com.itextpdf:itextg:5.5.9'
 
     configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->

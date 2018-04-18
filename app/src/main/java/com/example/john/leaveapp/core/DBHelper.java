@@ -16,6 +16,7 @@ import static com.example.john.leaveapp.core.Create_Table.create.CREATE_DEP_STAF
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_FACULTY;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_LEAVE;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_LEAVETYPE;
+import static com.example.john.leaveapp.core.Create_Table.create.CREATE_NOTICATION;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_RESPONSIBILY;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_SECRETARY;
 import static com.example.john.leaveapp.core.Create_Table.create.CREATE_STAFF;
@@ -49,6 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_LEAVETYPE);
         db.execSQL(CREATE_RESPONSIBILY);
         db.execSQL(CREATE_ACCOMPANIED);
+        db.execSQL(CREATE_NOTICATION);
         Log.e("DATABASE OPERATION",Constants.config.TOTAL_TABLES+" Tables  created / open successfully");
     }
     @Override

@@ -127,7 +127,9 @@ public class Staff {
         try{
             db.beginTransaction();
             String query = "SELECT * FROM " +
-                    " "+ Constants.config.TABLE_STAFF+" WHERE "+STAFF_USERNAME+" = '"+username+"' AND "+STAFF_PASSWORD+" = '"+password+"' " +
+                    " "+ Constants.config.TABLE_STAFF+" s, "+Constants.config.TABLE_DEPARTMENT+" d" +
+                    " WHERE "+STAFF_USERNAME+" = '"+username+"' AND "+STAFF_PASSWORD+" = '"+password+"'" +
+                    " AND s."+Constants.config.DEPARTMENT_ID+" = d."+Constants.config.DEPARTMENT_ID+" " +
                     " ORDER BY "+Constants.config.STAFF_ID+" DESC LIMIT 1 ";
             cursor = db.rawQuery(query,null);
             db.setTransactionSuccessful();

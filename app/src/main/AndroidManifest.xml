@@ -54,7 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.us_activities.ApplyActivity"
+            android:name=".activities.us_activities.ApplyActivity_DEl"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
@@ -104,8 +104,17 @@
             android:label="@string/your_leave_history"/>
 
         <activity
+            android:name=".activities.NotificationActivity"
+            android:screenOrientation="landscape"
+            android:label="@string/your_notification"/>
+
+
+        <activity
             android:name=".activities.Entry_LeaveType"
             android:label="@string/leave_type"/>
+        <activity
+            android:name=".activities.pdf_itext.PdfMain"
+            android:label="@string/generate_report"/>
         <activity
             android:name=".activities.ApplyActivity"
             android:label="@string/apply_for_leave"/>

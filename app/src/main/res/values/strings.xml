@@ -41,7 +41,7 @@
     <string name="secretary_name">Secretary Name</string>
     <string name="faculties_details">Faculties Details</string>
     <string name="faculty_name">Faculty Name</string>
-    <string name="hod_details">H.O.D Details</string>
+    <string name="hod_details">Department Details</string>
     <string name="department_name">Department Name</string>
     <string name="action_profile">Profile</string>
     <string name="university">University</string>
@@ -81,4 +81,5 @@
     <string name="entitlement">Entitlement</string>
     <string name="application_for_maternity_leave">APPLICATION FOR MATERNITY LEAVE</string>
     <string name="application_for_annual_leave">APPLICATION FOR ANNUAL LEAVE</string>
+    <string name="your_notification">Your Notifications</string>
 </resources>

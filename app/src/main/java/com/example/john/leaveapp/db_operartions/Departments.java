@@ -129,7 +129,6 @@ public class Departments {
     public String edit(String name,  int faculty_id, int staff_id, int id) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
-
         try{
             int status = 0;
             String imei = Phone.getIMEI(context);

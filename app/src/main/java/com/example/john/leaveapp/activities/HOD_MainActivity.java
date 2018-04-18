@@ -2,12 +2,8 @@ package com.example.john.leaveapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,14 +13,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.john.leaveapp.R;
-import com.example.john.leaveapp.activities.us_activities.ApplyActivity;
+import com.example.john.leaveapp.activities.pdf_itext.PdfMain;
 import com.example.john.leaveapp.core.BaseApplication;
+import com.example.john.leaveapp.core.ReturnCursor;
 import com.example.john.leaveapp.core.SessionManager;
-import com.example.john.leaveapp.fragments.us_fragments.Report_Fragment;
-import com.example.john.leaveapp.fragments.us_fragments.US_DFragment;
+import com.example.john.leaveapp.core.UserDetails;
+import com.example.john.leaveapp.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.example.john.leaveapp.utils.Constants.config.APPLY_ID;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVETYPE_ID;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_ID;
 
 /**
  * Created by john on 2/28/18.
@@ -32,7 +30,7 @@ import java.util.List;
 
 public class HOD_MainActivity extends AppCompatActivity {
     private Context context = this;
-    private Button btn_incoming,btn_apply,btn_recent,btn_others;
+    private Button btn_incoming,btn_apply,btn_recent,btn_others,btn_notification,btn_report;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +42,18 @@ public class HOD_MainActivity extends AppCompatActivity {
             TextView toolbar_subtitle = (TextView) findViewById(R.id.toolbar_subtitle);
             toolbar_subtitle.setText("HOD Platform");
 
+            btn_notification = (Button) findViewById(R.id.btn_notification);
+
             btn_incoming = (Button) findViewById(R.id.btn_incoming);
             btn_apply = (Button) findViewById(R.id.btn_apply);
             btn_recent = (Button) findViewById(R.id.btn_recent);
-            btn_others = (Button) findViewById(R.id.btn_others);
-
+            //btn_others = (Button) findViewById(R.id.btn_others);
+            btn_report = (Button) findViewById(R.id.btn_report);
 
             btn_apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(context, ApplyActivity.class));
+                    startActivity(new Intent(context, com.example.john.leaveapp.activities.ApplyActivity.class));
                 }
             });
 
@@ -72,13 +72,55 @@ public class HOD_MainActivity extends AppCompatActivity {
                     startActivity(new Intent(context, YourLeaveHistory.class));
                 }
             });
+            btn_notification.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(context,NotificationActivity.class));
+                }
+            });
+            btn_report.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(context, PdfMain.class));
+                }
+            });
             BaseApplication.deleteCache(context);
+            notification();
 
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
+    private void notification(){
+        try{
+            int count = 0, status_count = 0;
+            String query = "SELECT * FROM "+ Constants.config.TABLE_NOTICATION+" n, "+Constants.config.TABLE_APPLY+" a, "+Constants.config.TABLE_LEAVE+" l, "+Constants.config.TABLE_LEAVE_TYPE+" t " +
+                    "WHERE n."+APPLY_ID+" = a."+APPLY_ID+" AND a."+LEAVE_ID+" = l."+LEAVE_ID+" AND l."+LEAVETYPE_ID+" = t."+LEAVETYPE_ID+"" +
+                    " AND  n."+Constants.config.STAFF_ID+" = '"+new UserDetails(context).getid()+"' ORDER BY "+Constants.config.NOTICATIONID+" DESC";
+            Cursor cursor = ReturnCursor.getCursor(query,context);
+            if (cursor.moveToFirst()){
+                do {
+                     count ++;
+                     int status = cursor.getInt(cursor.getColumnIndex(Constants.config.NOTIFICATION_STATUS));
+                    if (status == 0){
+                        status_count ++;
+                    }
+                }while (cursor.moveToNext());
+            }
+            String tot = status_count+"/"+count;
+            btn_notification.setText("( "+tot+" ) Notifications");
+            if (status_count > 0){
+                btn_notification.setTextColor(getResources().getColor(R.color.deep_orange));
+
+            }else {
+                btn_notification.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

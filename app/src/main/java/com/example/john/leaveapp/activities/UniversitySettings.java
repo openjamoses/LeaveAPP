@@ -54,7 +54,7 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
     static HOD_Entry hod_entry;
 
 
-    static final String TAG = "ApplyActivity";
+    static final String TAG = "ApplyActivity_DEl";
 
     int page = 0;   //  to track page position
 
@@ -190,7 +190,7 @@ public class UniversitySettings extends AppCompatActivity  implements Faculty_En
             public void onClick(View v) {
                 finish();
                 //  update 1st time pref
-                // Utils.saveSharedSetting(ApplyActivity.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
+                // Utils.saveSharedSetting(ApplyActivity_DEl.this, US_MainActivity.PREF_USER_FIRST_TIME, "false");
 
             }
         });

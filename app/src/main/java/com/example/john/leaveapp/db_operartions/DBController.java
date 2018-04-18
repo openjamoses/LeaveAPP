@@ -1,5 +1,6 @@
 package com.example.john.leaveapp.db_operartions;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import static com.example.john.leaveapp.utils.Constants.config.OPERATION_DEPARTM
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_FACULTY;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVE;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_LEAVETYPE;
+import static com.example.john.leaveapp.utils.Constants.config.OPERATION_NOTIFICATION;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_SECRETARY;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_STAFF;
 import static com.example.john.leaveapp.utils.Constants.config.OPERATION_UNIVERSITY;
@@ -200,6 +202,9 @@ public class DBController {
                             if (operation.equals(OPERATION_DEPARTMENT)){
                                 new Departments(context).insert(jsonArray);
                             }
+                            if (operation.equals(OPERATION_NOTIFICATION)){
+                                new Notications(context).insert(jsonArray);
+                            }
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -235,4 +240,56 @@ public class DBController {
         //Adding request to the queue
         requestQueue.add(stringRequest);
     }
+
+
+    public static void updateQuery(final Context context, final String sql_query, String url, final ProgressDialog  progressDialog){
+        BaseApplication.deleteCache(context);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, HOST_URL+url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e(TAG,response);
+                        try{
+                            if (progressDialog != null) {
+                                if (progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Log.e(TAG, volleyError.getMessage());
+                        try {
+                            Toast toast = Toast.makeText(context, "Connections ERROR!", Toast.LENGTH_LONG);
+                            View view = toast.getView();
+                            //view.setBackgroundResource(R.drawable.round_conor);
+                            //TextView text = (TextView) view.findViewById(android.R.id.message);
+                            //toast.show();
+                            //Log.e(TAG, volleyError.getMessage());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<String, String>();
+                params.put(SQL_QUERY, sql_query);
+                //Adding parameters
+                return params;
+            }
+        };
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
+
+
 }

@@ -31,10 +31,14 @@ import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.john.leaveapp.R;
+import com.example.john.leaveapp.core.BaseApplication;
 import com.example.john.leaveapp.core.ReturnCursor;
+import com.example.john.leaveapp.core.UserDetails;
 import com.example.john.leaveapp.db_operartions.Departments;
+import com.example.john.leaveapp.db_operartions.Notications;
 import com.example.john.leaveapp.db_operartions.Staff;
 import com.example.john.leaveapp.utils.Constants;
+import com.example.john.leaveapp.utils.DateTime;
 
 import net.rimoto.intlphoneinput.IntlPhoneInput;
 
@@ -43,18 +47,28 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.john.leaveapp.utils.Constants.config.DATE;
 import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_ID;
+import static com.example.john.leaveapp.utils.Constants.config.END_DATE;
 import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_ID;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS1;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS2;
 import static com.example.john.leaveapp.utils.Constants.config.RESPONSIBILITY_ID;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_LNAME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_GENDER;
+import static com.example.john.leaveapp.utils.Constants.config.STAFF_ID;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_PASSWORD;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_PHONE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_ROLE;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_SALARY;
 import static com.example.john.leaveapp.utils.Constants.config.STAFF_USERNAME;
+import static com.example.john.leaveapp.utils.Constants.config.START_DATE;
 import static com.example.john.leaveapp.utils.Constants.config.TABLE_DEPARTMENT;
+import static com.example.john.leaveapp.utils.Constants.config.TIME;
+import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_APPLY;
 import static com.example.john.leaveapp.utils.Constants.config.URL_SAVE_STAFF;
 
 /**
@@ -232,9 +246,8 @@ public class SignupActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
     public void send(final String fname, final String lname, final String gender, final String username, final String password, final String contact, final String salary, final String role, final int responsibity_id, final int department_id){
+        BaseApplication.deleteCache(context);
         final ProgressDialog dialog = new ProgressDialog(context);
         try{
             dialog.setMessage("Pleasse wait...");
@@ -262,7 +275,7 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
                             if (message.equals("Staff Details saved!")){
                                 //startActivity(new Intent(context,LoginActivity.class));
-                                 finish();
+                                finish();
                             }
                         }catch (Exception e){
                             e.printStackTrace();
@@ -290,6 +303,7 @@ public class SignupActivity extends AppCompatActivity {
                 }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                //int status = 1;
                 Map<String, String> params = new Hashtable<String, String>();
 
                 params.put(STAFFL_FNAME,fname);
@@ -302,6 +316,7 @@ public class SignupActivity extends AppCompatActivity {
                 params.put(STAFF_SALARY,salary);
                 params.put(RESPONSIBILITY_ID, String.valueOf(responsibity_id));
                 params.put(DEPARTMENT_ID, String.valueOf(department_id));
+
                 //returning parameters
                 return params;
             }
@@ -311,6 +326,4 @@ public class SignupActivity extends AppCompatActivity {
         //Adding request to the queue
         requestQueue.add(stringRequest);
     }
-
-
 }

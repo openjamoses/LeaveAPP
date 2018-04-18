@@ -15,7 +15,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.john.leaveapp.core.DBHelper;
+import com.example.john.leaveapp.core.ReturnCursor;
+import com.example.john.leaveapp.core.UserDetails;
 import com.example.john.leaveapp.utils.Constants;
+import com.example.john.leaveapp.utils.DateTime;
 import com.example.john.leaveapp.utils.Phone;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,6 +34,7 @@ import static com.example.john.leaveapp.utils.Constants.config.APPLYID;
 import static com.example.john.leaveapp.utils.Constants.config.APPLY_ID;
 import static com.example.john.leaveapp.utils.Constants.config.APPLY_STATUS;
 import static com.example.john.leaveapp.utils.Constants.config.DATE;
+import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_ID;
 import static com.example.john.leaveapp.utils.Constants.config.END_DATE;
 import static com.example.john.leaveapp.utils.Constants.config.HOST_URL;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVEID;
@@ -91,25 +95,18 @@ public class Apply {
         return message;
     }
 
-    public String edit(int leave_id, int type_id,int less, int status1, int status2, String date, String time , int staff_id, int id) {
+    public String edit(int apply_id, int status) {
         SQLiteDatabase database = DBHelper.getHelper(context).getWritableDatabase();
         String message = null;
 
         try{
-            int status = 0;
             String imei = Phone.getIMEI(context);
             //database.beginTransaction();
             ContentValues contentValues = new ContentValues();
             //contentValues.put(LEAVE_ID,leave_id);
-            contentValues.put(LEAVE_ID,type_id);
-            contentValues.put(LEAVE_STATUS,less);
-            contentValues.put(LEAVE_STATUS1,status1);
-            contentValues.put(LEAVE_STATUS2,status2);
-            contentValues.put(DATE,date);
-            contentValues.put(TIME,time);
-            contentValues.put(STAFF_ID,staff_id);
-            contentValues.put(APPLY_STATUS,status);
-            database.update(Constants.config.TABLE_APPLY,contentValues, APPLYID+"="+id, null);
+            //contentValues.put(APPLY_ID,apply_id);
+            contentValues.put(LEAVE_STATUS,status);
+            database.update(Constants.config.TABLE_APPLY,contentValues, APPLYID+"="+apply_id, null);
             //database.setTransactionSuccessful();
             message = "Apply details updated!";
 
@@ -203,7 +200,6 @@ public class Apply {
     public void send(final int leave_id, final int leave_status, final int status1, final int status2, final String date, final String time , final int staff_id, final String start_date, final String end_date){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, HOST_URL+URL_SAVE_APPLY,
                 new Response.Listener<String>() {
-
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -217,7 +213,30 @@ public class Apply {
                                 id = Integer.parseInt(splits[1]);
 
                             }
-                            String message = save(id,leave_id,leave_status,status1,status2,date,time,staff_id,status, start_date, end_date);
+                            save(id,leave_id,leave_status,status1,status2,date,time,staff_id,status, start_date, end_date);
+
+                            //todo;; saving notification...
+                            String role = "HOD";
+                            String userType = new UserDetails(context).getUser_type();
+                            String query = "SELECT * FROM "+Constants.config.TABLE_STAFF+" WHERE "+Constants.config.STAFF_ROLE+" = '"+role+"' AND "+DEPARTMENT_ID+" = '"+new UserDetails(context).getDepartment_id()+"' ";
+                            int staff_id2 = 0;
+                            if (userType.equals(Constants.config.USER_US)){
+                                query = "SELECT * FROM "+Constants.config.TABLE_STAFF+" WHERE "+Constants.config.STAFF_ROLE+" = '"+role+"'  ORDER BY "+Constants.config.STAFF_ID+" ASC LIMIT 1";
+                            }
+                            try{
+                                Cursor cursor = ReturnCursor.getCursor(query,context);
+                                if (cursor.moveToFirst()){
+                                    do {
+                                        staff_id2 = cursor.getInt(cursor.getColumnIndex(Constants.config.STAFF_ID));
+                                    }while (cursor.moveToNext());
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            new Notications(context).send(staff_id2,id,"Hello You have a leave waiting  to be approved from "+new UserDetails(context).getfname()+" "+new UserDetails(context).getlname(), DateTime.getCurrentDate()+" "+DateTime.getCurrentTime());
+                            new Notications(context).send(new UserDetails(context).getid(),id,"Hi Your leave application has been recieved by the head of department  "+new UserDetails(context).getDepartment()+" Please wait for approval shortly...!", DateTime.getCurrentDate()+" "+DateTime.getCurrentTime());
+
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -412,7 +431,7 @@ public class Apply {
                 //String get_json = get
                 //JSONArray jsonArray = new JSONArray(results);
                 JSONArray jsonArray = jsonArrays[0];
-                db.execSQL("DELETE FROM " + Constants.config.TABLE_APPLY+" WHERE "+APPLY_STATUS+" = '"+status+"' ");
+                db.execSQL("DELETE FROM " + Constants.config.TABLE_APPLY+" ");
 
                 int total = 0;
                 for (int i = 0; i < jsonArray.length(); i++) {

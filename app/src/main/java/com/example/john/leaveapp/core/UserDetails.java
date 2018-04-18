@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 
 import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_ID;
+import static com.example.john.leaveapp.utils.Constants.config.DEPARTMENT_NAME;
 import static com.example.john.leaveapp.utils.Constants.config.LOGIN_DATE;
 import static com.example.john.leaveapp.utils.Constants.config.LOGIN_TIME;
 import static com.example.john.leaveapp.utils.Constants.config.STAFFL_FNAME;
@@ -41,6 +42,7 @@ public class UserDetails {
             time = user.get(LOGIN_TIME);
             id = Integer.parseInt(user.get(STAFF_ID));
             department_id = Integer.parseInt(user.get(DEPARTMENT_ID));
+            department = user.get(DEPARTMENT_NAME);
 
             user_type = sessionManager.getType().get(USER_TYPE);
         }
@@ -72,6 +74,9 @@ public class UserDetails {
 
     public String getUser_type(){
         return user_type;
+    }
+    public String getDepartment(){
+        return department;
     }
 
     public  int getid(){

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.john.leaveapp.utils.Constants.config.LEAVETYPE_ID;
+import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS;
 import static com.example.john.leaveapp.utils.Constants.config.LEAVE_STATUS1;
 
 /**
@@ -44,7 +46,7 @@ public class LeaveHistoryActivity extends AppCompatActivity {
             String query = "SELECT *  FROM" +
                     " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_LEAVE+" n, "+Constants.config.TABLE_STAFF+" s, "+Constants.config.TABLE_LEAVE_TYPE+" t WHERE " +
                     " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+"  AND t."+ LEAVETYPE_ID+" = n."+LEAVETYPE_ID+"  " +
-                    " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" AND a."+LEAVE_STATUS1+" = '"+status+"' ORDER BY a."+Constants.config.DATE+" DESC";
+                    " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" AND a."+LEAVE_STATUS+" = '"+status+"' ORDER BY a."+Constants.config.DATE+" DESC";
 
             setValues(query);
         }else {
@@ -52,7 +54,7 @@ public class LeaveHistoryActivity extends AppCompatActivity {
             String query = "SELECT *  FROM" +
                     " "+ Constants.config.TABLE_APPLY+" a,"+Constants.config.TABLE_LEAVE+" n, "+Constants.config.TABLE_STAFF+" s, "+Constants.config.TABLE_LEAVE_TYPE+" t WHERE " +
                     " a."+Constants.config.LEAVE_ID+" = n."+Constants.config.LEAVE_ID+"  AND t."+ LEAVETYPE_ID+" = n."+LEAVETYPE_ID+"  " +
-                    " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" AND a."+LEAVE_STATUS1+" = '"+status+"' ORDER BY a."+Constants.config.DATE+" DESC";
+                    " AND s."+Constants.config.STAFF_ID+" = a."+Constants.config.STAFF_ID+" AND a."+LEAVE_STATUS+" = '"+status+"' ORDER BY a."+Constants.config.DATE+" DESC";
 
             setValues(query);
         }
@@ -88,18 +90,15 @@ public class LeaveHistoryActivity extends AppCompatActivity {
                             cursor.getString(cursor.getColumnIndex(Constants.config.STAFFL_LNAME)));
                     phone.add(cursor.getString(cursor.getColumnIndex(Constants.config.STAFF_PHONE)));
                     type.add(cursor.getString(cursor.getColumnIndex(Constants.config.LEAVETYPE_NAME)));
-                    int s1 = cursor.getInt(cursor.getColumnIndex(Constants.config.LEAVE_STATUS1));
-                    int s2 = cursor.getInt(cursor.getColumnIndex(Constants.config.LEAVE_STATUS2));
+                    int s1 = cursor.getInt(cursor.getColumnIndex(Constants.config.LEAVE_STATUS));
+                    //int s2 = cursor.getInt(cursor.getColumnIndex(Constants.config.LEAVE_STATUS2));
+                    Log.e("TAG","STATUS::: "+s1);
                     String st1 = "",st2 = "";
                     if (s1 == 0){
                         st1 = "Not Approved";
-                    }else {
-                        st1 = "Approved";
-                    }
-
-                    if (s2 == 0){
                         st2 = "Not Approved";
                     }else {
+                        st1 = "Approved";
                         st2 = "Approved";
                     }
                     stats1.add(st1);
@@ -108,7 +107,7 @@ public class LeaveHistoryActivity extends AppCompatActivity {
                     date_to.add(cursor.getString(cursor.getColumnIndex(Constants.config.LEAVE_TO)));
                 }while (cursor.moveToNext());
             }
-            IncomingAdapter adapter = new IncomingAdapter(context,name,id,type,date_from,date_to,stats1,status2,phone);
+            IncomingAdapter adapter = new IncomingAdapter(context,name,id,type,date_from,date_to,stats1,status2,phone, "incoming");
             listView.setAdapter(adapter);
         }catch (Exception e){
             e.printStackTrace();
